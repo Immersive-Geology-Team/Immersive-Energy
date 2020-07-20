@@ -1,0 +1,18 @@
+{
+	"forge_marker": 1,
+	"defaults":
+	{
+		"transform": "forge:default-block",
+		"model": "cube_all"
+	},
+	"variants":
+	{
+		"inventory,type=thorium": [{"textures": {"all": "immersive_energy:blocks/ore_thorium"}}],
+		"inventory,type=tungsten": [{"textures": {"all": "immersive_energy:blocks/ore_tungsten"}}],
+		"type":
+		{
+			"thorium": {"textures": {"all": "immersive_energy:blocks/ore_thorium"}},
+			"tungsten": {"textures": {"all": "immersive_energy:blocks/ore_tungsten"}}
+		}
+	}
+}

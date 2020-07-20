@@ -1,0 +1,16 @@
+[
+{
+  "modid": "immersive_energy",
+  "name": "Immersive Energy",
+  "description": "An expansion of early and late game energy generation for Immersive Engineering",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Crimson Twilight"],
+  "credits": "McJTY",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["immersiveengineering"]
+}
+]

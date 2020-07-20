@@ -1,0 +1,36 @@
+{
+	"forge_marker": 1,
+	"defaults":
+	{
+		"transform": "forge:default-block",
+		"model": "immersive_energy:ien_slab",
+		"textures": {
+			"all": "immersive_energy:blocks/sheetmetal_thorium",
+			"bottom": "#all",
+			"top": "#all",
+			"side": "#all",
+			"particle": "#all"
+		}
+	},
+	"variants":
+	{
+		"inventory,type=thorium": [{"textures": {"all": "immersive_energy:blocks/sheetmetal_thorium"}}],
+		"inventory,type=tungsten": [{"textures": {"all": "immersive_energy:blocks/sheetmetal_tungsten"}}],
+		"type":
+		{
+			"thorium": {"textures": { "all": "immersive_energy:blocks/sheetmetal_thorium" }},
+			"tungsten": {"textures": { "all": "immersive_energy:blocks/sheetmetal_tungsten" }}
+		},
+		"slabtype":
+		{
+          "0": {},
+          "1": {
+				"x": 180,
+				"uvlock": true
+			},
+          "2": {
+				"model": "cube_all"
+			}
+		}
+	}
+}
