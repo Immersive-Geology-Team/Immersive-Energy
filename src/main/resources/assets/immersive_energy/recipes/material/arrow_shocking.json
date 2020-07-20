@@ -1,0 +1,34 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "immersive_energy:arrow_shocking",
+    "count": 4
+  },
+  "pattern": [
+    " EP",
+    "WS ",
+    "FL "
+  ],
+  "key": {
+    "E": {
+      "item": "#nuggetElectrum"
+    },
+    "P": {
+      "item": "minecraft:flint"
+    },
+    "W": {
+      "item": "immersiveengineering:wirecoil",
+      "data": 7
+    },
+    "S": {
+      "item": "immersiveengineering:material",
+      "data": 0
+    },
+    "F": {
+      "item": "minecraft:feather"
+    },
+    "L": {
+      "item": "#nuggetLead"
+    }
+  }
+}

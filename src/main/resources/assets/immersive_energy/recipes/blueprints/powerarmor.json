@@ -1,0 +1,25 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "immersiveengineering:blueprint",
+    "nbt": {
+      "blueprint": "powerarmor"
+    }
+  },
+  "pattern": [
+    " T ",
+    "DDD",
+    "PPP"
+  ],
+  "key": {
+    "T": {
+      "item": "#plateThorium"
+    },
+    "D": {
+      "item": "#dyeBlue"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    }
+  }
+}

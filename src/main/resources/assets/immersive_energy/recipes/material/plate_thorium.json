@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shapeless",
+  "result": {
+    "item": "immersive_energy:metal",
+    "data": 6
+  },
+  "ingredients": [
+    {
+      "item": "#ingotThorium"
+    },
+    {
+      "item": "immersiveengineering:tool",
+      "data": 0
+    }
+  ]
+}

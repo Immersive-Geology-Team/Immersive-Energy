@@ -1,0 +1,28 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "immersiveengineering:blueprint",
+    "nbt": {
+      "blueprint": "solar"
+    }
+  },
+  "pattern": [
+    "ADS",
+    "DDD",
+    "PPP"
+  ],
+  "key": {
+    "A": {
+      "item": "#plateAluminum"
+    },
+    "S": {
+      "item": "#plateSteel"
+    },
+    "D": {
+      "item": "#dyeBlue"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    }
+  }
+}

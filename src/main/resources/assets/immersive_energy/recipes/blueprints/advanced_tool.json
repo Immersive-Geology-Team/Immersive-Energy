@@ -1,0 +1,28 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "immersiveengineering:blueprint",
+    "nbt": {
+      "blueprint": "advanced_tool"
+    }
+  },
+  "pattern": [
+    "SHS",
+    "DDD",
+    "PPP"
+  ],
+  "key": {
+    "H": {
+      "item": "#stickSteel"
+    },
+    "S": {
+      "item": "#plateSteel"
+    },
+    "D": {
+      "item": "#dyeBlue"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    }
+  }
+}

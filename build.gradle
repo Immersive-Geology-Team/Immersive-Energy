@@ -1,0 +1,118 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "https://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+runClient {
+    jvmArgs "-Xms10g", "-Xmx12g"
+}
+
+version = "0.5.3"
+group = "crimson_twilight.immersive_energy" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "Immersive Energy"
+
+sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+
+minecraft {
+     version = "1.12.2-14.23.5.2847"
+    runDir = "run"
+
+    replace "@VERSION@", project.version
+    
+    
+
+    // the mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   snapshot are built nightly.
+    // stable_#            stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not always work.
+    // simply re-run your setup task after changing the mappings to update your workspace.
+    mappings = "snapshot_20171003"
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+    useDepAts = true
+}
+
+repositories {
+    maven { // JEI & Tinkers
+        name 'DVS1 Maven FS'
+        url 'https://dvs1.progwml6.com/files/maven'
+    }
+
+    maven { // CraftTweaker
+        name 'jared maven'
+        url 'https://maven.blamejared.com/'
+    }
+
+    maven { // ModMaven, there is a bunch of stuff on there
+        name 'ModMaven'
+        url "https://modmaven.k-4u.nl/"
+    }
+
+    maven { // Albedo Lights
+        url 'https://repo.elytradev.com/'
+    }
+
+    maven { // CTM
+        name 'tterrag maven'
+        url "http://maven.tterrag.com/"
+    }
+
+    repositories {//Curseforge maven, in case some other maven goes offline
+        maven {
+            name = "CurseForge"
+            url = "https://minecraft.curseforge.com/api/maven/"
+        }
+    }
+
+}
+
+dependencies {
+    compileOnly "team.chisel.ctm:CTM:MC1.12.2-0.3.2.18"
+    deobfCompile "blusunrize:ImmersiveEngineering:0.12-92-+"
+    deobfCompile "mezz.jei:jei_1.12.2:4.15.+"
+    deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.8.468"
+    compileOnly "albedo:albedo:0.1.3"
+    deobfCompile "serene-seasons:SereneSeasons-1.12.2:1.2.18:universal"
+    //Maybe someday...
+    //deobfCompile "albedo:albedo:1.12.2:1.1.0"
+    deobfCompile 'baubles:Baubles:1.12:1.5.2'
+}
+
+jar {
+    archiveName = "${baseName}-1.12.2-${version}.jar"
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+        archiveName = "${baseName}-1.12.2-${version}-deobf.jar"
+    classifier = 'deobf'
+}
+
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    // copy everything else except the mcmod.info and excluded files
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+
+    }
+
+}
