@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import blusunrize.immersiveengineering.api.ApiUtils;
 import blusunrize.immersiveengineering.api.ManualHelper;
 import blusunrize.immersiveengineering.api.ManualPageBlueprint;
+import blusunrize.immersiveengineering.api.ManualPageMultiblock;
 import blusunrize.immersiveengineering.api.crafting.BlueprintCraftingRecipe;
 import blusunrize.immersiveengineering.api.energy.wires.WireApi;
 import blusunrize.immersiveengineering.client.IECustomStateMapper;
@@ -30,6 +31,7 @@ import crimson_twilight.immersive_energy.common.IEnGUIList;
 import crimson_twilight.immersive_energy.common.blocks.BlockTypes_OresIEn;
 import crimson_twilight.immersive_energy.common.blocks.metal.BlockTypes_Generators0;
 import crimson_twilight.immersive_energy.common.blocks.metal.TileEntityGasBurner;
+import crimson_twilight.immersive_energy.common.blocks.multiblock.MultiblockFluidBattery;
 import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
 import crimson_twilight.immersive_energy.common.items.ItemIEnBase;
 import net.minecraft.block.Block;
@@ -265,6 +267,10 @@ public class ClientProxy extends CommonProxy
 				new ManualPageBlueprint(ManualHelper.getManual(), "hefty_wrench_capacitor", new ItemStack(IEnContent.itemUpgrades, 1, 3)),
 				new ManualPages.Text(ManualHelper.getManual(), "hefty_wrench_enchanting")
 				);
+
+		ManualHelper.addEntry("fluid_battery", CAT_IEN,
+				new ManualPageMultiblock(ManualHelper.getManual(),"fluid_batter0y", MultiblockFluidBattery.instance)
+		);
 	}
 	
 	public void renderTile(TileEntity te)

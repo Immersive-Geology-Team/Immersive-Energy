@@ -71,9 +71,6 @@ public class ImmersiveEnergy
 		GameRegistry.registerWorldGenerator(ienWorldGen, 0);
 		MinecraftForge.EVENT_BUS.register(ienWorldGen);
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
-		
-
-
 
 		IEnContent.initEnd();
     	proxy.initEnd();

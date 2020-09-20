@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import blusunrize.immersiveengineering.api.MultiblockHandler;
 import blusunrize.immersiveengineering.api.crafting.IngredientStack;
 import blusunrize.immersiveengineering.api.energy.ThermoelectricHandler;
 import blusunrize.immersiveengineering.api.tool.RailgunHandler;
@@ -22,6 +23,9 @@ import crimson_twilight.immersive_energy.common.blocks.metal.BlockGenerators0;
 import crimson_twilight.immersive_energy.common.blocks.metal.BlockMachines0;
 import crimson_twilight.immersive_energy.common.blocks.metal.TileEntityGasBurner;
 import crimson_twilight.immersive_energy.common.blocks.metal.TileEntitySolarPanel;
+import crimson_twilight.immersive_energy.common.blocks.multiblock.BlockMetalMultiblock0;
+import crimson_twilight.immersive_energy.common.blocks.multiblock.MultiblockFluidBattery;
+import crimson_twilight.immersive_energy.common.blocks.multiblock.TileEntityFluidBattery;
 import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
 import crimson_twilight.immersive_energy.common.items.IEnArrowBase;
 import crimson_twilight.immersive_energy.common.items.ItemIEnBase;
@@ -76,7 +80,9 @@ public class IEnContent
 	
 	public static BlockGenerators0 blockGenerators0;
 	public static BlockMachines0 blockMachines0;
-	
+
+	public static BlockMetalMultiblock0 blockMetalMultiblocks;
+
 	public static ArmorMaterial powerArmor = EnumHelper.addArmorMaterial("power_armor_suit", "immersive_energy:power_armor_suit", 5260, new int[] {2, 7, 8, 3}, 1, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 3);
 	
 	public static ItemPowerArmorChestplate itemPowerArmorChestplate;
@@ -106,7 +112,8 @@ public class IEnContent
 		
 		blockGenerators0 = new BlockGenerators0();
 		blockMachines0 = new BlockMachines0();
-		
+		blockMetalMultiblocks = new BlockMetalMultiblock0();
+
 		//Items
 		itemMetal = new ItemIEnBase("metal", 64, 
 				"ingot_thorium", "ingot_tungsten", 
@@ -161,7 +168,11 @@ public class IEnContent
 		registerTile(TileEntityIEnSlab.class);
 		registerTile(TileEntitySolarPanel.class); 
 		registerTile(TileEntityGasBurner.class); 
-		
+		registerTile(TileEntityFluidBattery.class);
+
+		//Multiblocks
+		MultiblockHandler.registerMultiblock(MultiblockFluidBattery.instance);
+
 		//Railgun
 		RailgunHandler.registerProjectileProperties(new IngredientStack("stickTungsten"), 32, 1.3).setColourMap(new int[][]{{0xCBD1D6, 0xCBD1D6, 0xCBD1D6, 0xCBD1D6, 0x9EA2A7, 0x9EA2A7}});
 		
