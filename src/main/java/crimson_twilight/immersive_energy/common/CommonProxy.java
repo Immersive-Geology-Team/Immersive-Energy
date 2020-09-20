@@ -31,7 +31,6 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class CommonProxy implements IGuiHandler
 {
-	
 	public void preInit()
 	{
 		IEnCompatModule.doModulesPreInit();

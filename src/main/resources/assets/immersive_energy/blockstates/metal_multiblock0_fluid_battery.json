@@ -1,0 +1,80 @@
+{
+	"forge_marker": 1,
+	"defaults":
+	{
+		"transform": "forge:default-block",
+		"custom": { "flip-v": true },
+		"textures": {
+			"particle": "immersiveengineering:blocks/storage_steel"
+		}
+	},
+	"variants":
+	{
+		"inventory,type=fluid_battery": [{
+			"model": "immersive_energy:fluid_battery.obj",
+			"transform": {
+				"scale": 0.25,
+				"rotation": [
+					{
+						"x": 20
+					},
+					{
+						"y": -45
+					}
+				],
+				"translation": [ 0, 0, 0 ]
+			}
+		}],
+		"type":
+		{
+			"fluid_battery": {
+			}
+		},
+		"facing":
+		{
+			"north": { "transform": {
+				"rotation": {"y": 0 },
+				"translation": [ 0.5, -0.5, 2.5 ]
+			}},
+			"south": { "transform": {
+				"rotation": {"y": 180 },
+				"translation": [ -0.5, -0.5, -2.5 ]
+			}},
+			"west": { "transform": {
+				"rotation": {"y": 90 },
+				"translation": [ 2.5, -0.5, -0.5 ]
+			}},
+			"east": { "transform": {
+				"rotation": {"y": -90 },
+				"translation": [ -2.5, -0.5, 0.5 ]
+			}}
+		},
+		"_0multiblockslave":
+		{
+			"false":{
+			},
+			"true":{
+				"model": "immersiveengineering:ie_empty"
+			}
+		},
+		"_1dynamicrender":
+		{
+			"false":{
+				"model": "immersive_energy:fluid_battery.obj"
+			},
+			"true":{
+				"model": "immersive_energy:fluid_battery.obj.ie"
+			}
+		},
+		"boolean0":
+		{
+			"false":{},
+			"true": {}
+		},
+		"boolean1":
+		{
+			"false":{},
+			"true": {}
+		}
+	}
+}

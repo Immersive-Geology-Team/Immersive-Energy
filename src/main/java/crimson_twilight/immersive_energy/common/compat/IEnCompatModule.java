@@ -20,6 +20,9 @@ public abstract class IEnCompatModule
 	public static HashMap<String, Class<? extends IEnCompatModule>> moduleClasses = new HashMap<>();
 	public static Set<IEnCompatModule> modules = new HashSet<>();
 
+	public static boolean serene=false;
+	public static boolean ii=false;
+
 	static
 	{
 		moduleClasses.put("sereneseasons", SereneSeasonsHelper.class);

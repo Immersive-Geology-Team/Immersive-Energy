@@ -89,6 +89,7 @@ public class SereneSeasonsHelper extends IEnCompatModule
 	{
 		//for compat that requires events
 		//MinecraftForge.EVENT_BUS.register(this);
+		serene=true;
 	}
 
 	@Override

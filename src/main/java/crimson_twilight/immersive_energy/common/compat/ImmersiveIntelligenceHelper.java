@@ -19,6 +19,7 @@ public class ImmersiveIntelligenceHelper extends IEnCompatModule
 	{
 		//for compat that requires events
 		//MinecraftForge.EVENT_BUS.register(this);
+		ii=true;
 	}
 
 	@Override

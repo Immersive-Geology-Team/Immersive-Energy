@@ -91,6 +91,8 @@ public class ClientProxy extends CommonProxy
 				.setTransformations(TransformType.GUI, new Matrix4().scale(.0625, .0625, .0625).translate(0,0.25,7.25).rotate(-Math.PI*52/180f, 1, 0, 0).rotate(Math.PI*31/180f, 0, 1, 0).rotate(Math.PI*46/180f, 0, 0, 1).scale(0.9,0.9,0.9))
 				.setTransformations(TransformType.GROUND, new Matrix4().scale(.0625, .0625, .0625).translate(0.75, 6.75, -0.5)));
 		IEnContent.toolHeftyWrench.setTileEntityItemStackRenderer(ItemRendererIEOBJ.INSTANCE);
+
+
 		//45, -135, 45
 
 		/*

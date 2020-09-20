@@ -18,6 +18,7 @@ import blusunrize.immersiveengineering.common.util.EnergyHelper.IIEInternalFluxH
 import blusunrize.immersiveengineering.common.util.ItemNBTHelper;
 import blusunrize.immersiveengineering.common.util.Utils;
 import crimson_twilight.immersive_energy.common.Config.IEnConfig.Machines;
+import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
 import crimson_twilight.immersive_energy.common.compat.SereneSeasonsHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -142,7 +143,7 @@ public class TileEntitySolarPanel extends TileEntityImmersiveConnectable impleme
 			modifier = modifier*(world.getActualHeight()/world.getHeight());
 			Biome biome = world.getBiome(pos);
 
-			modifier = Loader.isModLoaded("sereneseasons")?SereneSeasonsHelper.calculateModifier(world, biome, modifier): calculateVanillaModifier(world, biome, modifier);
+			modifier = IEnCompatModule.serene?SereneSeasonsHelper.calculateModifier(world, biome, modifier): calculateVanillaModifier(world, biome, modifier);
 
 			if(world.isRaining()&&world.getBiome(pos).getTempCategory()!=Biome.TempCategory.WARM)
 			{

@@ -1,0 +1,4 @@
+newmtl 0
+map_Ka immersive_energy:blocks/fluid_battery
+newmtl none
+map_Ka immersive_energy:blocks/fluid_battery
