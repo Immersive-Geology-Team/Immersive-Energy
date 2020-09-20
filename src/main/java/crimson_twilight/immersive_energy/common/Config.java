@@ -11,9 +11,12 @@ import java.util.Locale;
 import java.util.Map;
 
 import blusunrize.immersiveengineering.common.Config.IEConfig;
+import blusunrize.immersiveengineering.common.util.compat.IECompatModule;
 import blusunrize.immersiveengineering.common.world.IEWorldGen;
+import com.google.common.collect.Maps;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
 import crimson_twilight.immersive_energy.api.energy.FuelHandler;
+import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
 import net.minecraftforge.common.config.Config.Comment;
 import net.minecraftforge.common.config.Config.RangeDouble;
 import net.minecraftforge.common.config.Config.RangeInt;
@@ -35,10 +38,9 @@ public class Config
 	@net.minecraftforge.common.config.Config(modid = ImmersiveEnergy.MODID)
 	public static class IEnConfig
 	{
+		@Comment({"A list of all mods that IEn has integrated compatability for", "Setting any of these to false disables the respective compat"})
+		public static Map<String, Boolean> compat = Maps.newHashMap(Maps.toMap(IEnCompatModule.moduleClasses.keySet(), (s) -> Boolean.TRUE));
 
-
-		static Configuration config;
-		
 		@SubConfig
 		public static Machines machines;
 		@SubConfig

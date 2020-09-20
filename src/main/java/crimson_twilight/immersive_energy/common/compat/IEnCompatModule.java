@@ -2,7 +2,6 @@ package crimson_twilight.immersive_energy.common.compat;
 
 import blusunrize.immersiveengineering.common.Config;
 import blusunrize.immersiveengineering.common.util.IELogger;
-import blusunrize.immersiveengineering.common.util.compat.IECompatModule;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -24,8 +23,8 @@ public abstract class IEnCompatModule
 	static
 	{
 		moduleClasses.put("sereneseasons", SereneSeasonsHelper.class);
-		moduleClasses.put("immersiveintelligence", SereneSeasonsHelper.class);
-		moduleClasses.put("immersivepetroleum", SereneSeasonsHelper.class);
+		moduleClasses.put("immersiveintelligence", ImmersiveIntelligenceHelper.class);
+		moduleClasses.put("immersivepetroleum", ImmersivePetroleumHelper.class);
 	}
 
 	public static void doModulesPreInit()
@@ -48,7 +47,7 @@ public abstract class IEnCompatModule
 
 	public static void doModulesRecipes()
 	{
-		for(IECompatModule compat : IECompatModule.modules)
+		for(IEnCompatModule compat : IEnCompatModule.modules)
 			try
 			{
 				compat.registerRecipes();
@@ -60,7 +59,7 @@ public abstract class IEnCompatModule
 
 	public static void doModulesInit()
 	{
-		for(IECompatModule compat : IECompatModule.modules)
+		for(IEnCompatModule compat : IEnCompatModule.modules)
 			try
 			{
 				compat.init();
@@ -72,7 +71,7 @@ public abstract class IEnCompatModule
 
 	public static void doModulesPostInit()
 	{
-		for(IECompatModule compat : IECompatModule.modules)
+		for(IEnCompatModule compat : IEnCompatModule.modules)
 			try
 			{
 				compat.postInit();
@@ -90,10 +89,11 @@ public abstract class IEnCompatModule
 		if(!serverStartingDone)
 		{
 			serverStartingDone = true;
-			for(IECompatModule compat : IECompatModule.modules)
+			for(IEnCompatModule compat : IEnCompatModule.modules)
 				try
 				{
 					compat.loadComplete();
+
 				} catch(Exception exception)
 				{
 					IELogger.logger.error("Compat module for "+compat+" could not be initialized. Report this and include the error message below!", exception);
