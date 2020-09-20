@@ -4,12 +4,14 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import blusunrize.immersiveengineering.common.util.IELogger;
 import com.mojang.authlib.GameProfile;
 
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces.IGuiTile;
 import blusunrize.immersiveengineering.common.items.IEItemInterfaces.IGuiItem;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
 import crimson_twilight.immersive_energy.common.blocks.metal.TileEntityGasBurner;
+import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
 import crimson_twilight.immersive_energy.common.gui.ContainerGasBurner;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -30,7 +32,7 @@ public class CommonProxy implements IGuiHandler
 	
 	public void preInit()
 	{
-		
+		IEnCompatModule.doModulesPreInit();
 	}
 
 	public void preInitEnd()
@@ -40,17 +42,17 @@ public class CommonProxy implements IGuiHandler
 
 	public void init()
 	{
-		
+		IEnCompatModule.doModulesInit();
 	}
 
 	public void initEnd()
 	{
-		
+
 	}
 
 	public void postInit()
 	{
-		
+		IEnCompatModule.doModulesPostInit();
 	}
 
 	public void postInitEnd()

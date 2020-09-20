@@ -8,6 +8,7 @@ import blusunrize.immersiveengineering.api.crafting.IngredientStack;
 import blusunrize.immersiveengineering.api.energy.ThermoelectricHandler;
 import blusunrize.immersiveengineering.api.tool.RailgunHandler;
 import blusunrize.immersiveengineering.common.items.ItemIEBase;
+import blusunrize.immersiveengineering.common.util.compat.IECompatModule;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
 import crimson_twilight.immersive_energy.common.Config.IEnConfig;
 import crimson_twilight.immersive_energy.common.Config.IEnConfig.Tools;
@@ -21,6 +22,7 @@ import crimson_twilight.immersive_energy.common.blocks.metal.BlockGenerators0;
 import crimson_twilight.immersive_energy.common.blocks.metal.BlockMachines0;
 import crimson_twilight.immersive_energy.common.blocks.metal.TileEntityGasBurner;
 import crimson_twilight.immersive_energy.common.blocks.metal.TileEntitySolarPanel;
+import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
 import crimson_twilight.immersive_energy.common.items.IEnArrowBase;
 import crimson_twilight.immersive_energy.common.items.ItemIEnBase;
 import crimson_twilight.immersive_energy.common.items.ItemIEnMaterial;
@@ -225,6 +227,8 @@ public class IEnContent
 		
 		//GasBurner
 		IEnRecipes.initGasBurnerRecipes();
+
+		IEnCompatModule.doModulesRecipes();
 	}
 	
 	public static void registerTile(Class<? extends TileEntity> tile)

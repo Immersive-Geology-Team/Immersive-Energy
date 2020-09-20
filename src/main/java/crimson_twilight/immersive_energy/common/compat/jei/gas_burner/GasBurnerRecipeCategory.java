@@ -1,9 +1,9 @@
-package crimson_twilight.immersive_energy.common.compat.JEI.gas_burner;
+package crimson_twilight.immersive_energy.common.compat.jei.gas_burner;
 
 import crimson_twilight.immersive_energy.api.crafting.GasBurnerRecipe;
 import crimson_twilight.immersive_energy.common.IEnContent;
 import crimson_twilight.immersive_energy.common.blocks.metal.BlockTypes_Machines0;
-import crimson_twilight.immersive_energy.common.compat.JEI.IEnRecipeCategory;
+import crimson_twilight.immersive_energy.common.compat.jei.IEnRecipeCategory;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;

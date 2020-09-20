@@ -1,5 +1,8 @@
 package crimson_twilight.immersive_energy;
 
+import blusunrize.immersiveengineering.common.util.compat.IECompatModule;
+import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
+import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import org.apache.logging.log4j.Logger;
 
 import blusunrize.immersiveengineering.common.IEContent;
@@ -113,6 +116,12 @@ public class ImmersiveEnergy
         IEnContent.postInitEnd();
         proxy.postInitEnd();
     }
+
+	@Mod.EventHandler
+	public void loadComplete(FMLLoadCompleteEvent event)
+	{
+		IEnCompatModule.doModulesLoadComplete();
+	}
 
 
 	public static CreativeTabs creativeTab = new CreativeTabs(MODID)

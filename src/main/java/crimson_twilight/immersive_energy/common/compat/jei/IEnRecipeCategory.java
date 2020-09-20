@@ -1,4 +1,4 @@
-package crimson_twilight.immersive_energy.common.compat.JEI;
+package crimson_twilight.immersive_energy.common.compat.jei;
 
 import java.util.Collections;
 import java.util.List;

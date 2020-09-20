@@ -17,7 +17,9 @@ import blusunrize.immersiveengineering.client.models.obj.IEOBJLoader;
 import blusunrize.immersiveengineering.client.render.ItemRendererIEOBJ;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces.IGuiTile;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces.IIEMetaBlock;
+import blusunrize.immersiveengineering.common.util.IELogger;
 import blusunrize.immersiveengineering.common.util.chickenbones.Matrix4;
+import blusunrize.immersiveengineering.common.util.compat.IECompatModule;
 import blusunrize.lib.manual.ManualPages;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
 import crimson_twilight.immersive_energy.client.gui.GUIGasBurner;
@@ -28,6 +30,7 @@ import crimson_twilight.immersive_energy.common.IEnGUIList;
 import crimson_twilight.immersive_energy.common.blocks.BlockTypes_OresIEn;
 import crimson_twilight.immersive_energy.common.blocks.metal.BlockTypes_Generators0;
 import crimson_twilight.immersive_energy.common.blocks.metal.TileEntityGasBurner;
+import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
 import crimson_twilight.immersive_energy.common.items.ItemIEnBase;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
@@ -66,7 +69,17 @@ public class ClientProxy extends CommonProxy
 		IEOBJLoader.instance.addDomain(ImmersiveEnergy.MODID);
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(EvenMoreImmersiveModelRegistry.instance);
-		
+
+		super.preInit();
+		for(IEnCompatModule compat : IEnCompatModule.modules)
+			try
+			{
+				compat.clientPreInit();
+			} catch(Exception exception)
+			{
+				IELogger.error("Compat module for "+compat+" could not be client pre-initialized");
+			}
+
 		EvenMoreImmersiveModelRegistry.instance.registerCustomItemModel(new ItemStack(IEnContent.toolHeftyWrench, 1, 0), new ImmersiveModelRegistry.ItemModelReplacement_OBJ(ImmersiveEnergy.MODID+":models/item/hefty_wrench.obj", true)
 				.setTransformations(TransformType.FIRST_PERSON_RIGHT_HAND, new Matrix4().scale(.0625, .0625, .0625).translate(12, 0, -8.25))
 				.setTransformations(TransformType.FIRST_PERSON_LEFT_HAND, new Matrix4().scale(-.0625, .0625, .0625).translate(-12, 0, -8.25))
@@ -94,7 +107,7 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void preInitEnd()
 	{
-		
+		super.preInitEnd();
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -197,7 +210,15 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void init()
 	{
-	
+		super.init();
+		for(IEnCompatModule compat : IEnCompatModule.modules)
+			try
+			{
+				compat.clientInit();
+			} catch(Exception exception)
+			{
+				IELogger.error("Compat module for "+compat+" could not be client initialized");
+			}
 	}
 
 	public static void onModelBakeEvent(ModelBakeEvent event)
@@ -208,6 +229,16 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void postInit()
 	{
+		super.postInit();
+		for(IEnCompatModule compat : IEnCompatModule.modules)
+			try
+			{
+				compat.clientPostInit();
+			} catch(Exception exception)
+			{
+				IELogger.error("Compat module for "+compat+" could not be client post-initialized");
+			}
+
 		ManualHelper.addEntry("oresIEn", CAT_IEN, 
 				new ManualPages.ItemDisplay(ManualHelper.getManual(), "oresThorium", new ItemStack(IEnContent.blockOre, 1, BlockTypes_OresIEn.THORIUM.getMeta())),
 				new ManualPages.ItemDisplay(ManualHelper.getManual(), "oresTungsten", new ItemStack(IEnContent.blockOre, 1, BlockTypes_OresIEn.TUNGSTEN.getMeta()))

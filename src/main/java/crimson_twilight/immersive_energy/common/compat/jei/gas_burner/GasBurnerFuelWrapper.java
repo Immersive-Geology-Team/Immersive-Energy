@@ -1,4 +1,4 @@
-package crimson_twilight.immersive_energy.common.compat.JEI.gas_burner;
+package crimson_twilight.immersive_energy.common.compat.jei.gas_burner;
 
 import java.awt.Color;
 import java.util.List;

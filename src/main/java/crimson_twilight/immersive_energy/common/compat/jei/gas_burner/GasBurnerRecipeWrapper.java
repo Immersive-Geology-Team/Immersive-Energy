@@ -1,20 +1,15 @@
-package crimson_twilight.immersive_energy.common.compat.JEI.gas_burner;
+package crimson_twilight.immersive_energy.common.compat.jei.gas_burner;
 
 import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import blusunrize.immersiveengineering.api.crafting.MultiblockRecipe;
-import blusunrize.immersiveengineering.common.util.compat.jei.MultiblockRecipeWrapper;
 import crimson_twilight.immersive_energy.api.crafting.GasBurnerRecipe;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
 
 public class GasBurnerRecipeWrapper implements IRecipeWrapper
 {

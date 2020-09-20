@@ -41,7 +41,7 @@ minecraft {
 }
 
 repositories {
-    maven { // JEI & Tinkers
+    maven { // jei & Tinkers
         name 'DVS1 Maven FS'
         url 'https://dvs1.progwml6.com/files/maven'
     }

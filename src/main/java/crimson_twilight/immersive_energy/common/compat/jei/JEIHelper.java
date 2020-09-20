@@ -1,19 +1,12 @@
-package crimson_twilight.immersive_energy.common.compat.JEI;
+package crimson_twilight.immersive_energy.common.compat.jei;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import blusunrize.immersiveengineering.api.crafting.BlastFurnaceRecipe;
-import blusunrize.immersiveengineering.client.gui.GuiAlloySmelter;
-import blusunrize.immersiveengineering.client.gui.GuiBlastFurnace;
 import blusunrize.immersiveengineering.common.util.compat.jei.IEFluidTooltipCallback;
-import blusunrize.immersiveengineering.common.util.compat.jei.IERecipeCategory;
 import crimson_twilight.immersive_energy.api.crafting.GasBurnerRecipe;
 import crimson_twilight.immersive_energy.api.crafting.GasBurnerRecipe.GasBurnerFuel;
-import crimson_twilight.immersive_energy.api.energy.FuelHandler;
-import crimson_twilight.immersive_energy.client.gui.GUIGasBurner;
-import crimson_twilight.immersive_energy.common.compat.JEI.gas_burner.GasBurnerRecipeCategory;
+import crimson_twilight.immersive_energy.common.compat.jei.gas_burner.GasBurnerRecipeCategory;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IJeiRuntime;
