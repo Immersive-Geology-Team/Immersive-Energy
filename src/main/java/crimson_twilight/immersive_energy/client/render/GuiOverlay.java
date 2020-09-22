@@ -1,5 +1,6 @@
 package crimson_twilight.immersive_energy.client.render;
 
+import blusunrize.immersiveengineering.common.util.ItemNBTHelper;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
 import crimson_twilight.immersive_energy.common.IEnContent;
 import net.minecraft.client.Minecraft;
@@ -27,11 +28,13 @@ public class GuiOverlay extends Gui
 
 	public void renderGameOverlay(float partialTicks) 
     {
-		
     	ScaledResolution res = new ScaledResolution(mc);
-    	if(mc.player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem().equals(IEnContent.itemPowerArmorHelmet) && mc.gameSettings.thirdPersonView == 0 )
+    	if(mc.player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem().equals(IEnContent.itemPowerArmorHelmet) && mc.gameSettings.thirdPersonView == 0)
     	{
-    		renderEnvironmentalHelmetOverlay(res);
+    		if(ItemNBTHelper.getBoolean(mc.player.getItemStackFromSlot(EntityEquipmentSlot.HEAD), "night_vision_active")) 
+    		{
+    			renderEnvironmentalHelmetOverlay(res);
+    		}
     	}
     }
     

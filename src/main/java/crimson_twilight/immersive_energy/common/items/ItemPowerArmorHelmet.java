@@ -12,10 +12,17 @@ import blusunrize.immersiveengineering.api.Lib;
 import blusunrize.immersiveengineering.api.tool.IElectricEquipment;
 import blusunrize.immersiveengineering.common.Config.IEConfig;
 import blusunrize.immersiveengineering.common.util.EnergyHelper;
+import blusunrize.immersiveengineering.common.util.ItemNBTHelper;
 import blusunrize.immersiveengineering.common.util.IEDamageSources.ElectricDamageSource;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
 import crimson_twilight.immersive_energy.common.IEnContent;
+import crimson_twilight.immersive_energy.common.util.IEnKeybinds;
+import crimson_twilight.immersive_energy.common.util.MessageItemNightVisionSwitch;
+import crimson_twilight.immersive_energy.common.util.network.IEnPacketHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -29,12 +36,15 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod.EventBusSubscriber(modid = ImmersiveEnergy.MODID)
 public class ItemPowerArmorHelmet extends ItemUpgradeableArmor implements IElectricEquipment
 {
+	Minecraft mc = Minecraft.getMinecraft();
 	private static final UUID[] ARMOR_MODIFIERS = new UUID[] {UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
 	public ItemPowerArmorHelmet()
 	{
@@ -48,6 +58,15 @@ public class ItemPowerArmorHelmet extends ItemUpgradeableArmor implements IElect
 		float integrity = 100-(float)getDurabilityForDisplay(stack)*100f;
 		list.add(String.format("%s %.2f %%", I18n.format(Lib.DESC_INFO+"integrity"), integrity));
 		super.addInformation(stack,world,list,flag);
+	}
+	
+	@SubscribeEvent
+	public void onKeyInput(KeyInputEvent e) 
+	{
+		EntityPlayerSP player = Minecraft.getMinecraft().player;
+		ItemStack stack = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
+		if(IEnKeybinds.helmet_night_vision.isPressed() && stack.getItem().equals(IEnContent.itemPowerArmorHelmet))
+			IEnPacketHandler.INSTANCE.sendToServer(new MessageItemNightVisionSwitch(!(ItemNBTHelper.getBoolean(stack, "night_vision_active"))));
 	}
 	
 	public static void playReducedSound(EntityLivingBase entity)

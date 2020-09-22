@@ -95,6 +95,7 @@ desc.immersiveengineering.flavour.toolupgrade.wrench_thermal=Bringing the heat!
 desc.immersiveengineering.flavour.toolupgrade.wrench_magic=Not quite a magic missile, but it works!
 desc.immersiveengineering.flavour.toolupgrade.wrench_capacitor=Fits in the non existent palm of your hand!
 
+key.helmet_night_vision=Environmental Suit Night Vision [WIP]
 
 //Damage
 attribute.name.immersive_energy.damage=Damage

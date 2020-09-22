@@ -1,5 +1,8 @@
 package crimson_twilight.immersive_energy.common.util;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import crimson_twilight.immersive_energy.common.items.ItemUpgradeableArmor;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -10,9 +13,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * @author Pabilo8

@@ -1,21 +1,25 @@
 package crimson_twilight.immersive_energy.common;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
 import java.util.UUID;
 import java.util.WeakHashMap;
-import java.util.stream.Stream;
+
+import org.lwjgl.opengl.GL11;
 
 import com.mojang.realmsclient.util.Pair;
 
 import blusunrize.immersiveengineering.common.util.EnergyHelper;
 import blusunrize.immersiveengineering.common.util.Utils;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
-import crimson_twilight.immersive_energy.common.items.ItemUpgradeableArmor;
-import crimson_twilight.immersive_energy.common.util.BodypartHelper;
 import crimson_twilight.immersive_energy.common.util.IEnDamageSources;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -33,6 +37,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -58,6 +64,10 @@ public class EventHandler
 	private static final UUID POWER_ARMOR_SPEED_BOOST_ID = UUID.fromString("eba4c34c-c7d9-11e9-a32f-2a2ae2dbcce4");
 	private static final AttributeModifier POWER_ARMOR_SPEED_BOOST = new AttributeModifier(POWER_ARMOR_SPEED_BOOST_ID, "Power Armor Speed Boost", 0.4D, 2);
 	public static final Map<EntityPlayer, Pair<Entity, RayTraceResult>> hitList = new WeakHashMap<>();
+    private static int oldDisplayWidth = 0;
+    private static int oldDisplayHeight = 0;
+    public static boolean resetShaders = false;
+    public static HashMap<Integer, ShaderGroup> shaderGroups;
 
 	@SubscribeEvent
 	public static void onLoad(WorldEvent.Load event)
@@ -119,7 +129,6 @@ public class EventHandler
 		}
 		if(suitHeatDamage > 0 && entity.getEntityWorld().getTotalWorldTime()%20==0)
 		{
-			System.out.println(suitHeatDamage);
 			entity.attackEntityFrom(IEnDamageSources.causeBurningSuitDamage(), suitHeatDamage);
 		}
 	}
@@ -429,4 +438,53 @@ public class EventHandler
 	{
 
 	}
+	
+//	@SideOnly(Side.CLIENT)
+//    @SubscribeEvent
+//    public static void renderShaders(Pre event) 
+//	{
+//        if(event.getType() == ElementType.ALL) 
+//        {
+//            Minecraft mc = Minecraft.getMinecraft();
+//            if(OpenGlHelper.shadersSupported && shaderGroups.size() > 0) 
+//            {
+//                updateShaderFrameBuffers(mc);
+//                GL11.glMatrixMode(5890);
+//                GL11.glLoadIdentity();
+//
+//                for(Iterator<ShaderGroup> var2 = shaderGroups.values().iterator(); var2.hasNext(); GL11.glPopMatrix()) 
+//                {
+//                    ShaderGroup sg = (ShaderGroup)var2.next();
+//                    GL11.glPushMatrix();
+//
+//                    try 
+//                    {
+//                        sg.render(event.getPartialTicks());
+//                    } catch (Exception var5) {
+//                    }
+//                }
+//
+//                mc.getFramebuffer().bindFramebuffer(true);
+//            }
+//        }
+//
+//    }
+//
+//	@SideOnly(Side.CLIENT)
+//    private static void updateShaderFrameBuffers(Minecraft mc) {
+//        if(resetShaders || mc.displayWidth != oldDisplayWidth || oldDisplayHeight != mc.displayHeight) {
+//            Iterator<ShaderGroup> var1 = shaderGroups.values().iterator();
+//
+//            while(var1.hasNext()) 
+//            {
+//                ShaderGroup sg = (ShaderGroup)var1.next();
+//                sg.createBindFramebuffers(mc.displayWidth, mc.displayHeight);
+//            }
+//
+//            oldDisplayWidth = mc.displayWidth;
+//            oldDisplayHeight = mc.displayHeight;
+//            resetShaders = false;
+//        }
+//
+//    }
 }
