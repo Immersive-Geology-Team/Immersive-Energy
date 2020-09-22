@@ -5,7 +5,7 @@ public class ImmersiveIntelligenceHelper extends IEnCompatModule
 	@Override
 	public void preInit()
 	{
-
+		IEnCompatModule.ii=true;
 	}
 
 	@Override
@@ -19,7 +19,6 @@ public class ImmersiveIntelligenceHelper extends IEnCompatModule
 	{
 		//for compat that requires events
 		//MinecraftForge.EVENT_BUS.register(this);
-		ii=true;
 	}
 
 	@Override

@@ -9,7 +9,6 @@ import blusunrize.immersiveengineering.api.crafting.IngredientStack;
 import blusunrize.immersiveengineering.api.energy.ThermoelectricHandler;
 import blusunrize.immersiveengineering.api.tool.RailgunHandler;
 import blusunrize.immersiveengineering.common.items.ItemIEBase;
-import blusunrize.immersiveengineering.common.util.compat.IECompatModule;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
 import crimson_twilight.immersive_energy.common.Config.IEnConfig;
 import crimson_twilight.immersive_energy.common.Config.IEnConfig.Tools;
@@ -49,7 +48,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntity;
@@ -59,7 +57,6 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -76,12 +73,12 @@ public class IEnContent
 	public static BlockIEnBase<BlockTypes_MetalsIEn> blockStorage;
 	
 	public static BlockIEnBase<BlockTypes_MetalsIEn> blockSheetmetal;
-	public static BlockIEnBase<BlockTypes_MetalsIEn> blockSheetmetalSlabs;
+	public static BlockIEnBase<BlockTypes_MetalsIEn> blockSheetmetalSlab;
 	
 	public static BlockGenerators0 blockGenerators0;
 	public static BlockMachines0 blockMachines0;
 
-	public static BlockMetalMultiblock0 blockMetalMultiblocks;
+	public static BlockMetalMultiblock0 blockMetalMultiblock;
 
 	public static ArmorMaterial powerArmor = EnumHelper.addArmorMaterial("power_armor_suit", "immersive_energy:power_armor_suit", 5260, new int[] {2, 7, 8, 3}, 1, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 3);
 	
@@ -108,11 +105,11 @@ public class IEnContent
 		blockStorage = (BlockIEnBase)new BlockIEnBase("storage", Material.IRON, PropertyEnum.create("type", BlockTypes_MetalsIEn.class), ItemBlockIEnBase.class).setOpaque(true).setHardness(5.0F).setResistance(10.0F);
 	
 		blockSheetmetal = (BlockIEnBase)new BlockIEnBase("sheetmetal", Material.IRON, PropertyEnum.create("type", BlockTypes_MetalsIEn.class), ItemBlockIEnBase.class).setOpaque(true).setHardness(3.0F).setResistance(10.0F);
-		blockSheetmetalSlabs = (BlockIEnSlab)new BlockIEnSlab("sheetmetal_slab", Material.IRON, PropertyEnum.create("type", BlockTypes_MetalsIEn.class)).setHardness(3.0F).setResistance(10.0F);
+		blockSheetmetalSlab = (BlockIEnSlab)new BlockIEnSlab("sheetmetal_slab", Material.IRON, PropertyEnum.create("type", BlockTypes_MetalsIEn.class)).setHardness(3.0F).setResistance(10.0F);
 		
 		blockGenerators0 = new BlockGenerators0();
 		blockMachines0 = new BlockMachines0();
-		blockMetalMultiblocks = new BlockMetalMultiblock0();
+		blockMetalMultiblock = new BlockMetalMultiblock0();
 
 		//Items
 		itemMetal = new ItemIEnBase("metal", 64, 

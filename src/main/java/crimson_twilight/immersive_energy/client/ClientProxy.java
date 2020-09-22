@@ -25,6 +25,7 @@ import blusunrize.lib.manual.ManualPages;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
 import crimson_twilight.immersive_energy.client.gui.GUIGasBurner;
 import crimson_twilight.immersive_energy.client.model.EvenMoreImmersiveModelRegistry;
+import crimson_twilight.immersive_energy.client.render.FluidBatteryRenderer;
 import crimson_twilight.immersive_energy.common.CommonProxy;
 import crimson_twilight.immersive_energy.common.IEnContent;
 import crimson_twilight.immersive_energy.common.IEnGUIList;
@@ -32,6 +33,7 @@ import crimson_twilight.immersive_energy.common.blocks.BlockTypes_OresIEn;
 import crimson_twilight.immersive_energy.common.blocks.metal.BlockTypes_Generators0;
 import crimson_twilight.immersive_energy.common.blocks.metal.TileEntityGasBurner;
 import crimson_twilight.immersive_energy.common.blocks.multiblock.MultiblockFluidBattery;
+import crimson_twilight.immersive_energy.common.blocks.multiblock.TileEntityFluidBattery;
 import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
 import crimson_twilight.immersive_energy.common.items.ItemIEnBase;
 import net.minecraft.block.Block;
@@ -54,6 +56,7 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -106,6 +109,9 @@ public class ClientProxy extends CommonProxy
 				.setTransformations(TransformType.GROUND, new Matrix4().translate(0, .25, .125).scale(.25, .25, .25)));
 		IEnContent.toolUpgradeableCrossbow.setTileEntityItemStackRenderer(ItemRendererIEOBJ.INSTANCE);
 		 */
+
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluidBattery.class, new FluidBatteryRenderer());
+
 	}
 	
 	@Override

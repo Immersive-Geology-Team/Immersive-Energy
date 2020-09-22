@@ -84,6 +84,8 @@ dependencies {
     //Maybe someday...
     //deobfCompile "albedo:albedo:1.12.2:1.1.0"
     deobfCompile 'baubles:Baubles:1.12:1.5.2'
+    compileOnly files('libs/immersiveintelligence-0.2.0-sources.jar')
+    runtime files('libs/immersiveintelligence-1.12.2-0.2.0.jar')
 }
 
 jar {

@@ -123,7 +123,7 @@ public class MultiblockFluidBattery implements IMultiblock
 	public void renderFormedStructure()
 	{
 		if(renderStack.isEmpty())
-			renderStack = new ItemStack(IEnContent.blockMetalMultiblocks, 1, BlockTypes_MetalMultiblock0.FLUID_BATTERY.getMeta());
+			renderStack = new ItemStack(IEnContent.blockMetalMultiblock, 1, BlockTypes_MetalMultiblock0.FLUID_BATTERY.getMeta());
 		GlStateManager.translate(1, 1, 3);
 		GlStateManager.rotate(-45, 0, 1, 0);
 		GlStateManager.rotate(-20, 1, 0, 0);
@@ -169,7 +169,7 @@ public class MultiblockFluidBattery implements IMultiblock
 		if(MultiblockHandler.fireMultiblockFormationEventPost(player, this, pos, hammer).isCanceled())
 			return false;
 
-		IBlockState state = IEnContent.blockMetalMultiblocks.getStateFromMeta(BlockTypes_MetalMultiblock0.FLUID_BATTERY.getMeta());
+		IBlockState state = IEnContent.blockMetalMultiblock.getStateFromMeta(BlockTypes_MetalMultiblock0.FLUID_BATTERY.getMeta());
 		state = state.withProperty(IEProperties.FACING_HORIZONTAL, side);
 		for(int l = -2; l < 2; l++)
 			for(int w = -2; w <= 2; w++)
@@ -190,7 +190,7 @@ public class MultiblockFluidBattery implements IMultiblock
 						tile.offset = new int[]{(side==EnumFacing.WEST?-l+1: side==EnumFacing.EAST?l-1: side==EnumFacing.NORTH?ww: -ww), h, (side==EnumFacing.NORTH?-l+1: side==EnumFacing.SOUTH?l-1: side==EnumFacing.EAST?ww: -ww)};
 						tile.mirrored = false;
 						tile.markDirty();
-						world.addBlockEvent(pos2, IEnContent.blockMetalMultiblocks, 255, 0);
+						world.addBlockEvent(pos2, IEnContent.blockMetalMultiblock, 255, 0);
 					}
 				}
 		return b;

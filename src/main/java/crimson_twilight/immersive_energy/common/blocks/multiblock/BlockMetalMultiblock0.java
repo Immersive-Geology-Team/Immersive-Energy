@@ -18,6 +18,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.common.property.Properties;
 
 import java.util.Arrays;
 
@@ -29,7 +30,7 @@ public class BlockMetalMultiblock0 extends BlockIEnMultiblock<BlockTypes_MetalMu
 	public BlockMetalMultiblock0()
 	{
 		super("metal_multiblock0", Material.IRON, PropertyEnum.create("type", BlockTypes_MetalMultiblock0.class), ItemBlockIEnBase.class, IEProperties.FACING_HORIZONTAL,
-				IEProperties.BOOLEANS[0], IEProperties.BOOLEANS[1], IEProperties.MULTIBLOCKSLAVE, IOBJModelCallback.PROPERTY, IEProperties.DYNAMICRENDER);
+				IEProperties.BOOLEANS[0], IEProperties.BOOLEANS[1], IEProperties.MULTIBLOCKSLAVE, Properties.AnimationProperty, IOBJModelCallback.PROPERTY, IEProperties.DYNAMICRENDER);
 		setHardness(3.0F);
 		setResistance(15.0F);
 		lightOpacity = 0;
