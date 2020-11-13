@@ -1,0 +1,27 @@
+{
+	"forge_marker": 1,
+	"defaults":
+	{
+		"model": "cube_all"
+	},
+	"variants": {
+		"inventory,type=emergency_lamp": [{
+			"model":  "immersive_energy:emergency_lamp"
+		}],
+		"type": 
+		{
+			"emergency_lamp": {
+				"model": "immersive_energy:smartmodel/empty"
+			}
+		},
+		"_1dynamicrender":
+		{
+			"false":{
+				"model": "immersive_energy:emergency_lamp"
+			},
+			"true":{
+				"model":  "immersive_energy:emergency_lamp_light"
+			}
+		}
+	}
+}

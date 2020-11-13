@@ -41,6 +41,7 @@ tile.immersive_energy.metal_generators0.solar_panel.name=Portable Solar Panel
 
 //Machines
 tile.immersive_energy.metal_machines0.gas_burner.name=Portable Gas Burner
+tile.immersive_energy.emergency_lamp.emergency_lamp.name=Unportable Gas Burner
 
 //Sheetmetal
 tile.immersive_energy.sheetmetal.thorium.name=Thorium Sheetmetal

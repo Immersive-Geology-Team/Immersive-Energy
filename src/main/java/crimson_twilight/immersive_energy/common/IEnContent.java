@@ -18,10 +18,7 @@ import crimson_twilight.immersive_energy.common.blocks.BlockTypes_MetalsIEn;
 import crimson_twilight.immersive_energy.common.blocks.BlockTypes_OresIEn;
 import crimson_twilight.immersive_energy.common.blocks.ItemBlockIEnBase;
 import crimson_twilight.immersive_energy.common.blocks.TileEntityIEnSlab;
-import crimson_twilight.immersive_energy.common.blocks.metal.BlockGenerators0;
-import crimson_twilight.immersive_energy.common.blocks.metal.BlockMachines0;
-import crimson_twilight.immersive_energy.common.blocks.metal.TileEntityGasBurner;
-import crimson_twilight.immersive_energy.common.blocks.metal.TileEntitySolarPanel;
+import crimson_twilight.immersive_energy.common.blocks.metal.*;
 import crimson_twilight.immersive_energy.common.blocks.multiblock.BlockMetalMultiblock0;
 import crimson_twilight.immersive_energy.common.blocks.multiblock.MultiblockFluidBattery;
 import crimson_twilight.immersive_energy.common.blocks.multiblock.TileEntityFluidBattery;
@@ -77,6 +74,7 @@ public class IEnContent
 	
 	public static BlockGenerators0 blockGenerators0;
 	public static BlockMachines0 blockMachines0;
+	public static BlockEmergencyLamp blockEmergencyLamp;
 
 	public static BlockMetalMultiblock0 blockMetalMultiblock;
 
@@ -109,6 +107,7 @@ public class IEnContent
 		
 		blockGenerators0 = new BlockGenerators0();
 		blockMachines0 = new BlockMachines0();
+		blockEmergencyLamp = new BlockEmergencyLamp();
 		blockMetalMultiblock = new BlockMetalMultiblock0();
 
 		//Items
@@ -164,7 +163,8 @@ public class IEnContent
 		/*TILEENTITIES*/
 		registerTile(TileEntityIEnSlab.class);
 		registerTile(TileEntitySolarPanel.class); 
-		registerTile(TileEntityGasBurner.class); 
+		registerTile(TileEntityEmergencyLight.class);
+		registerTile(TileEntityGasBurner.class);
 		registerTile(TileEntityFluidBattery.class);
 
 		//Multiblocks

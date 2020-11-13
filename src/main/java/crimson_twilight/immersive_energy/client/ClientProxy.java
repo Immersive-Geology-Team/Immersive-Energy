@@ -25,12 +25,14 @@ import blusunrize.lib.manual.ManualPages;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
 import crimson_twilight.immersive_energy.client.gui.GUIGasBurner;
 import crimson_twilight.immersive_energy.client.model.EvenMoreImmersiveModelRegistry;
+import crimson_twilight.immersive_energy.client.render.EmergencyLightRenderer;
 import crimson_twilight.immersive_energy.client.render.FluidBatteryRenderer;
 import crimson_twilight.immersive_energy.common.CommonProxy;
 import crimson_twilight.immersive_energy.common.IEnContent;
 import crimson_twilight.immersive_energy.common.IEnGUIList;
 import crimson_twilight.immersive_energy.common.blocks.BlockTypes_OresIEn;
 import crimson_twilight.immersive_energy.common.blocks.metal.BlockTypes_Generators0;
+import crimson_twilight.immersive_energy.common.blocks.metal.TileEntityEmergencyLight;
 import crimson_twilight.immersive_energy.common.blocks.metal.TileEntityGasBurner;
 import crimson_twilight.immersive_energy.common.blocks.multiblock.MultiblockFluidBattery;
 import crimson_twilight.immersive_energy.common.blocks.multiblock.TileEntityFluidBattery;
@@ -111,6 +113,7 @@ public class ClientProxy extends CommonProxy
 		 */
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluidBattery.class, new FluidBatteryRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEmergencyLight.class, new EmergencyLightRenderer());
 
 	}
 	
@@ -125,6 +128,7 @@ public class ClientProxy extends CommonProxy
 	public static void registerModels(ModelRegistryEvent evt)
 	{
 		WireApi.registerConnectorForRender("solar_panel", new ResourceLocation(ImmersiveEnergy.MODID+":block/solar_panel.obj"), null);
+		WireApi.registerConnectorForRender("empty", new ResourceLocation(ImmersiveEnergy.MODID+":block/empty.obj"), null);
 
 		for (Block block : IEnContent.registeredIEnBlocks)
 		{
