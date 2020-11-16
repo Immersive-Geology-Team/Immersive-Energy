@@ -15,6 +15,8 @@ import crimson_twilight.immersive_energy.common.blocks.metal.TileEntityGasBurner
 import crimson_twilight.immersive_energy.common.blocks.multiblock.MultiblockFluidBattery;
 import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
 import crimson_twilight.immersive_energy.common.gui.ContainerGasBurner;
+import crimson_twilight.immersive_energy.common.util.IEnKeybinds;
+import crimson_twilight.immersive_energy.common.util.network.IEnPacketHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -34,6 +36,8 @@ public class CommonProxy implements IGuiHandler
 	public void preInit()
 	{
 		IEnCompatModule.doModulesPreInit();
+		IEnPacketHandler.preInit();
+		IEnKeybinds.Register();
 	}
 
 	public void preInitEnd()

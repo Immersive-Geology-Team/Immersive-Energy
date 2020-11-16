@@ -1,14 +1,12 @@
 package crimson_twilight.immersive_energy;
 
-import blusunrize.immersiveengineering.common.util.compat.IECompatModule;
-import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
-import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import org.apache.logging.log4j.Logger;
 
 import blusunrize.immersiveengineering.common.IEContent;
 import crimson_twilight.immersive_energy.client.RenderGuiHandler;
 import crimson_twilight.immersive_energy.common.CommonProxy;
 import crimson_twilight.immersive_energy.common.IEnContent;
+import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
 import crimson_twilight.immersive_energy.common.entities.EntityIEnArrow;
 import crimson_twilight.immersive_energy.common.items.IEnArrowBase;
 import crimson_twilight.immersive_energy.common.world.IEnWorldGen;
@@ -25,6 +23,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -37,7 +36,7 @@ public class ImmersiveEnergy
 
     public static final String MODID = "immersive_energy";
     public static final String MODNAME = "Immersive Energy";
-    public static final String MODVERSION= "0.5.3";
+    public static final String MODVERSION= "0.5.4";
 
 	@Mod.Instance(MODID)
 	public static ImmersiveEnergy instance = new ImmersiveEnergy();
@@ -47,7 +46,7 @@ public class ImmersiveEnergy
 
     public static Logger logger;
 
-	public static final SimpleNetworkWrapper packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
+	//public static final SimpleNetworkWrapper packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent e) 
