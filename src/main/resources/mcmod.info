@@ -8,8 +8,8 @@
   "url": "",
   "updateUrl": "",
   "authorList": ["Crimson Twilight"],
-  "credits": "McJTY",
-  "logoFile": "",
+  "credits": "McJTY, Pabilo8 , Muddykat, Bootstrap22",
+  "logoFile": "assets/immersive_energy/logo.png",
   "screenshots": [],
   "dependencies": ["immersiveengineering"]
 }
