@@ -8,6 +8,7 @@ import blusunrize.immersiveengineering.api.energy.wires.ImmersiveNetHandler;
 import blusunrize.immersiveengineering.api.energy.wires.ImmersiveNetHandler.AbstractConnection;
 import blusunrize.immersiveengineering.api.energy.wires.ImmersiveNetHandler.Connection;
 import blusunrize.immersiveengineering.api.energy.wires.TileEntityImmersiveConnectable;
+import blusunrize.immersiveengineering.client.models.IOBJModelCallback;
 import blusunrize.immersiveengineering.common.Config.IEConfig;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces.ITileDrop;
 import blusunrize.immersiveengineering.common.blocks.metal.TileEntityConnectorMV;
@@ -34,7 +35,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TileEntityEmergencyLight extends TileEntityImmersiveConnectable implements ITickable, IIEInternalFluxHandler, ITileDrop, IIEInternalFluxConnector {
+public class TileEntityEmergencyLight extends TileEntityImmersiveConnectable implements ITickable, IIEInternalFluxHandler, ITileDrop, IIEInternalFluxConnector, IOBJModelCallback<IBlockState> {
 
     public boolean active;
     public int currentTickAccepted = 0;

@@ -1,8 +1,12 @@
 {
 	"forge_marker": 1,
-	"defaults":
-	{
-		"model": "cube_all"
+	"defaults": {
+		"transform": "forge:default-block",
+		"textures": {
+		},
+		"custom": {
+			"flip-v": true
+		}
 	},
 	"variants": {
 		"inventory,type=solar_panel": [{
@@ -39,6 +43,14 @@
 		{
 			"false":{},
 			"true":{}
+		},
+		"boolean0": {
+			"false": {},
+			"true": {}
+		},
+		"boolean1": {
+			"false": {},
+			"true": {}
 		}
 	}
 }

@@ -99,6 +99,16 @@ public class ClientProxy extends CommonProxy
 				.setTransformations(TransformType.GROUND, new Matrix4().scale(.0625, .0625, .0625).translate(0.75, 6.75, -0.5)));
 		IEnContent.toolHeftyWrench.setTileEntityItemStackRenderer(ItemRendererIEOBJ.INSTANCE);
 
+		EvenMoreImmersiveModelRegistry.instance.registerCustomItemModel(new ItemStack(IEnContent.itemPowerArmorHelmet, 1, 0), new ImmersiveModelRegistry.ItemModelReplacement_OBJ(ImmersiveEnergy.MODID+":models/item/envirosuit_helmet_WIP.obj", true)
+				.setTransformations(TransformType.FIRST_PERSON_RIGHT_HAND, new Matrix4().scale(.0625, .0625, .0625).translate(12, 0, -8.25))
+				.setTransformations(TransformType.FIRST_PERSON_LEFT_HAND, new Matrix4().scale(-.0625, .0625, .0625).translate(-12, 0, -8.25))
+				.setTransformations(TransformType.THIRD_PERSON_RIGHT_HAND, new Matrix4().scale(.0625, .0625, .0625).translate(0.25, 4, 1.5).scale(1.1, 1.1, 1.1))
+				.setTransformations(TransformType.THIRD_PERSON_LEFT_HAND, new Matrix4().scale(.0625, .0625, .0625).translate(-0.25, 4, 1.5).scale(1.1, 1.1, 1.1))
+				.setTransformations(TransformType.FIXED, new Matrix4().scale(.0625, .0625, .0625).translate(.125, .125, -.25).scale(.3125, .3125, .3125).rotate(Math.PI, 0, 1, 0).rotate(Math.PI*.25, 0, 0, 1))
+				.setTransformations(TransformType.GUI, new Matrix4().scale(.0625, .0625, .0625).translate(0,0.25,7.25).rotate(-Math.PI*52/180f, 1, 0, 0).rotate(Math.PI*31/180f, 0, 1, 0).rotate(Math.PI*46/180f, 0, 0, 1).scale(0.9,0.9,0.9))
+				.setTransformations(TransformType.GROUND, new Matrix4().scale(.0625, .0625, .0625).translate(0.75, 6.75, -0.5)));
+		IEnContent.itemPowerArmorHelmet.setTileEntityItemStackRenderer(ItemRendererIEOBJ.INSTANCE);
+
 
 		//45, -135, 45
 
@@ -130,7 +140,7 @@ public class ClientProxy extends CommonProxy
 	public static void registerModels(ModelRegistryEvent evt)
 	{
 		WireApi.registerConnectorForRender("solar_panel", new ResourceLocation(ImmersiveEnergy.MODID+":block/solar_panel.obj"), null);
-		WireApi.registerConnectorForRender("empty", new ResourceLocation(ImmersiveEnergy.MODID+":block/empty.obj"), null);
+		WireApi.registerConnectorForRender("ien_empty", new ResourceLocation(ImmersiveEnergy.MODID+":block/empty.obj"), null);
 
 		for (Block block : IEnContent.registeredIEnBlocks)
 		{

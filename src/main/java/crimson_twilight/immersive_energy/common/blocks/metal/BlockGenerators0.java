@@ -36,12 +36,12 @@ public class BlockGenerators0 extends BlockIEnTileProvider<BlockTypes_Generators
 	
 	public BlockGenerators0() 
 	{
-		super("metal_generators0",Material.IRON, PropertyEnum.create("type", BlockTypes_Generators0.class), ItemBlockIEnBase.class, IEProperties.FACING_HORIZONTAL, IEProperties.MULTIBLOCKSLAVE, IOBJModelCallback.PROPERTY);
+		super("metal_generators0",Material.IRON, PropertyEnum.create("type", BlockTypes_Generators0.class), ItemBlockIEnBase.class, IEProperties.FACING_HORIZONTAL, IEProperties.MULTIBLOCKSLAVE, IOBJModelCallback.PROPERTY, IEProperties.BOOLEANS[0], IEProperties.BOOLEANS[1]);
 		this.setHardness(3.0F);
 		this.setResistance(15.0F);
 		lightOpacity = 0;
-		this.setMetaBlockLayer(BlockTypes_Generators0.SOLAR_PANEL.getMeta(), BlockRenderLayer.CUTOUT);
-		this.setNotNormalBlock(BlockTypes_Generators0.SOLAR_PANEL.getMeta());
+		setAllNotNormalBlock();
+
 	}
 
 	@Override

@@ -33,7 +33,7 @@ public class BlockEmergencyLamp extends BlockIEnTileProvider<BlockTypes_Emergenc
     public static final AxisAlignedBB SOLAR_PANEL_BASE_AABB = new AxisAlignedBB(0.3125, 0, 0.3125, 0.6875, 0.6125, 0.6875);
 
     public BlockEmergencyLamp() {
-        super("emergency_lamp", Material.IRON, PropertyEnum.create("type", BlockTypes_EmergencyLamp.class), ItemBlockIEnBase.class, IOBJModelCallback.PROPERTY, IEProperties.DYNAMICRENDER);
+        super("emergency_lamp", Material.IRON, PropertyEnum.create("type", BlockTypes_EmergencyLamp.class), ItemBlockIEnBase.class, IOBJModelCallback.PROPERTY, IEProperties.DYNAMICRENDER, IEProperties.BOOLEANS[0], IEProperties.BOOLEANS[1]);
         this.setHardness(3.0F);
         this.setResistance(15.0F);
         setBlockLayer(BlockRenderLayer.TRANSLUCENT);

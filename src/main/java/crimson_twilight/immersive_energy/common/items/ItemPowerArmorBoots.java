@@ -7,10 +7,12 @@ import blusunrize.immersiveengineering.common.Config.IEConfig;
 import blusunrize.immersiveengineering.common.util.IEDamageSources.ElectricDamageSource;
 import com.google.common.collect.Multimap;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
+import crimson_twilight.immersive_energy.client.model.PowerArmorModel;
 import crimson_twilight.immersive_energy.common.IEnContent;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -61,8 +63,12 @@ public class ItemPowerArmorBoots extends ItemUpgradeableArmor implements IElectr
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot,
 									ModelBiped _default)
 	{
-		// TODO Auto-generated method stub
-		return super.getArmorModel(entityLiving, itemStack, armorSlot, _default);
+		return getModel(armorSlot,itemStack);
+	}
+
+	@Override
+	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
+		return super.getArmorTexture(stack, entity, slot, type);
 	}
 
 	public static void playBlockedSound(EntityLivingBase entity)

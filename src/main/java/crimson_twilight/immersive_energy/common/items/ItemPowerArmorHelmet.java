@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import blusunrize.immersiveengineering.client.models.IOBJModelCallback;
 import com.google.common.collect.Multimap;
 
 import blusunrize.immersiveengineering.api.Lib;
@@ -21,6 +22,7 @@ import crimson_twilight.immersive_energy.common.util.MessageItemNightVisionSwitc
 import crimson_twilight.immersive_energy.common.util.network.IEnPacketHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.ITooltipFlag;
@@ -42,9 +44,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod.EventBusSubscriber(modid = ImmersiveEnergy.MODID)
-public class ItemPowerArmorHelmet extends ItemUpgradeableArmor implements IElectricEquipment
+public class ItemPowerArmorHelmet extends ItemUpgradeableArmor implements IElectricEquipment, IOBJModelCallback<ItemStack>
 {
-	Minecraft mc = Minecraft.getMinecraft();
 	private static final UUID[] ARMOR_MODIFIERS = new UUID[] {UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
 	public ItemPowerArmorHelmet()
 	{
@@ -137,5 +138,12 @@ public class ItemPowerArmorHelmet extends ItemUpgradeableArmor implements IElect
 	public int getSlotCount()
 	{
 		return 3;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped _default)
+	{
+		return getModel(armorSlot,itemStack);
 	}
 }

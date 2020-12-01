@@ -168,7 +168,7 @@ public class ItemPowerArmorChestplate extends ItemUpgradeableArmor implements IE
 	@SideOnly(Side.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped _default)
 	{
-		return ModelPowerpack.getModel();
+		return getModel(armorSlot,itemStack);
 	}
 	
 	@Override

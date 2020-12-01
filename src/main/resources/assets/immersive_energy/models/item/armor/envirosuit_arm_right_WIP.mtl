@@ -1,0 +1,5 @@
+# Blender MTL File: 'immersive energy envirosuit.blend'
+# Material Count: 1
+
+newmtl Steel
+map_Ka immersive_energy:armor/envirosuit

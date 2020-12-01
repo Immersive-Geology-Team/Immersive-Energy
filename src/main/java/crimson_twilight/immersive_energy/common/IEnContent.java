@@ -92,7 +92,7 @@ public class IEnContent
 	
 	public static IEnArrowBase itemArrow;
 	public static ItemIEnBase itemUpgrades;
-	public static ItemIEBase toolHeftyWrench;
+	public static ToolHeftyWrench toolHeftyWrench;
 	//public static ItemIEBase toolUpgradeableCrossbow;
 	
 	

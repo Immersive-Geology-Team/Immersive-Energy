@@ -53,17 +53,6 @@ public class EvenMoreImmersiveModelRegistry
 				}
 			}
 		}
-
-		ModelResourceLocation mLoc = new ModelResourceLocation(new ResourceLocation(ImmersiveEnergy.MODID, IEContent.itemCoresample.itemName), "inventory");
-		event.getModelRegistry().putObject(mLoc, new ModelCoresample());
-		IConveyorBelt belt = ConveyorHandler.getConveyor(new ResourceLocation(ImmersiveEnergy.MODID, "conveyor"), null);
-		ModelConveyor modelConveyor = new ModelConveyor(belt);
-		mLoc = new ModelResourceLocation(new ResourceLocation(ImmersiveEnergy.MODID, "conveyor"), "normal");
-		event.getModelRegistry().putObject(mLoc, modelConveyor);
-		mLoc = new ModelResourceLocation(new ResourceLocation(ImmersiveEnergy.MODID, "conveyor"), "inventory");
-		event.getModelRegistry().putObject(mLoc, modelConveyor);
-		mLoc = new ModelResourceLocation(new ResourceLocation(ImmersiveEnergy.MODID, "connector"), "inventory,type=feedthrough");
-		event.getModelRegistry().putObject(mLoc, new FeedthroughModel());
 	}
 
 	public void registerCustomItemModel(ItemStack stack, ItemModelReplacement replacement)

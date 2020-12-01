@@ -1,8 +1,12 @@
 {
 	"forge_marker": 1,
-	"defaults":
-	{
-		"model": "cube_all"
+	"defaults": {
+		"transform": "forge:default-block",
+		"textures": {
+		},
+		"custom": {
+			"flip-v": true
+		}
 	},
 	"variants": {
 		"inventory,type=emergency_lamp": [{
@@ -11,17 +15,25 @@
 		"type": 
 		{
 			"emergency_lamp": {
-				"model": "immersive_energy:smartmodel/empty"
+				"model": "immersive_energy:smartmodel/conn_ien_empty"
 			}
 		},
 		"_1dynamicrender":
 		{
 			"false":{
-				"model": "immersive_energy:emergency_lamp"
+				"model": "immersive_energy:smartmodel/conn_ien_empty"
 			},
 			"true":{
 				"model":  "immersive_energy:emergency_lamp_light"
 			}
+		},
+		"boolean0": {
+			"false": {},
+			"true": {}
+		},
+		"boolean1": {
+			"false": {},
+			"true": {}
 		}
 	}
 }
