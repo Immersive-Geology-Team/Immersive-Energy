@@ -10,6 +10,7 @@ import blusunrize.immersiveengineering.common.util.Utils;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
+import crimson_twilight.immersive_energy.api.IEnMaths;
 import crimson_twilight.immersive_energy.api.IHeatableArmor;
 import crimson_twilight.immersive_energy.client.model.PowerArmorModel;
 import crimson_twilight.immersive_energy.common.Config.IEnConfig.Tools;
@@ -71,15 +72,19 @@ public abstract class ItemUpgradeableArmor extends ItemArmor implements IUpgrade
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (getHeat(stack) >= getMaxHeat(stack)) {
-            tooltip.add("Heat: " + TextFormatting.RED + getHeat(stack) + TextFormatting.getTextWithoutFormattingCodes(" / " + getMaxHeat(stack)));
+            tooltip.add("Suit Temp: " + TextFormatting.RED + IEnMaths.round(getHeat(stack)) + TextFormatting.getTextWithoutFormattingCodes(" C / " + IEnMaths.round(getMaxHeat(stack)) + " C"));
         } else if (getHeat(stack) >= (double) getMaxHeat(stack) * 0.75d) {
-            tooltip.add("Heat: " + TextFormatting.GOLD + getHeat(stack) + TextFormatting.getTextWithoutFormattingCodes(" / " + getMaxHeat(stack)));
+            tooltip.add("Suit Temp: " + TextFormatting.GOLD + IEnMaths.round(getHeat(stack)) + TextFormatting.getTextWithoutFormattingCodes(" C / " + IEnMaths.round(getMaxHeat(stack)) + " C"));
         } else if (getHeat(stack) >= (double) getMaxHeat(stack) * 0.5d) {
-            tooltip.add("Heat: " + TextFormatting.YELLOW + getHeat(stack) + TextFormatting.getTextWithoutFormattingCodes(" / " + getMaxHeat(stack)));
-        } else if (getHeat(stack) >= (double) getMaxHeat(stack) * 0.25d) {
-            tooltip.add("Heat: " + TextFormatting.AQUA + getHeat(stack) + TextFormatting.getTextWithoutFormattingCodes(" / " + getMaxHeat(stack)));
+            tooltip.add("Suit Temp: " + TextFormatting.YELLOW + IEnMaths.round(getHeat(stack)) + TextFormatting.getTextWithoutFormattingCodes(" C / " + IEnMaths.round(getMaxHeat(stack)) + " C"));
+        } else if (getHeat(stack) <= (double) getMaxHeat(stack) * 0.15d) {
+            tooltip.add("Suit Temp: " + TextFormatting.AQUA + IEnMaths.round(getHeat(stack)) + TextFormatting.getTextWithoutFormattingCodes(" C / " + IEnMaths.round(getMaxHeat(stack)) + " C"));
+        } else if (getHeat(stack) <= 0) {
+            tooltip.add("Suit Temp: " + TextFormatting.WHITE + IEnMaths.round(getHeat(stack)) + TextFormatting.getTextWithoutFormattingCodes(" C / " + IEnMaths.round(getMaxHeat(stack)) + " C"));
         } else
-            tooltip.add("Heat: " + getHeat(stack) + " / " + getMaxHeat(stack));
+            tooltip.add("Suit Temp: " + IEnMaths.round(getHeat(stack)) + " C / " + IEnMaths.round(getMaxHeat(stack)) + " C");
+        
+        //tooltip.add("Exterior Temp: " + IEnMaths.round(ItemNBTHelper.getFloat(stack, "ExtHeat")) + " C");
     }
 
     protected String getNameForPart(EntityEquipmentSlot equipmentSlotIn) {
@@ -207,14 +212,16 @@ public abstract class ItemUpgradeableArmor extends ItemArmor implements IUpgrade
         Random random = new Random();
         //Update old inventories to caps
         if (worldIn.getTotalWorldTime() % 10 == 0) {
-            modifyHeat(stack, -1);
+        	ItemNBTHelper.setFloat(stack, "ExtHeat", IEnMaths.modyfyTempBasedOnTime(worldIn.getBiome(entityIn.getPosition()).getTemperature(entityIn.getPosition()), worldIn));
+            modifyHeat(stack, IEnMaths.modyfyTempBasedOnTime(worldIn.getBiome(entityIn.getPosition()).getTemperature(entityIn.getPosition()), worldIn) - getHeat(stack));
             int damage = MathHelper.ceil((double) (getHeat(stack) - getMaxHeat(stack)) / 100d);
             if (damage > 0)
                 stack.attemptDamageItem(damage, random, null);
         }
         if (entityIn.isInWater() && !entityIn.isInLava()) {
-            modifyHeat(stack, -3);
-            if (worldIn.getTotalWorldTime() % 3 == 0 && getHeat(stack) >= Tools.heat_base_resist * 0.65) {
+        	if (worldIn.getTotalWorldTime() % 10 == 0) ItemNBTHelper.setFloat(stack, "ExtHeat", 4);
+            modifyHeat(stack, getHeat(stack) == 4 ? 0 : 0.5f * IEnMaths.abs( (4 - getHeat(stack)) ) * (4 - getHeat(stack)) );
+            if (worldIn.getTotalWorldTime() % 3 == 0 && getHeat(stack) >= 70) {
                 entityIn.playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH, 0.2f, 4f);
             }
         }
@@ -250,19 +257,19 @@ public abstract class ItemUpgradeableArmor extends ItemArmor implements IUpgrade
     }
 
     @Override
-    public void modifyHeat(ItemStack stack, int amount) {
+    public void modifyHeat(ItemStack stack, float amount) {
         //0 - no heat, 100 or 400 (100 per upgrade) - max heat, max reachable heat - 2 * heat
-        ItemNBTHelper.setInt(stack, "heat", (int) MathHelper.clamp(getHeat(stack) + amount, 0, getMaxHeat(stack) * 1.5f));
+        ItemNBTHelper.setFloat(stack, "heat", getHeat(stack) + amount/getHeatCap(stack));
     }
 
     @Override
-    public int getHeat(ItemStack stack) {
-        return ItemNBTHelper.getInt(stack, "heat");
+    public float getHeat(ItemStack stack) {
+        return ItemNBTHelper.getFloat(stack, "heat");
     }
 
     @Override
-    public int getMaxHeat(ItemStack stack) {
-        return Tools.heat_base_resist + getUpgrades(stack).getInteger("heat_protection");
+    public float getMaxHeat(ItemStack stack) {
+        return Tools.heat_base_resist;
     }
 
     @Override

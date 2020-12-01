@@ -120,4 +120,10 @@ public class ItemPowerArmorLegs extends ItemUpgradeableArmor implements IElectri
 		return getModel(armorSlot,itemStack);
 	}
 
+	@Override
+	public float getHeatCap(ItemStack stack) 
+	{
+		return 14000 + getUpgrades(stack).getFloat("heat_protection");
+	}
+
 }
