@@ -2,7 +2,6 @@ package crimson_twilight.immersive_energy.common;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import blusunrize.immersiveengineering.common.util.IELogger;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
 import crimson_twilight.immersive_energy.common.util.IEnLogger;
