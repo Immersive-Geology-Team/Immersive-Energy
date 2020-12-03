@@ -1,0 +1,112 @@
+#Creative tab
+itemGroup.immersive_energy=Immersive Energy
+
+#Items
+item.immersive_energy.metal.ingot_thorium.name=Sztabka Toru
+item.immersive_energy.metal.dust_thorium.name=Torowy Proszek
+item.immersive_energy.metal.nugget_thorium.name=Odłamek Toru
+item.immersive_energy.metal.plate_thorium.name=Torowa Płytka
+
+item.immersive_energy.metal.ingot_tungsten.name=Sztabka Wolframu
+item.immersive_energy.metal.dust_tungsten.name=Wolframowy Proszek
+item.immersive_energy.metal.nugget_tungsten.name=Odłamek Wolframu
+item.immersive_energy.metal.plate_tungsten.name=Wolframowa Płytka
+
+item.immersive_energy.material.stick_tungsten.name=Wolframowy Pręt
+item.immersive_energy.stick_thorium.name=Torowy Pręt
+item.immersive_energy.stick_uranium.name=Uranowy Pręt
+
+item.immersive_energy.material.solar_item.name=Baza Panelu Słonecznego
+
+item.immersive_energy.hefty_wrench.name=Klucz Nastawny
+item.immersive_energy.toolupgrade.wrench_electric.name=Elektryczne Ulepszenie do Klucza
+item.immersive_energy.toolupgrade.wrench_thermal.name=Termiczne Ulepszenie do Klucza
+item.immersive_energy.toolupgrade.wrench_magic.name=Magiczne Ulepszenie do Klucza
+item.immersive_energy.toolupgrade.wrench_capacitor.name=Akumulator do Klucza
+
+item.immersive_energy.arrow_shocking.name=Strzała Paraliżująca
+
+#Armor
+item.immersive_energy.power_armor_suit_head.name=Hełm Stroju Przeciwśrodowiskowego [WIP]
+item.immersive_energy.power_armor_suit_body.name=Napierśnik Stroju Przeciwśrodowiskowego [WIP]
+item.immersive_energy.power_armor_suit_leggs.name=Spodnie Stroju Przeciwśrodowiskowego [WIP]
+item.immersive_energy.power_armor_suit_boots.name=Buty Stroju Przeciwśrodowiskowego [WIP]
+
+#Blocks
+tile.immersive_energy.storage.thorium.name=Blok Toru
+tile.immersive_energy.storage.tungsten.name=Blok Wolframu
+
+#Generators
+tile.immersive_energy.metal_generators0.solar_panel.name=Przenośny Panel Słoneczny
+
+#Machines
+tile.immersive_energy.metal_machines0.gas_burner.name=Przenośna Kuchnia Gazowa
+tile.immersive_energy.emergency_lamp.emergency_lamp.name=Lampa Awaryjna
+
+#Sheetmetal
+tile.immersive_energy.sheetmetal.thorium.name=Torowa Blacha
+tile.immersive_energy.sheetmetal_slab.thorium.name=Półblok Torowej Blachy
+tile.immersive_energy.sheetmetal.tungsten.name=Wolframowa Blacha
+tile.immersive_energy.sheetmetal_slab.tungsten.name=Półblock Wolframowej Blachy
+
+#Ores
+tile.immersive_energy.ore.thorium.name=Ruda Toru
+tile.immersive_energy.ore.tungsten.name=Ruda Wolframu
+
+#Manual
+ie.manual.category.ien.name=Immersive Energy
+
+ie.manual.entry.oresIEn.name=Rudy w Immersive Energy
+ie.manual.entry.oresIEn.subtext=Teraz myślisz fraktalnie!
+ie.manual.entry.oresThorium=§lRudę Toru§r można znaleźć pomiędzy poziomem 8 i 24, do zebrania wymaga Żelaznego Kilofa.<br><br>Ruda może być przetopiona na sztabki, lecz ten metal nie ma obecnie wielu sposobów użycia. Blok Toru może służyć jako źródło ciepła dla <link;thermoElectric;§o§nGeneratora Termoelektrycznego§r;0>, a sam metal będzie używany w przyszłych maszynach.
+ie.manual.entry.oresTungsten=§lRudę Wolframu§r można znaleźć pomiędzy poziomem 8 i 24, do zebrania wymaga Diamentowego Kilofa.<br><br>Ruda może być przetopiona na sztabki, lecz ten metal nie ma obecnie wielu sposobów użycia. Wolframowy pręt może być użyty jako amunicja dla <link;railgun;§o§nRailguna§r;0>, a sam metal będzie używany w przyszłych maszynach.
+
+ie.manual.entry.solar_panel.name=Panele Słoneczne
+ie.manual.entry.solar_panel.subtext=Metaliczna Fotosynteza!
+ie.manual.entry.solar_item=§lBaza Panelu Słonecznego§r jest podstawowym materiałem do tworzenia wszystkich §lPaneli Słonecznych§r i jest ich najbardziej skomplikowaną częścią. Sama z siebie nie robi nic, za to jest używana w tworzeniu <link;solar_panel;§o§nPrzenośnego Panelu Słonecznego§r;3>.
+ie.manual.entry.solar_blueprint=§lPanele Słoneczne§r są zbyt skomplikowane by tworzyć je ręcznie, dlatego wymagany jest Schemat i Stół Inżynieryjny. Schemat ten służy to tworzenia wszystkiego, co jest związane z panelami słonecznymi.
+ie.manual.entry.solar_item1=Użycie Aluminium w <link;solar_panel;§o§nBazie Panelu Słonecznego§r;0> sprawia, że jest on dość lekki, nie posiada jednak możliwości przechowywania energii.
+ie.manual.entry.portable_solar=§lPrzenośny Panel Słoneczny§r jest małą, lecz skomplikowaną maszyną. Używa <link;solar_panel;§o§nBazy Panelu Słonecznego§r;0> by wytwarzać prąd, który będzie przechowywany w podstawie. Podstawa pozwala też przyłączać do niej kable. Gdy przestanie wytwarzać prąd, zacznie powoli tracić przechowywaną energię. Są różne czynniki, od których zależy ilość wytworzonego prądu: pora dnia, wysokość, pogoda i biom.
+ie.manual.entry.portable_solar1=Z powodu precyzyji potrzebnej do wykonania <link;solar_panel;§o§nBazy Panelu§r;0>, §lPrzenośny Panel Słoneczny§r nie może być wykonany ręcznie. Baza jest jednak na tyle wytrzymała, że gdy wykopany zostanie pod nią block, §lPrzenośny Panel Słoneczny§r nie będzie uszkodzony.
+ie.manual.entry.solar_table=Biome Modifiers:
+
+ie.manual.entry.hefty_wrench.name=Klucz Nastawny
+ie.manual.entry.hefty_wrench.subtext=Bij, aż zacznie działać
+ie.manual.entry.hefty_wrench1=§lKlucz Nastawny§r jest alternatywą dla młotka, można za jego pomocą obracać bloki, formować multibloki, i konfigurować strony, poza tym może być też użyty jako broń, nie można jednak za jego pomocą tworzyć proszków i płytek. Atak z pełnym zamachem może tymczasowo uszkodzić tarczę przeciwnika, podobnie jak robi to topór.
+ie.manual.entry.hefty_wrench_blueprint=§lKlucz Nastawny§r wymaga odpowiedniego schematu, ten sam służy też do tworzenia <link;hefty_wrench;§o§nUlepszeń§r;2>.
+ie.manual.entry.hefty_wrench_upgrades=Są trzy głowne §lUlepzenia§r, §lElektryczne§r, §lTermalne§r i §lMagiczne§r.<br>§lUlepszenie Elektryczne§r paraliżuje wrogów i zadaje dodatkowo 6 punktów obrażeń od energii, paraliż trwa jednak dość krótko. Każdy noszący <link;teslaCoil;§o§nStrój Faradaya§r;2> jest odporny na ten typ obrażeń.
+ie.manual.entry.hefty_wrench_upgrades2=§lUlepszenie Termiczne§r zadaje dodatkowe 2 punkty obrażeń od ognia i podpala wrogów na 4 sekundy.<br>§lUlepszenie Magiczne§r zadaje dodatkowe 4 punkty obrażeń od magii, które ignorują pancerz. Każde z ulepszeń dodaje 1600 IF miejsca na przechowanie energii i wymaga zasilenia klucza tą ilością energii do działania.
+ie.manual.entry.hefty_wrench_capacitor=Dostepny jest także §lAkumulator§r, który dodaje dodatkowe 28800 IF miejsca na przechowywaną energię . Gdy zainstalowane jest Immersive Intelligence, pozwala także działać §lKluczowi Nastawnemu§r jako §lZaawansowany Młotek§r służący do formowania Zaawansowanych Multibloków.
+ie.manual.entry.hefty_wrench_enchanting=§lKlucz Kastawny§r może zostać zaklęty §lNiezniszczalnością§r, §lNaprawą§r, §lWydajnością§r i §lZaklętym Ogniem§r. §lNiezniszczalność§r działa standardowo. §lNaprawa§r będzie powoli usuwała uszkodzenia §lKlucza§r za darmo, a później ładowała energię do 1600 IF. §lWydajność§r zmniejsza zużycie prądu przez ulepszenia o 300 IF na poziom. §lZaklęty Ogień§r, wraz z §lUlepszeniem Termicznym§r, każdy poziom doda 1 punkt obrażeń od ognia i zwiększy długość podpalenia o 4 sekundy.
+
+#Misc
+desc.immersiveengineering.info.rodFuel=Wartość Paliwowa
+desc.immersiveengineering.info.integrity=Integralność
+
+desc.immersiveengineering.info.blueprint.powerarmor=Strój Przeciwśrodowiskowy
+desc.immersiveengineering.info.blueprint.solar=Panele Słoneczne
+desc.immersiveengineering.info.blueprint.advanced_tool=Zaawansowane Narzędzia
+
+desc.immersiveengineering.electro=Elektryczny! Raź wrogów prądem!
+desc.immersiveengineering.thermal=Termiczny! Podpal swoich wrogów!
+desc.immersiveengineering.magic=Magiczny! Zadaj obrażenia ignorujące pancerz!
+
+desc.immersiveengineering.flavour.toolupgrade.wrench_electric=Może zaszokować!
+desc.immersiveengineering.flavour.toolupgrade.wrench_thermal=Nadeszło ciepełko!
+desc.immersiveengineering.flavour.toolupgrade.wrench_magic=Magiczny pocisk to to nie jest, ale potrafi dołożyć!
+desc.immersiveengineering.flavour.toolupgrade.wrench_capacitor=Mieści się w twojej nieistniejącej dłoni!
+
+key.helmet_night_vision=Noktowizor Stroju Przeciwśrodowiskowego [WIP]
+
+#Damage
+attribute.name.immersive_energy.damage=Obrażenia
+attribute.name.immersive_energy.knockback=Odrzut
+attribute.name.immersive_energy.magicaldamage=Obrażenia Magiczne
+attribute.name.immersive_energy.electricdamage=Obrażenia od Prądu
+attribute.name.immersive_energy.thermaldamage=Obrażenia od Ciepła
+
+desc.immersiveengineering.info.multiblock.IEn:FluidBattery=Akumulator Cieczy
+fluid.charge_fluid=Ciecz Prądotwórcza
+fluid.discharge_fluid=Ciecz Prądobiorcza
+
+death.attack.melting_suit=%1$s został ugotowany żywcem!
