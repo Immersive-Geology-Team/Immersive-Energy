@@ -115,6 +115,13 @@ public class GUIFluidBattery extends GuiIEContainerBase
 		this.drawTexturedModalRect(guiLeft+121,guiTop+25,176,80,18,18);
 		this.drawTexturedModalRect(guiLeft+121,guiTop+56,176,80,18,18);
 
+		boolean rs = !data&&tile.getWorld().isBlockPowered(tile.getBlockPosForPos(tile.getRedstonePos()[0]));
+
+		this.drawTexturedModalRect(guiLeft+17,guiTop+13,(switches[0]^rs?178:176),78,2,2);
+		this.drawTexturedModalRect(guiLeft+55,guiTop+13,(switches[2]^rs?178:176),78,2,2);
+		this.drawTexturedModalRect(guiLeft+119,guiTop+13,(switches[3]^rs?178:176),78,2,2);
+		this.drawTexturedModalRect(guiLeft+157,guiTop+13,(switches[1]^rs?178:176),78,2,2);
+
 		int energy=tile.tanks[1].getFluidAmount()*FluidBattery.IFAmount;
 		int maxEnergy=tile.tanks[1].getCapacity()*FluidBattery.IFAmount;
 
