@@ -68,10 +68,10 @@ public class GUIFluidBattery extends GuiIEContainerBase
 		ClientUtils.bindTexture(ImmersiveEnergy.MODID+":textures/gui/fluid_battery.png");
 		renderSwitch(guiLeft+96,guiTop+36,0,18,partialTicks, data,0xff0000,0xffffff);
 
-		renderSwitch(guiLeft+67,guiTop+48,1,18,partialTicks, switches[0],0x4c7bb1,0xffb515);
-		renderSwitch(guiLeft+96,guiTop+48,2,18,partialTicks, switches[1],0x4c7bb1,0xffb515);
-		renderSwitch(guiLeft+67,guiTop+59,3,18,partialTicks, switches[2],0x4c7bb1,0xffb515);
-		renderSwitch(guiLeft+96,guiTop+59,4,18,partialTicks, switches[3],0x4c7bb1,0xffb515);
+		renderSwitch(guiLeft+67,guiTop+59,1,18,partialTicks, switches[2],0x4c7bb1,0xffb515);
+		renderSwitch(guiLeft+96,guiTop+59,2,18,partialTicks, switches[3],0x4c7bb1,0xffb515);
+		renderSwitch(guiLeft+67,guiTop+48,3,18,partialTicks, switches[0],0x4c7bb1,0xffb515);
+		renderSwitch(guiLeft+96,guiTop+48,4,18,partialTicks, switches[1],0x4c7bb1,0xffb515);
 
 		tickSwitch(0,data);
 		for (int i = 0; i < switches.length; i++) {
@@ -145,22 +145,22 @@ public class GUIFluidBattery extends GuiIEContainerBase
 			}
 			else if(IEnCommonUtils.isPointInRectangle(guiLeft+67,guiTop+48,guiLeft+67+18,guiTop+48+9,mouseX,mouseY))
 			{
-				switches[0]=!switches[0];
+				switches[2]=!switches[2];
 				sendUpdatePacket();
 			}
 			else if(IEnCommonUtils.isPointInRectangle(guiLeft+96,guiTop+48,guiLeft+96+18,guiTop+48+9,mouseX,mouseY))
 			{
-				switches[1]=!switches[1];
+				switches[3]=!switches[3];
 				sendUpdatePacket();
 			}
 			else if(IEnCommonUtils.isPointInRectangle(guiLeft+67,guiTop+59,guiLeft+67+18,guiTop+59+9,mouseX,mouseY))
 			{
-				switches[2]=!switches[2];
+				switches[0]=!switches[0];
 				sendUpdatePacket();
 			}
 			else if(IEnCommonUtils.isPointInRectangle(guiLeft+96,guiTop+59,guiLeft+96+18,guiTop+59+9,mouseX,mouseY))
 			{
-				switches[3]=!switches[3];
+				switches[1]=!switches[1];
 				sendUpdatePacket();
 			}
 

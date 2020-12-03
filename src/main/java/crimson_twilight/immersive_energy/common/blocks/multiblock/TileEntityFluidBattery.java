@@ -302,7 +302,7 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
 
     @Override
     public int[] getEnergyPos() {
-        return new int[]{45, 49, 56, 58};
+        return new int[]{45, 56, 58, 49};
     }
 
     @Override
@@ -477,15 +477,29 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
         if (pos == 29 && master != null && enumFacing == master.facing.rotateY()) {
             //ImmersiveEnergy.logger.info("Otak!");
 
+            boolean update=false;
             IDataType c = dataPacket.getPacketVariable('c');
             if (master.dataControlMode && dataPacket.getPacketVariable('1') instanceof DataPacketTypeBoolean)
+            {
                 master.controlModes[0] = ((DataPacketTypeBoolean) dataPacket.getPacketVariable('1')).value;
+                update=true;
+            }
             if (master.dataControlMode && dataPacket.getPacketVariable('2') instanceof DataPacketTypeBoolean)
+            {
                 master.controlModes[1] = ((DataPacketTypeBoolean) dataPacket.getPacketVariable('2')).value;
+                update=true;
+            }
             if (master.dataControlMode && dataPacket.getPacketVariable('3') instanceof DataPacketTypeBoolean)
+            {
                 master.controlModes[2] = ((DataPacketTypeBoolean) dataPacket.getPacketVariable('3')).value;
+                update=true;
+            }
             if (master.dataControlMode && dataPacket.getPacketVariable('4') instanceof DataPacketTypeBoolean)
+            {
                 master.controlModes[3] = ((DataPacketTypeBoolean) dataPacket.getPacketVariable('4')).value;
+                update=true;
+            }
+            boolean update2=true;
             if (c instanceof DataPacketTypeString) {
                 IDataConnector conn = pl.pabilo8.immersiveintelligence.api.Utils.findConnectorFacing(getBlockPosForPos(29), world, master.facing.rotateY());
                 DataPacket p = new DataPacket();
@@ -529,7 +543,12 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
                         master.dataControlMode = !master.dataControlMode;
                     }
                     break;
+                    default:
+                        update2=false;
                 }
+            }
+            if(update||update2)
+            {
                 master.markDirty();
                 master.markBlockForUpdate(master.getPos(),null);
             }
