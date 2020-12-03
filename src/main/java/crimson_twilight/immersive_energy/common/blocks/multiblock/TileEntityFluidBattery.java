@@ -3,6 +3,7 @@ package crimson_twilight.immersive_energy.common.blocks.multiblock;
 import blusunrize.immersiveengineering.ImmersiveEngineering;
 import blusunrize.immersiveengineering.api.IEEnums;
 import blusunrize.immersiveengineering.api.crafting.IMultiblockRecipe;
+import blusunrize.immersiveengineering.api.energy.immersiveflux.FluxStorage;
 import blusunrize.immersiveengineering.client.models.IOBJModelCallback;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces.IAdvancedCollisionBounds;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces.IAdvancedSelectionBounds;
@@ -11,7 +12,6 @@ import blusunrize.immersiveengineering.common.blocks.metal.TileEntityMultiblockM
 import blusunrize.immersiveengineering.common.util.EnergyHelper;
 import blusunrize.immersiveengineering.common.util.Utils;
 import blusunrize.immersiveengineering.common.util.network.MessageTileSync;
-import crimson_twilight.immersive_energy.common.Config;
 import crimson_twilight.immersive_energy.common.IEnContent;
 import crimson_twilight.immersive_energy.common.IEnGUIList;
 import crimson_twilight.immersive_energy.common.compat.ImmersiveIntelligenceHelper;
@@ -28,6 +28,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidUtil;
@@ -50,7 +52,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static crimson_twilight.immersive_energy.common.Config.IEnConfig.Machines.*;
+import static crimson_twilight.immersive_energy.common.Config.IEnConfig.Machines.FluidBattery;
 
 /**
  * @author Pabilo8
@@ -181,13 +183,15 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
                 this.transferEnergy(i);
 
             if (update) {
-
+                markDirty();
+                markBlockForUpdate(this.getPos(), null);
             }
         }
     }
 
     private void transferEnergy(int i) {
         IEEnums.SideConfig energyBlockConfig = getEnergyBlockConfig(getEnergyPos()[i]);
+        boolean rs = world.isBlockPowered(getBlockPosForPos(getRedstonePos()[0]));
 
         if (energyBlockConfig != IEEnums.SideConfig.OUTPUT)
             return;
@@ -196,13 +200,18 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
 
         int out = getMaxOutput();
         int remaining = EnergyHelper.insertFlux(tileEntity, EnumFacing.DOWN, out, false);
-        tanks[1].drain(remaining/FluidBattery.IFAmount,true);
-        tanks[0].fill(new FluidStack(IEnContent.fluidDischarge,remaining/FluidBattery.IFAmount),true);
+        tanks[1].drain(remaining / FluidBattery.IFAmount, true);
+        tanks[0].fill(new FluidStack(IEnContent.fluidDischarge, remaining / FluidBattery.IFAmount), true);
     }
 
     private int getMaxOutput() {
-        int maxTank = tanks[0].getCapacity()-tanks[0].getFluidAmount();
-        return Math.min(Math.min(tanks[1].getFluidAmount(),maxTank) * FluidBattery.IFAmount, FluidBattery.maxOutput);
+        int maxTank = tanks[0].getCapacity() - tanks[0].getFluidAmount();
+        return Math.min(Math.min(tanks[1].getFluidAmount(), maxTank) * FluidBattery.IFAmount, FluidBattery.maxOutput);
+    }
+
+    private int getMaxInput() {
+        int maxTank = tanks[1].getCapacity() - tanks[1].getFluidAmount();
+        return Math.min(Math.min(tanks[0].getFluidAmount(), maxTank) * FluidBattery.IFAmount, FluidBattery.maxInput);
     }
 
     private boolean transferFluid(FluidStack out1, IFluidHandler output1) {
@@ -384,9 +393,9 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
     protected IFluidTank[] getAccessibleFluidTanks(EnumFacing side) {
         TileEntityFluidBattery master = this.master();
         if (master != null) {
-            if (pos == 1 || pos == 16)
+            if (pos == 1 || pos == 16 && side.getAxis().equals(this.facing.getAxis()))
                 return new FluidTank[]{master.tanks[0]};
-            else if (pos == 3 || pos == 18)
+            else if (pos == 3 || pos == 18 && side.getAxis().equals(this.facing.getAxis()))
                 return new FluidTank[]{master.tanks[1]};
         }
         return new FluidTank[0];
@@ -426,12 +435,15 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
 
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+        if(capability== CapabilityEnergy.ENERGY&&isEnergyPos())
+            return true;
         return super.hasCapability(capability, facing);
     }
 
     @Override
     public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-
+        if(capability== CapabilityEnergy.ENERGY&&isEnergyPos())
+            return (T)this.wrapper;
         return super.getCapability(capability, facing);
     }
 
@@ -466,56 +478,60 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
             //ImmersiveEnergy.logger.info("Otak!");
 
             IDataType c = dataPacket.getPacketVariable('c');
-            if (dataControlMode&&dataPacket.getPacketVariable('1') instanceof DataPacketTypeBoolean)
-                controlModes[0] = ((DataPacketTypeBoolean) dataPacket.getPacketVariable('1')).value;
-            if (dataControlMode&&dataPacket.getPacketVariable('2') instanceof DataPacketTypeBoolean)
-                controlModes[1] = ((DataPacketTypeBoolean) dataPacket.getPacketVariable('2')).value;
-            if (dataControlMode&&dataPacket.getPacketVariable('3') instanceof DataPacketTypeBoolean)
-                controlModes[2] = ((DataPacketTypeBoolean) dataPacket.getPacketVariable('3')).value;
-            if (dataControlMode&&dataPacket.getPacketVariable('4') instanceof DataPacketTypeBoolean)
-                controlModes[3] = ((DataPacketTypeBoolean) dataPacket.getPacketVariable('4')).value;
+            if (master.dataControlMode && dataPacket.getPacketVariable('1') instanceof DataPacketTypeBoolean)
+                master.controlModes[0] = ((DataPacketTypeBoolean) dataPacket.getPacketVariable('1')).value;
+            if (master.dataControlMode && dataPacket.getPacketVariable('2') instanceof DataPacketTypeBoolean)
+                master.controlModes[1] = ((DataPacketTypeBoolean) dataPacket.getPacketVariable('2')).value;
+            if (master.dataControlMode && dataPacket.getPacketVariable('3') instanceof DataPacketTypeBoolean)
+                master.controlModes[2] = ((DataPacketTypeBoolean) dataPacket.getPacketVariable('3')).value;
+            if (master.dataControlMode && dataPacket.getPacketVariable('4') instanceof DataPacketTypeBoolean)
+                master.controlModes[3] = ((DataPacketTypeBoolean) dataPacket.getPacketVariable('4')).value;
             if (c instanceof DataPacketTypeString) {
                 IDataConnector conn = pl.pabilo8.immersiveintelligence.api.Utils.findConnectorFacing(getBlockPosForPos(29), world, master.facing.rotateY());
                 DataPacket p = new DataPacket();
 
                 switch (((DataPacketTypeString) c).value) {
                     case "get_energy":
-                    case "get_in":
+                    case "get_in": {
                         p.setVariable('c', new DataPacketTypeString("fluid_in"));
-                        p.setVariable('g', new DataPacketTypeInteger(tanks[0].getFluidAmount()));
+                        p.setVariable('g', new DataPacketTypeInteger(master.tanks[0].getFluidAmount()));
                         if (conn != null)
                             conn.sendPacket(p);
-                        break;
-                    case "get_out":
+                    }
+                    break;
+                    case "get_out": {
                         p.setVariable('c', new DataPacketTypeString("fluid_out"));
-                        p.setVariable('g', new DataPacketTypeInteger(tanks[1].getFluidAmount()));
+                        p.setVariable('g', new DataPacketTypeInteger(master.tanks[1].getFluidAmount()));
                         if (conn != null)
                             conn.sendPacket(p);
-                        break;
+                    }
+                    break;
                     case "set_mode": {
                         IDataType m = p.getPacketVariable('m');
                         if (m instanceof DataPacketTypeBoolean)
-                            dataControlMode = ((DataPacketTypeBoolean) m).value;
+                            master.dataControlMode = ((DataPacketTypeBoolean) m).value;
                     }
                     break;
-                    case "set_redstone": {
-                        dataControlMode = false;
+                    case "set_redstone":
+                    case "disable_data": {
+                        master.dataControlMode = false;
                     }
                     break;
-                    case "set_data": {
-                        dataControlMode = true;
-                    }
-                    break;
+
+                    case "set_data":
                     case "enable_data":
-                        dataControlMode = true;
-                        break;
-                    case "disable_data":
-                        dataControlMode = false;
+                    {
+                        master.dataControlMode = true;
+                    }
                         break;
                     case "toggle_data":
-                        dataControlMode = !dataControlMode;
-                        break;
+                    {
+                        master.dataControlMode = !master.dataControlMode;
+                    }
+                    break;
                 }
+                master.markDirty();
+                master.markBlockForUpdate(master.getPos(),null);
             }
         }
     }
@@ -536,32 +552,132 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
     }
 
     private IEEnums.SideConfig getEnergyBlockConfig(int pos) {
+        boolean rs = !dataControlMode&&world.isBlockPowered(getBlockPosForPos(getRedstonePos()[0]));
         switch (pos) {
             case 45:
-                return this.controlModes[0] ? IEEnums.SideConfig.OUTPUT : IEEnums.SideConfig.INPUT;
+                return this.controlModes[0]^rs ? IEEnums.SideConfig.OUTPUT : IEEnums.SideConfig.INPUT;
             case 49:
-                return this.controlModes[1] ? IEEnums.SideConfig.OUTPUT : IEEnums.SideConfig.INPUT;
+                return this.controlModes[1]^rs ? IEEnums.SideConfig.OUTPUT : IEEnums.SideConfig.INPUT;
             case 56:
-                return this.controlModes[2] ? IEEnums.SideConfig.OUTPUT : IEEnums.SideConfig.INPUT;
+                return this.controlModes[2]^rs ? IEEnums.SideConfig.OUTPUT : IEEnums.SideConfig.INPUT;
             case 58:
-                return this.controlModes[3] ? IEEnums.SideConfig.OUTPUT : IEEnums.SideConfig.INPUT;
+                return this.controlModes[3]^rs ? IEEnums.SideConfig.OUTPUT : IEEnums.SideConfig.INPUT;
             default:
                 return IEEnums.SideConfig.NONE;
         }
     }
 
-    EnergyHelper.IEForgeEnergyWrapper wrapper = new EnergyHelper.IEForgeEnergyWrapper(this, null);
+    IEnFluidEnergyWrapper wrapper = new IEnFluidEnergyWrapper(this);
 
+    //Is acquired in getCapabilities, different than the built-in energy handler
+    public static class IEnFluidEnergyWrapper implements IEnergyStorage
+    {
+        TileEntityFluidBattery te;
+
+        public IEnFluidEnergyWrapper(TileEntityFluidBattery te)
+        {
+            this.te = te;
+        }
+
+        @Override
+        public int receiveEnergy(int maxReceive, boolean simulate)
+        {
+            TileEntityFluidBattery master = te.master();
+            if(!te.isEnergyPos()||master==null)
+                return 0;
+            if(!canReceive())
+                return 0;
+
+            int amount = Math.min(master.getMaxInput(),maxReceive);
+            master.tanks[0].drain(amount/FluidBattery.IFAmount,!simulate);
+            master.tanks[1].fill(new FluidStack(IEnContent.fluidCharge,amount/FluidBattery.IFAmount),!simulate);
+
+            if(amount>0)
+            {
+                master.markDirty();
+                master.markBlockForUpdate(master.getPos(),null);
+            }
+
+            return amount;
+        }
+
+        @Override
+        public int extractEnergy(int maxExtract, boolean simulate)
+        {
+            return 0;
+        }
+
+        @Override
+        public int getEnergyStored()
+        {
+            TileEntityFluidBattery master = te.master();
+            if(!te.isEnergyPos()||master==null)
+                return 0;
+            return master.tanks[1].getFluidAmount()*FluidBattery.IFAmount;
+        }
+
+        @Override
+        public int getMaxEnergyStored()
+        {
+            TileEntityFluidBattery master = te.master();
+            if(!te.isEnergyPos()||master==null)
+                return 0;
+            return master.tanks[1].getCapacity()*FluidBattery.IFAmount;
+        }
+
+        @Override
+        public boolean canExtract()
+        {
+            return false;
+        }
+
+        @Override
+        public boolean canReceive()
+        {
+            TileEntityFluidBattery master = te.master();
+            if(!te.isEnergyPos()||master==null)
+                return true;
+            return master.getEnergyBlockConfig(te.pos)== IEEnums.SideConfig.INPUT;
+        }
+    }
+
+    @Nonnull
     @Override
-    public EnergyHelper.IEForgeEnergyWrapper getCapabilityWrapper(EnumFacing facing) {
-        if (this.formed && this.isEnergyPos())
-            return wrapper;
+    public FluxStorage getFluxStorage()
+    {
         return null;
     }
 
     @Override
-    public void postEnergyTransferUpdate(int energy, boolean simulate) {
-        if (!simulate)
-            this.updateMasterBlock(null, energy != 0);
+    public void postEnergyTransferUpdate(int energy, boolean simulate)
+    {
+
+    }
+
+    @Override
+    public int extractEnergy(@Nullable EnumFacing fd, int amount, boolean simulate)
+    {
+        return 0;
+    }
+
+    @Override
+    public int getEnergyStored(@Nullable EnumFacing fd)
+    {
+        return 0;
+    }
+
+    @Override
+    public int getMaxEnergyStored(@Nullable EnumFacing fd)
+    {
+        return 0;
+    }
+
+    @Override
+    public int receiveEnergy(@Nullable EnumFacing fd, int amount, boolean simulate)
+    {
+        if(fd == EnumFacing.UP)
+        return this.wrapper.receiveEnergy(amount,simulate);
+        else
+            return 0;
     }
 }
