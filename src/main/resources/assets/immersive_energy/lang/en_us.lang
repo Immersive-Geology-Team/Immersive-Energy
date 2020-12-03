@@ -96,6 +96,8 @@ desc.immersiveengineering.flavour.toolupgrade.wrench_thermal=Bringing the heat!
 desc.immersiveengineering.flavour.toolupgrade.wrench_magic=Not quite a magic missile, but it works!
 desc.immersiveengineering.flavour.toolupgrade.wrench_capacitor=Fits in the non existent palm of your hand!
 
+desc.immersiveengineering.multiblock.IEn:FluidBattery=Fluid Battery
+
 key.helmet_night_vision=Environmental Suit Night Vision [WIP]
 
 #Damage
@@ -106,3 +108,6 @@ attribute.name.immersive_energy.electricdamage=Electric Damage
 attribute.name.immersive_energy.thermaldamage=Thermal Damage
 
 death.attack.melting_suit=%1$s was cooked alive!
+
+fluid.charge_fluid=Charge Fluid
+fluid.discharge_fluid=Discharge Fluid

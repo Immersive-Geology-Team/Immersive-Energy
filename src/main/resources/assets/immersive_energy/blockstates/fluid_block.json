@@ -1,0 +1,15 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "forge:fluid",
+		"transform": "forge:default-item"
+	},
+	"variants": {
+		"charge_fluid": [{
+			"custom": { "fluid": "charge_fluid" }
+		}],
+		"discharge_fluid": [{
+			"custom": { "fluid": "discharge_fluid" }
+		}]
+	}
+}

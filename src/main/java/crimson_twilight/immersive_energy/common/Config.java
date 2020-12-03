@@ -79,6 +79,32 @@ public class Config
 					"gasoline, 20",
 					"methanol, 20"
 			};
+
+			@SubConfig
+			FluidBattery fluidBattery;
+
+			public static class FluidBattery
+			{
+				@Comment({"Fluid capacity of one tank of the Fluid Battery (in mB)"})
+				@RangeInt(min = 1)
+				@net.minecraftforge.common.config.Config.RequiresMcRestart
+				public static int fluidCapacity = 24000;
+
+				@Comment({"Energy exchange amount (in IF)"})
+				@RangeInt(min = 1)
+				@net.minecraftforge.common.config.Config.RequiresMcRestart
+				public static int IFAmount = 1024;
+
+				@Comment({"Amout of energy that can be inputted to one energy port(in IF/Tick)"})
+				@RangeInt(min = 1)
+				@net.minecraftforge.common.config.Config.RequiresMcRestart
+				public static int maxInput = 8192;
+
+				@Comment({"Amout of energy that can be outputted on one energy port(in IF/Tick)"})
+				@RangeInt(min = 1)
+				@net.minecraftforge.common.config.Config.RequiresMcRestart
+				public static int maxOutput = 8192;
+			}
 		}
 		
 		public static class Ores

@@ -30,7 +30,7 @@ public enum BlockTypes_MetalMultiblock0 implements IStringSerializable, BlockIEn
 	@Override
 	public boolean listForCreative() 
 	{
-		return true;
+		return false;
 	}
 
 	public boolean needsCustomState()

@@ -13,7 +13,9 @@ import blusunrize.immersiveengineering.common.items.IEItemInterfaces.IGuiItem;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
 import crimson_twilight.immersive_energy.common.blocks.metal.TileEntityGasBurner;
 import crimson_twilight.immersive_energy.common.blocks.multiblock.MultiblockFluidBattery;
+import crimson_twilight.immersive_energy.common.blocks.multiblock.TileEntityFluidBattery;
 import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
+import crimson_twilight.immersive_energy.common.gui.ContainerFluidBattery;
 import crimson_twilight.immersive_energy.common.gui.ContainerGasBurner;
 import crimson_twilight.immersive_energy.common.util.IEnKeybinds;
 import crimson_twilight.immersive_energy.common.util.network.IEnPacketHandler;
@@ -105,10 +107,10 @@ public class CommonProxy implements IGuiHandler
 		{
 			Object gui = null;
 			if (ID==IEnGUIList.GUI_GAS_BURNER && tile instanceof TileEntityGasBurner)
-			{
 				gui = new ContainerGasBurner(player.inventory, (TileEntityGasBurner)tile);
-			}
-			
+			else if (ID==IEnGUIList.GUI_FLUID_BATTERY && tile instanceof TileEntityFluidBattery)
+				gui = new ContainerFluidBattery(player.inventory, (TileEntityFluidBattery)tile);
+
 			((IGuiTile)tile).onGuiOpened(player, false);
 			return gui;
 		}

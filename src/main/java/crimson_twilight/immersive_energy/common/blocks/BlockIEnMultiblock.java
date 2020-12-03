@@ -31,6 +31,7 @@ public abstract class BlockIEnMultiblock<E extends Enum<E> & BlockIEnBase.IBlock
 		this.hasMultiblockTile = new boolean[this.enumValues.length];
 		for(int i = 0; i < this.hasMultiblockTile.length; i++)
 			this.hasMultiblockTile[i] = true;
+
 	}
 
 	@Override
