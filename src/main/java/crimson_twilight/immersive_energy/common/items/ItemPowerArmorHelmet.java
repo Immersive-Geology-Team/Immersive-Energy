@@ -146,4 +146,10 @@ public class ItemPowerArmorHelmet extends ItemUpgradeableArmor implements IElect
 	{
 		return getModel(armorSlot,itemStack);
 	}
+
+	@Override
+	public float getHeatCap(ItemStack stack) 
+	{
+		return 10000 + getUpgrades(stack).getFloat("heat_protection");
+	}
 }

@@ -150,8 +150,8 @@ public class Config
 
 			@Comment({"Resistance to damage added by Additional Armor Plates upgrade", "Default: 3"})
 			public static int armor_plates_upgrade_resist = 3;
-			@Comment({"Resistance to damage added by Additional Armor Plates upgrade", "Default: 1000"})
-			public static int heat_base_resist = 1000;
+			@Comment({"Resistance to damage added by Additional Armor Plates upgrade", "Default: 100"})
+			public static int heat_base_resist = 100;
 			@Comment({"Resistance to heat added by each Heat Resistant Plates upgrade", "Default: 1000"})
 			public static int heat_upgrade_resist = 1000;
 		}

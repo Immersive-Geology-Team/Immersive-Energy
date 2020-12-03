@@ -133,4 +133,10 @@ public class ItemPowerArmorBoots extends ItemUpgradeableArmor implements IElectr
 				s.damageItem((int)(dmg.dmg*50), p);
 		}
 	}
+
+	@Override
+	public float getHeatCap(ItemStack stack) 
+	{
+		return 8000 + getUpgrades(stack).getFloat("heat_protection");
+	}
 }

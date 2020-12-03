@@ -27,7 +27,6 @@ import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod(modid = ImmersiveEnergy.MODID, name = ImmersiveEnergy.MODNAME, version = ImmersiveEnergy.MODVERSION, dependencies = "required-after:immersiveengineering;after:sereneseasons", useMetadata = true)

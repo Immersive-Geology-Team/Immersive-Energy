@@ -187,4 +187,10 @@ public class ItemPowerArmorChestplate extends ItemUpgradeableArmor implements IE
         
         return multimap;
     }
+
+	@Override
+	public float getHeatCap(ItemStack stack) 
+	{
+		return 16000 + getUpgrades(stack).getFloat("heat_protection");
+	}
 }

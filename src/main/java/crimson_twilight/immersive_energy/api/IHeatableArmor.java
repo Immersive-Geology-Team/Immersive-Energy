@@ -9,11 +9,13 @@ import net.minecraft.item.ItemStack;
  */
 public interface IHeatableArmor
 {
-	void modifyHeat(ItemStack stack, int amount);
+	void modifyHeat(ItemStack stack, float amount);
+	
+	float getHeatCap(ItemStack stack);
 
-	int getHeat(ItemStack stack);
+	float getHeat(ItemStack stack);
 
-	int getMaxHeat(ItemStack stack);
+	float getMaxHeat(ItemStack stack);
 
 	void performOverheatEffects(ItemStack stack, EntityLivingBase holder);
 }

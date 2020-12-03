@@ -1,7 +1,6 @@
 package crimson_twilight.immersive_energy.common;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
@@ -9,16 +8,12 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.realmsclient.util.Pair;
 
 import blusunrize.immersiveengineering.common.util.EnergyHelper;
 import blusunrize.immersiveengineering.common.util.Utils;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
 import crimson_twilight.immersive_energy.common.util.IEnDamageSources;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -37,8 +32,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -148,25 +141,21 @@ public class EventHandler
 				&&body.getItem().equals(IEnContent.itemPowerArmorChestplate)
 				&&head.getItem().equals(IEnContent.itemPowerArmorHelmet))
 		{
-			int heat = 0;
-
 			if((event.getSource()==DamageSource.IN_FIRE||event.getSource()==DamageSource.ON_FIRE))
 			{
 				event.setCanceled(true);
-				heat = Math.round(event.getAmount());
+				IEnContent.itemPowerArmorBoots.modifyHeat(boots, IEnContent.itemPowerArmorBoots.getHeat(boots) == 1100 ? 0 : 0.1f * event.getAmount() * (1100 - IEnContent.itemPowerArmorBoots.getHeat(boots)));
+				IEnContent.itemPowerArmorLegs.modifyHeat(legs, IEnContent.itemPowerArmorBoots.getHeat(legs) == 1100 ? 0 : 0.1f * event.getAmount() * (1100 - IEnContent.itemPowerArmorLegs.getHeat(legs)));
+				IEnContent.itemPowerArmorChestplate.modifyHeat(body, IEnContent.itemPowerArmorBoots.getHeat(body) == 1100 ? 0 : 0.1f * event.getAmount() * (1100 - IEnContent.itemPowerArmorChestplate.getHeat(body)));
+				IEnContent.itemPowerArmorHelmet.modifyHeat(head, IEnContent.itemPowerArmorBoots.getHeat(head) == 1100 ? 0 : 0.1f * event.getAmount() * (1100 - IEnContent.itemPowerArmorHelmet.getHeat(head)));
 			}
 			else if(event.getSource()==DamageSource.LAVA)
 			{
 				event.setCanceled(true);
-				heat = Math.round(event.getAmount());
-			}
-
-			if(entity.getEntityWorld().getTotalWorldTime()%4==0)
-			{
-				IEnContent.itemPowerArmorBoots.modifyHeat(boots, heat);
-				IEnContent.itemPowerArmorLegs.modifyHeat(legs, heat);
-				IEnContent.itemPowerArmorChestplate.modifyHeat(body, heat);
-				IEnContent.itemPowerArmorHelmet.modifyHeat(head, heat);
+				IEnContent.itemPowerArmorBoots.modifyHeat(boots, IEnContent.itemPowerArmorBoots.getHeat(boots) == 1200 ? 0 : 0.2f * event.getAmount() * (1200 - IEnContent.itemPowerArmorBoots.getHeat(boots)));
+				IEnContent.itemPowerArmorLegs.modifyHeat(legs, IEnContent.itemPowerArmorBoots.getHeat(legs) == 1200 ? 0 : 0.2f * event.getAmount() * (1200 - IEnContent.itemPowerArmorLegs.getHeat(legs)));
+				IEnContent.itemPowerArmorChestplate.modifyHeat(body, IEnContent.itemPowerArmorBoots.getHeat(body) == 1200 ? 0 : 0.2f * event.getAmount() * (1200 - IEnContent.itemPowerArmorChestplate.getHeat(body)));
+				IEnContent.itemPowerArmorHelmet.modifyHeat(head, IEnContent.itemPowerArmorBoots.getHeat(head) == 1200 ? 0 : 0.2f * event.getAmount() * (1200 - IEnContent.itemPowerArmorHelmet.getHeat(head)));
 			}
 			if(event.getSource()==DamageSource.CACTUS)
 			{
@@ -177,7 +166,7 @@ public class EventHandler
 
 		if(event.getSource()==DamageSource.HOT_FLOOR && boots.getItem().equals(IEnContent.itemPowerArmorBoots))
 		{
-			IEnContent.itemPowerArmorBoots.modifyHeat(boots, Math.round(event.getAmount()));
+			IEnContent.itemPowerArmorBoots.modifyHeat(boots, IEnContent.itemPowerArmorBoots.getHeat(boots) == 100 ? 0 : 0.1f * event.getAmount() * (100 - IEnContent.itemPowerArmorBoots.getHeat(boots)));
 			event.setCanceled(true);
 		}
 
