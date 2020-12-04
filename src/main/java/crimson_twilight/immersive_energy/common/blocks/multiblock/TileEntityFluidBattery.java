@@ -166,8 +166,8 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
         if (isDummy())
             return;
 
-        IEnCommonUtils.handleBucketTankInteraction(tanks, inventory, 0, 1, 0, "discharge_fluid");
-        IEnCommonUtils.handleBucketTankInteraction(tanks, inventory, 2, 3, 1, "charge_fluid");
+        IEnCommonUtils.handleBucketTankInteraction(tanks, inventory, 0, 1, 0, "charging_fluid");
+        IEnCommonUtils.handleBucketTankInteraction(tanks, inventory, 2, 3, 1, "charged_fluid");
 
         if (!world.isRemote) {
             FluidStack out1 = Utils.copyFluidStackWithAmount(this.tanks[0].getFluid(), Math.min(this.tanks[0].getFluidAmount(), 80), false);
@@ -201,7 +201,7 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
         int out = getMaxOutput();
         int remaining = EnergyHelper.insertFlux(tileEntity, EnumFacing.DOWN, out, false);
         tanks[1].drain(remaining / FluidBattery.IFAmount, true);
-        tanks[0].fill(new FluidStack(IEnContent.fluidDischarge, remaining / FluidBattery.IFAmount), true);
+        tanks[0].fill(new FluidStack(IEnContent.fluidCharging, remaining / FluidBattery.IFAmount), true);
     }
 
     private int getMaxOutput() {
@@ -609,7 +609,7 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
 
             int amount = Math.min(master.getMaxInput(),maxReceive);
             master.tanks[0].drain(amount/FluidBattery.IFAmount,!simulate);
-            master.tanks[1].fill(new FluidStack(IEnContent.fluidCharge,amount/FluidBattery.IFAmount),!simulate);
+            master.tanks[1].fill(new FluidStack(IEnContent.fluidCharged,amount/FluidBattery.IFAmount),!simulate);
 
             if(amount>0)
             {

@@ -84,7 +84,7 @@ public abstract class ItemUpgradeableArmor extends ItemArmor implements IUpgrade
         } else
             tooltip.add("Suit Temp: " + IEnMaths.round(getHeat(stack)) + " C / " + IEnMaths.round(getMaxHeat(stack)) + " C");
         
-        //tooltip.add("Exterior Temp: " + IEnMaths.round(ItemNBTHelper.getFloat(stack, "ExtHeat")) + " C");
+        //tooltip.add("Exterior Temp: " + IEnMaths.round(ItemNBTHelper.getFloat(stack, "ExtHeat")) + " C"); For testing purposes
     }
 
     protected String getNameForPart(EntityEquipmentSlot equipmentSlotIn) {
@@ -212,7 +212,7 @@ public abstract class ItemUpgradeableArmor extends ItemArmor implements IUpgrade
         Random random = new Random();
         //Update old inventories to caps
         if (worldIn.getTotalWorldTime() % 10 == 0) {
-        	ItemNBTHelper.setFloat(stack, "ExtHeat", IEnMaths.modyfyTempBasedOnTime(worldIn.getBiome(entityIn.getPosition()).getTemperature(entityIn.getPosition()), worldIn));
+        	//ItemNBTHelper.setFloat(stack, "ExtHeat", IEnMaths.modyfyTempBasedOnTime(worldIn.getBiome(entityIn.getPosition()).getTemperature(entityIn.getPosition()), worldIn)); For Testing Purposes
             modifyHeat(stack, IEnMaths.modyfyTempBasedOnTime(worldIn.getBiome(entityIn.getPosition()).getTemperature(entityIn.getPosition()), worldIn) - getHeat(stack));
             int damage = MathHelper.ceil((double) (getHeat(stack) - getMaxHeat(stack)) / 100d);
             if (damage > 0)

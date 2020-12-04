@@ -5,11 +5,11 @@
 		"transform": "forge:default-item"
 	},
 	"variants": {
-		"charge_fluid": [{
-			"custom": { "fluid": "charge_fluid" }
+		"charged_fluid": [{
+			"custom": { "fluid": "charged_fluid" }
 		}],
-		"discharge_fluid": [{
-			"custom": { "fluid": "discharge_fluid" }
+		"charging_fluid": [{
+			"custom": { "fluid": "charging_fluid" }
 		}]
 	}
 }

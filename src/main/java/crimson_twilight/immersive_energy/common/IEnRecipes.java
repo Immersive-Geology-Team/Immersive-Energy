@@ -1,6 +1,8 @@
 package crimson_twilight.immersive_energy.common;
 
 import blusunrize.immersiveengineering.api.crafting.BlueprintCraftingRecipe;
+import blusunrize.immersiveengineering.api.crafting.IngredientStack;
+import blusunrize.immersiveengineering.api.crafting.MixerRecipe;
 import blusunrize.immersiveengineering.api.tool.ExcavatorHandler;
 import blusunrize.immersiveengineering.common.IEContent;
 import blusunrize.immersiveengineering.common.IERecipes;
@@ -11,6 +13,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -85,6 +89,11 @@ public class IEnRecipes
 	public static void initAlloySmeltingRecipes()
 	{
 		
+	}
+	
+	public static void initMixerRecipies()
+	{
+		MixerRecipe.addRecipe(new FluidStack(IEnContent.fluidCharging, 1000), new FluidStack(FluidRegistry.WATER, 1000), new IngredientStack[] {new IngredientStack(new ItemStack(Items.REDSTONE, 4)), new IngredientStack(new ItemStack(IEContent.itemMetal, 4, 16)) }, 8192);
 	}
 
 	public static void initArcSmeltingRecipes()

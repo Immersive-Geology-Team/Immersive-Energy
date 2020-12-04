@@ -1,20 +1,45 @@
 package crimson_twilight.immersive_energy.common;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 import blusunrize.immersiveengineering.api.MultiblockHandler;
 import blusunrize.immersiveengineering.api.crafting.IngredientStack;
 import blusunrize.immersiveengineering.api.energy.ThermoelectricHandler;
 import blusunrize.immersiveengineering.api.tool.RailgunHandler;
-import blusunrize.immersiveengineering.common.blocks.BlockIEFluid;
+import blusunrize.immersiveengineering.common.util.IEPotions;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
 import crimson_twilight.immersive_energy.common.Config.IEnConfig;
 import crimson_twilight.immersive_energy.common.Config.IEnConfig.Tools;
-import crimson_twilight.immersive_energy.common.blocks.*;
-import crimson_twilight.immersive_energy.common.blocks.metal.*;
+import crimson_twilight.immersive_energy.common.blocks.BlockIEnBase;
+import crimson_twilight.immersive_energy.common.blocks.BlockIEnFluid;
+import crimson_twilight.immersive_energy.common.blocks.BlockIEnSlab;
+import crimson_twilight.immersive_energy.common.blocks.BlockTypes_MetalsIEn;
+import crimson_twilight.immersive_energy.common.blocks.BlockTypes_OresIEn;
+import crimson_twilight.immersive_energy.common.blocks.ItemBlockIEnBase;
+import crimson_twilight.immersive_energy.common.blocks.TileEntityIEnSlab;
+import crimson_twilight.immersive_energy.common.blocks.metal.BlockEmergencyLamp;
+import crimson_twilight.immersive_energy.common.blocks.metal.BlockGenerators0;
+import crimson_twilight.immersive_energy.common.blocks.metal.BlockMachines0;
+import crimson_twilight.immersive_energy.common.blocks.metal.TileEntityEmergencyLight;
+import crimson_twilight.immersive_energy.common.blocks.metal.TileEntityGasBurner;
+import crimson_twilight.immersive_energy.common.blocks.metal.TileEntitySolarPanel;
 import crimson_twilight.immersive_energy.common.blocks.multiblock.BlockMetalMultiblock0;
 import crimson_twilight.immersive_energy.common.blocks.multiblock.MultiblockFluidBattery;
 import crimson_twilight.immersive_energy.common.blocks.multiblock.TileEntityFluidBattery;
 import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
-import crimson_twilight.immersive_energy.common.items.*;
+import crimson_twilight.immersive_energy.common.items.IEnArrowBase;
+import crimson_twilight.immersive_energy.common.items.ItemIEnBase;
+import crimson_twilight.immersive_energy.common.items.ItemIEnMaterial;
+import crimson_twilight.immersive_energy.common.items.ItemPowerArmorBoots;
+import crimson_twilight.immersive_energy.common.items.ItemPowerArmorChestplate;
+import crimson_twilight.immersive_energy.common.items.ItemPowerArmorHelmet;
+import crimson_twilight.immersive_energy.common.items.ItemPowerArmorLegs;
+import crimson_twilight.immersive_energy.common.items.ItemThoriumRod;
+import crimson_twilight.immersive_energy.common.items.ItemToolUpgradeIEn;
+import crimson_twilight.immersive_energy.common.items.ItemUraniumRod;
+import crimson_twilight.immersive_energy.common.items.ToolHeftyWrench;
 import crimson_twilight.immersive_energy.common.util.ArrowLogicPenetrating;
 import crimson_twilight.immersive_energy.common.util.ArrowLogicShock;
 import crimson_twilight.immersive_energy.common.world.IEnWorldGen;
@@ -28,6 +53,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
@@ -38,12 +64,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import pl.pabilo8.immersiveintelligence.ImmersiveIntelligence;
-import pl.pabilo8.immersiveintelligence.common.IICreativeTab;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 @Mod.EventBusSubscriber(modid = ImmersiveEnergy.MODID)
 @SuppressWarnings({"unchecked", "rawtypes", "deprecation"})
@@ -81,20 +101,20 @@ public class IEnContent {
     public static ToolHeftyWrench toolHeftyWrench;
     //public static ItemIEBase toolUpgradeableCrossbow;
 
-    public static Fluid fluidCharge;
-    public static Fluid fluidDischarge;
+    public static Fluid fluidCharged;
+    public static Fluid fluidCharging;
 
-    public static BlockIEnFluid block_fluid_charge;
-    public static BlockIEnFluid block_fluid_discharge;
+    public static BlockIEnFluid block_fluid_charged;
+    public static BlockIEnFluid block_fluid_charging;
 
     static {
         // TODO: 02.12.2020 Kuruma, tinker with those values
-        fluidCharge = makeFluid("charge_fluid",500,1000);
-        fluidDischarge = makeFluid("discharge_fluid",500,1000);
+    	fluidCharged = makeFluid("charged_fluid",500,1000);
+    	fluidCharging = makeFluid("charging_fluid",500,1000);
 
         // TODO: 02.12.2020 With those too, rename them if you want
-        block_fluid_charge = new BlockIEnFluid("charge_fluid", fluidCharge, Material.WATER);
-        block_fluid_discharge = new BlockIEnFluid("discharge_fluid", fluidDischarge, Material.WATER);
+        block_fluid_charged = new BlockIEnFluid("charged_fluid", fluidCharged, Material.WATER);
+        block_fluid_charging = new BlockIEnFluid("charging_fluid", fluidCharging, Material.WATER);
     }
 
     public static void preInit() {
@@ -221,6 +241,9 @@ public class IEnContent {
 
         //ArcFurnace
         IEnRecipes.initArcSmeltingRecipes();
+        
+        //Mixer
+        IEnRecipes.initMixerRecipies();
 
         //ExtraOrDictRecipes
         IEnRecipes.postInitOreDictRecipes();

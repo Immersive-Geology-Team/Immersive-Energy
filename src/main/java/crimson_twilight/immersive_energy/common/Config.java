@@ -85,25 +85,25 @@ public class Config
 
 			public static class FluidBattery
 			{
-				@Comment({"Fluid capacity of one tank of the Fluid Battery (in mB)"})
+				@Comment({"Fluid capacity of one tank of the Fluid Battery (in mB). Default: 144000"})
 				@RangeInt(min = 1)
 				@net.minecraftforge.common.config.Config.RequiresMcRestart
-				public static int fluidCapacity = 24000;
+				public static int fluidCapacity = 144000;
 
-				@Comment({"Energy exchange amount (in IF)"})
+				@Comment({"Energy exchange amount (in IF per mb). Default: 2048"})
 				@RangeInt(min = 1)
 				@net.minecraftforge.common.config.Config.RequiresMcRestart
-				public static int IFAmount = 1024;
+				public static int IFAmount = 2048;
 
-				@Comment({"Amout of energy that can be inputted to one energy port(in IF/Tick)"})
+				@Comment({"Amout of energy that can be inputted to one energy port(in IF/Tick). Default: 32768"})
 				@RangeInt(min = 1)
 				@net.minecraftforge.common.config.Config.RequiresMcRestart
-				public static int maxInput = 8192;
+				public static int maxInput = 32768;
 
-				@Comment({"Amout of energy that can be outputted on one energy port(in IF/Tick)"})
+				@Comment({"Amout of energy that can be outputted on one energy port(in IF/Tick). Default: 32768"})
 				@RangeInt(min = 1)
 				@net.minecraftforge.common.config.Config.RequiresMcRestart
-				public static int maxOutput = 8192;
+				public static int maxOutput = 32768;
 			}
 		}
 		
@@ -152,8 +152,8 @@ public class Config
 			public static int armor_plates_upgrade_resist = 3;
 			@Comment({"Resistance to damage added by Additional Armor Plates upgrade", "Default: 100"})
 			public static int heat_base_resist = 100;
-			@Comment({"Resistance to heat added by each Heat Resistant Plates upgrade", "Default: 1000"})
-			public static int heat_upgrade_resist = 1000;
+			@Comment({"Resistance to heat added by each Heat Resistant Plates upgrade", "Default: 5000"})
+			public static int heat_upgrade_resist = 5000;
 		}
 
 		public static void preInit(FMLPreInitializationEvent event)
