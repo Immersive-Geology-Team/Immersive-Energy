@@ -175,8 +175,8 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
             IFluidHandler output1 = FluidUtil.getFluidHandler(world, getBlockPosForPos(16).offset(facing), facing.getOpposite());
             IFluidHandler output2 = FluidUtil.getFluidHandler(world, getBlockPosForPos(18).offset(facing), facing.getOpposite());
 
-            boolean update = transferFluid(out1, output1);
-            if (transferFluid(out2, output2))
+            boolean update = transferFluid(out1, output1,0);
+            if (transferFluid(out2, output2,1))
                 update = true;
 
             for (int i = 0; i < controlModes.length; i++)
@@ -214,12 +214,12 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
         return Math.min(Math.min(tanks[0].getFluidAmount(), maxTank) * FluidBattery.IFAmount, FluidBattery.maxInput);
     }
 
-    private boolean transferFluid(FluidStack out1, IFluidHandler output1) {
+    private boolean transferFluid(FluidStack out1, IFluidHandler output1, int i) {
         if (output1 != null) {
             int accepted = output1.fill(out1, false);
             if (accepted > 0) {
                 int drained = output1.fill(Utils.copyFluidStackWithAmount(out1, Math.min(out1.amount, accepted), false), true);
-                this.tanks[0].drain(drained, true);
+                this.tanks[i].drain(drained, true);
                 return true;
             }
         }
