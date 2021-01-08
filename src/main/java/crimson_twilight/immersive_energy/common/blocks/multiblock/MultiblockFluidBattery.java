@@ -38,10 +38,11 @@ public class MultiblockFluidBattery implements IMultiblock
 			new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 12, BlockTypes_MetalDecoration0.HEAVY_ENGINEERING.getMeta())),
 			new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 7, BlockTypes_MetalDecoration0.GENERATOR.getMeta())),
 			new IngredientStack(new ItemStack(IEContent.blockMetalDevice1, 4, BlockTypes_MetalDevice1.FLUID_PIPE.getMeta())),
+			new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 1, BlockTypes_MetalDecoration0.RS_ENGINEERING.getMeta())),
 			new IngredientStack("blockSteel", 2),
 			new IngredientStack("slabSteel", 1),
 			new IngredientStack("blockSheetmetalSteel", 16),
-			new IngredientStack("slabSheetmetalSteel", 10)
+			new IngredientStack("slabSheetmetalSteel", 9)
 	};
 	public static MultiblockFluidBattery instance = new MultiblockFluidBattery();
 	static ItemStack[][][] structure = new ItemStack[3][4][5];
@@ -78,11 +79,13 @@ public class MultiblockFluidBattery implements IMultiblock
 						{
 							if(w==2)
 							{
-								if(l>1)
-									structure[h][l][w]=new ItemStack(IEContent.blockMetalDecoration0, 1, BlockTypes_MetalDecoration0.GENERATOR.getMeta());
+								if(l > 1)
+									structure[h][l][w] = new ItemStack(IEContent.blockMetalDecoration0, 1, BlockTypes_MetalDecoration0.GENERATOR.getMeta());
 							}
+							else if(w==0&&l==1)
+								structure[h][l][w] = new ItemStack(IEContent.blockMetalDecoration0, 1, BlockTypes_MetalDecoration0.RS_ENGINEERING.getMeta());
 							else
-								structure[h][l][w]=new IngredientStack("blockSheetmetalSteel").getExampleStack();
+								structure[h][l][w] = new IngredientStack("blockSheetmetalSteel").getExampleStack();
 						}
 						break;
 						case 2:
@@ -254,6 +257,11 @@ public class MultiblockFluidBattery implements IMultiblock
 									if(!Utils.isBlockAt(world, pos, IEContent.blockMetalDecoration0, BlockTypes_MetalDecoration0.GENERATOR.getMeta()))
 										return false;
 								}
+							}
+							else if(w==-2&&l==-1)
+							{
+								if(!Utils.isBlockAt(world, pos, IEContent.blockMetalDecoration0, BlockTypes_MetalDecoration0.RS_ENGINEERING.getMeta()))
+									return false;
 							}
 							else
 							{
