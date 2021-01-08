@@ -288,6 +288,7 @@ public abstract class ItemUpgradeableArmor extends ItemArmor implements IUpgrade
         return false;
     }
 
+    @SideOnly(Side.CLIENT)
     public static PowerArmorModel getModel(EntityEquipmentSlot part, ItemStack stack)
     {
         return PowerArmorModel.powerArmorModel.prepareForRender(part, stack);

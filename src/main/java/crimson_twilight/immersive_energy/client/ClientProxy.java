@@ -34,6 +34,7 @@ import crimson_twilight.immersive_energy.common.blocks.multiblock.MultiblockFlui
 import crimson_twilight.immersive_energy.common.blocks.multiblock.TileEntityFluidBattery;
 import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
 import crimson_twilight.immersive_energy.common.items.ItemIEnBase;
+import crimson_twilight.immersive_energy.common.util.IEnKeybinds;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.GlStateManager;
@@ -77,6 +78,8 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void preInit() {
+        IEnKeybinds.register();
+
         OBJLoader.INSTANCE.addDomain(ImmersiveEnergy.MODID);
         IEOBJLoader.instance.addDomain(ImmersiveEnergy.MODID);
         MinecraftForge.EVENT_BUS.register(this);
