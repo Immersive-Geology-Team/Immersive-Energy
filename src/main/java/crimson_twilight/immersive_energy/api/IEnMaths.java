@@ -88,4 +88,14 @@ public class IEnMaths extends MathHelper
 	{
 		return var < 0 ? ( ( var != (int)var ) ? (var - 0.5) <= (int)var - 1 ? (int)var - 1 : (int)var : (int)var ) : (var != (int)var) ? ((int)(var + 0.5) == (int)var + 1 ? (int)var + 1 : (int)var) : (int)var;
 	}
+	
+	public static long roundLong(float var)
+	{
+		return var < 0 ? ( ( var != (long)var ) ? (var - 0.5) <= (long)var - 1 ? (long)var - 1 : (long)var : (long)var ) : (var != (long)var) ? ((long)(var + 0.5) == (long)var + 1 ? (long)var + 1 : (long)var) : (long)var;
+	}
+	
+	public static long roundLong(double var)
+	{
+		return var < 0 ? ( ( var != (long)var ) ? (var - 0.5) <= (long)var - 1 ? (long)var - 1 : (long)var : (long)var ) : (var != (long)var) ? ((long)(var + 0.5) == (long)var + 1 ? (long)var + 1 : (long)var) : (long)var;
+	}
 }
