@@ -11,6 +11,7 @@ import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces.IGuiTile;
 import blusunrize.immersiveengineering.common.blocks.metal.TileEntityMultiblockMetal;
 import blusunrize.immersiveengineering.common.util.EnergyHelper;
 import blusunrize.immersiveengineering.common.util.Utils;
+import blusunrize.immersiveengineering.common.util.inventory.MultiFluidTank;
 import blusunrize.immersiveengineering.common.util.network.MessageTileSync;
 import crimson_twilight.immersive_energy.common.IEnContent;
 import crimson_twilight.immersive_energy.common.IEnGUIList;
@@ -62,9 +63,9 @@ import static crimson_twilight.immersive_energy.common.Config.IEnConfig.Machines
 
 @Optional.Interface(iface = "elucent.albedo.lighting.pl.pabilo8.immersiveintelligence.api.data.IDataDevice", modid = "immersiveintelligence")
 public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntityFluidBattery, IMultiblockRecipe> implements IAdvancedSelectionBounds, IAdvancedCollisionBounds, IOBJModelCallback<IBlockState>, IGuiTile, IDataDevice {
-    public FluidTank[] tanks = {
-            new FluidTank(FluidBattery.fluidCapacity),
-            new FluidTank(FluidBattery.fluidCapacity)
+    public MultiFluidTank[] tanks = {
+            new MultiFluidTank(FluidBattery.fluidCapacity),
+            new MultiFluidTank(FluidBattery.fluidCapacity)
     };
 
     //When true, II takes the control of each port independently, using data
@@ -166,8 +167,16 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
         if (isDummy())
             return;
 
-        IEnCommonUtils.handleBucketTankInteraction(tanks, inventory, 0, 1, 0, "charging_fluid");
-        IEnCommonUtils.handleBucketTankInteraction(tanks, inventory, 2, 3, 1, "charged_fluid");
+        if(hasRedstoneControl)
+        {
+            IEnCommonUtils.handleBucketTankInteraction(tanks, inventory, 0, 1, 0, "charged_fluid");
+            IEnCommonUtils.handleBucketTankInteraction(tanks, inventory, 2, 3, 1, "charged_fluid");
+        }
+        else
+            {
+            IEnCommonUtils.handleBucketTankInteraction(tanks, inventory, 0, 1, 0, "charging_fluid");
+            IEnCommonUtils.handleBucketTankInteraction(tanks, inventory, 2, 3, 1, "charging_fluid");
+        }
 
         if (!world.isRemote) {
             FluidStack out1 = Utils.copyFluidStackWithAmount(this.tanks[0].getFluid(), Math.min(this.tanks[0].getFluidAmount(), 80), false);
@@ -394,11 +403,11 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
         TileEntityFluidBattery master = this.master();
         if (master != null) {
             if (pos == 1 || pos == 16 && side.getAxis().equals(this.facing.getAxis()))
-                return new FluidTank[]{master.tanks[0]};
+                return new MultiFluidTank[]{master.tanks[0]};
             else if (pos == 3 || pos == 18 && side.getAxis().equals(this.facing.getAxis()))
-                return new FluidTank[]{master.tanks[1]};
+                return new MultiFluidTank[]{master.tanks[1]};
         }
-        return new FluidTank[0];
+        return new MultiFluidTank[0];
     }
 
     @Override

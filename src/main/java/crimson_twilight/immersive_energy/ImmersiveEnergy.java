@@ -1,5 +1,11 @@
 package crimson_twilight.immersive_energy;
 
+import net.minecraft.block.BlockDispenser;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.dispenser.BehaviorProjectileDispense;
+import net.minecraft.dispenser.IPosition;
+import net.minecraft.entity.IProjectile;
+import net.minecraft.entity.projectile.EntityArrow;
 import org.apache.logging.log4j.Logger;
 
 import blusunrize.immersiveengineering.common.IEContent;
@@ -82,10 +88,10 @@ public class ImmersiveEnergy
 		{
 			if(item instanceof IEnArrowBase)
 			{
-				BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(item, new BehaviorProjectileDispense() 
+				BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(item, new BehaviorProjectileDispense()
 				{
 					@Override
-					protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) 
+					protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn)
 					{
 						IEnArrowBase arrowItem = ((IEnArrowBase) item);
 						final EntityIEnArrow arrow = new EntityIEnArrow(worldIn, arrowItem.getDropItem().copy(), position.getX(), position.getY(), position.getZ()).setIgnoreInvulnerability(arrowItem.getIgnoreInvulnerability());
