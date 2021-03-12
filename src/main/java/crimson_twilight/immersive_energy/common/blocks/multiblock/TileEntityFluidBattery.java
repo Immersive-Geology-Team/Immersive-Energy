@@ -173,10 +173,10 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
             IEnCommonUtils.handleBucketTankInteraction(tanks, inventory, 2, 3, 1, "charged_fluid");
         }
         else
-            {
+        {
             IEnCommonUtils.handleBucketTankInteraction(tanks, inventory, 0, 1, 0, "charging_fluid");
             IEnCommonUtils.handleBucketTankInteraction(tanks, inventory, 2, 3, 1, "charging_fluid");
-        }
+        } //TODO add the proper fluid handling for multitank stuff
 
         if (!world.isRemote) {
             FluidStack out1 = Utils.copyFluidStackWithAmount(this.tanks[0].getFluid(), Math.min(this.tanks[0].getFluidAmount(), 80), false);
