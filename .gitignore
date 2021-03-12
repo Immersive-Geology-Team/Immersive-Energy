@@ -32,3 +32,4 @@ bin/
 *.classpath
 .settings/
 custom.gradle
+*.zip

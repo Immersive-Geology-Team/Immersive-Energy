@@ -13,7 +13,7 @@ runClient {
     jvmArgs "-Xms10g", "-Xmx12g"
 }
 
-version = "0.5.4"
+version = "0.6.0"
 group = "crimson_twilight.immersive_energy" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Immersive Energy"
 
