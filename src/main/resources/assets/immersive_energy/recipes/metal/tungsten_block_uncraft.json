@@ -7,7 +7,7 @@
   },
   "ingredients": [
     {
-      "item": "immersiveengineering:storage",
+      "item": "immersive_energy:storage",
       "data": 1
     }
   ]

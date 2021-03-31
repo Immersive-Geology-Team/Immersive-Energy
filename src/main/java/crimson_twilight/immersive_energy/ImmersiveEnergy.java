@@ -35,7 +35,7 @@ public class ImmersiveEnergy
 
     public static final String MODID = "immersive_energy";
     public static final String MODNAME = "Immersive Energy";
-    public static final String MODVERSION= "0.5.4";
+    public static final String MODVERSION= "0.6.0";
 
 	@Mod.Instance(MODID)
 	public static ImmersiveEnergy instance = new ImmersiveEnergy();

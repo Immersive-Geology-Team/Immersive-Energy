@@ -62,7 +62,7 @@ public class IEnRecipes
 		ExcavatorHandler.addMineral("Wolframite", 8, .30f, new String[] {"oreIron", "oreManganese", "oreTungsten", "denseoreIron", "denseoreManganese"}, new float[] {.40f, .40f, .1f, .05f, .05f});
 		ExcavatorHandler.addMineral("Ferberite", 5, .30f, new String[] {"oreIron", "oreTungsten", "denseoreIron"}, new float[] {.5f, .45f, .05f});
 		if(OreDictionary.doesOreNameExist("oreManganese"))
-			ExcavatorHandler.addMineral("Hübnerite", 5, .30f, new String[] {"oreManganese", "oreTungsten", "denseoreManganese"}, new float[] {.5f, .45f, .05f});
+			ExcavatorHandler.addMineral("Hï¿½bnerite", 5, .30f, new String[] {"oreManganese", "oreTungsten", "denseoreManganese"}, new float[] {.5f, .45f, .05f});
 	}
 
 	public static void initBlastFurnaceRecipes()
