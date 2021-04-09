@@ -62,16 +62,15 @@ import static crimson_twilight.immersive_energy.common.Config.IEnConfig.Machines
  */
 
 @Optional.Interface(iface = "elucent.albedo.lighting.pl.pabilo8.immersiveintelligence.api.data.IDataDevice", modid = "immersiveintelligence")
-public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntityFluidBattery, IMultiblockRecipe> implements IAdvancedSelectionBounds, IAdvancedCollisionBounds, IOBJModelCallback<IBlockState>, IGuiTile, IDataDevice {
+public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntityFluidBattery, IMultiblockRecipe> implements IAdvancedSelectionBounds, IAdvancedCollisionBounds, IOBJModelCallback<IBlockState>, IGuiTile {
     public MultiFluidTank[] tanks = {
             new MultiFluidTank(FluidBattery.fluidCapacity),
             new MultiFluidTank(FluidBattery.fluidCapacity)
     };
 
     //When true, II takes the control of each port independently, using data
+    @Deprecated
     public boolean dataControlMode = false;
-    //true - output, false - input
-    public boolean[] controlModes = new boolean[]{false, true, true, false};
 
     public NonNullList<ItemStack> inventory = NonNullList.withSize(4, ItemStack.EMPTY);
 
@@ -93,12 +92,6 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
         }
 
         dataControlMode = nbt.getBoolean("dataControlMode");
-        controlModes = new boolean[]{
-                nbt.getBoolean("b1"),
-                nbt.getBoolean("b2"),
-                nbt.getBoolean("b3"),
-                nbt.getBoolean("b4")
-        };
     }
 
     @Override
@@ -112,26 +105,14 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
         }
 
         nbt.setBoolean("dataControlMode", dataControlMode);
-        nbt.setBoolean("b1", controlModes[0]);
-        nbt.setBoolean("b2", controlModes[1]);
-        nbt.setBoolean("b3", controlModes[2]);
-        nbt.setBoolean("b4", controlModes[3]);
     }
-
+/*
     @Override
     public void receiveMessageFromClient(NBTTagCompound message) {
         super.receiveMessageFromClient(message);
 
         if (message.hasKey("dataControlMode"))
             dataControlMode = message.getBoolean("dataControlMode");
-        if (message.hasKey("b1"))
-            controlModes[0] = message.getBoolean("b1");
-        if (message.hasKey("b2"))
-            controlModes[1] = message.getBoolean("b2");
-        if (message.hasKey("b3"))
-            controlModes[2] = message.getBoolean("b3");
-        if (message.hasKey("b4"))
-            controlModes[3] = message.getBoolean("b4");
 
         ImmersiveEngineering.packetHandler.sendToAllAround(new MessageTileSync(this, message), IEnCommonUtils.targetPointFromTile(this, 32));
     }
@@ -142,15 +123,7 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
 
         if (message.hasKey("dataControlMode"))
             dataControlMode = message.getBoolean("dataControlMode");
-        if (message.hasKey("b1"))
-            controlModes[0] = message.getBoolean("b1");
-        if (message.hasKey("b2"))
-            controlModes[1] = message.getBoolean("b2");
-        if (message.hasKey("b3"))
-            controlModes[2] = message.getBoolean("b3");
-        if (message.hasKey("b4"))
-            controlModes[3] = message.getBoolean("b4");
-    }
+    }*/
 
     @Override
     protected IMultiblockRecipe readRecipeFromNBT(NBTTagCompound tag) {
@@ -188,7 +161,7 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
             if (transferFluid(out2, output2,1))
                 update = true;
 
-            for (int i = 0; i < controlModes.length; i++)
+            for (int i = 0; i < 4; i++)
                 this.transferEnergy(i);
 
             if (update) {
@@ -380,7 +353,7 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
 
     @Override
     public int[] getOutputTanks() {
-        return new int[]{1};
+        return new int[]{0,1};
     }
 
     @Override
@@ -480,6 +453,7 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
     }
 
     //Immersive Intelligence Compat Works™
+    /*
     @Override
     public void onReceive(DataPacket dataPacket, @Nullable EnumFacing enumFacing) {
         TileEntityFluidBattery master = master();
@@ -563,11 +537,7 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
             }
         }
     }
-
-    @Override
-    public void onSend() {
-
-    }
+*/
 
     @Nonnull
     @Override
@@ -580,16 +550,13 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
     }
 
     private IEEnums.SideConfig getEnergyBlockConfig(int pos) {
-        boolean rs = !dataControlMode&&world.isBlockPowered(getBlockPosForPos(getRedstonePos()[0]));
+        boolean rs = world.isBlockPowered(getBlockPosForPos(getRedstonePos()[0]));
         switch (pos) {
             case 45:
-                return this.controlModes[0]^rs ? IEEnums.SideConfig.OUTPUT : IEEnums.SideConfig.INPUT;
             case 49:
-                return this.controlModes[1]^rs ? IEEnums.SideConfig.OUTPUT : IEEnums.SideConfig.INPUT;
             case 56:
-                return this.controlModes[2]^rs ? IEEnums.SideConfig.OUTPUT : IEEnums.SideConfig.INPUT;
             case 58:
-                return this.controlModes[3]^rs ? IEEnums.SideConfig.OUTPUT : IEEnums.SideConfig.INPUT;
+                return rs ? IEEnums.SideConfig.OUTPUT : IEEnums.SideConfig.INPUT;
             default:
                 return IEEnums.SideConfig.NONE;
         }
@@ -665,7 +632,7 @@ public class TileEntityFluidBattery extends TileEntityMultiblockMetal<TileEntity
             TileEntityFluidBattery master = te.master();
             if(!te.isEnergyPos()||master==null)
                 return true;
-            return master.getEnergyBlockConfig(te.pos)== IEEnums.SideConfig.INPUT;
+            return master.getEnergyBlockConfig(te.pos) == IEEnums.SideConfig.INPUT;
         }
     }
 
