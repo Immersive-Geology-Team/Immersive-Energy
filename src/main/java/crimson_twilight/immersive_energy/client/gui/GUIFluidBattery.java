@@ -32,15 +32,15 @@ public class GUIFluidBattery extends GuiIEContainerBase
 	TileEntityFluidBattery tile;
 	boolean switches[];
 	float[] timers;
-	boolean data;
+	boolean data = false;
 	public GUIFluidBattery(InventoryPlayer inventoryPlayer, TileEntityFluidBattery tile)
 	{
 		super(new ContainerFluidBattery(inventoryPlayer, tile));
 		this.tile = tile;
 		this.xSize = 176;
 		this.ySize = 168;
-		switches=tile.controlModes;
-		data=tile.dataControlMode;
+		//switches=tile.controlModes;
+		//data=tile.dataControlMode;
 		timers=new float[]{
 				data?0:MAX_SWITCH_TICKS,
 				switches[0]?0:MAX_SWITCH_TICKS,
@@ -66,7 +66,7 @@ public class GUIFluidBattery extends GuiIEContainerBase
 		ArrayList<String> tooltip = new ArrayList<String>();
 
 		ClientUtils.bindTexture(ImmersiveEnergy.MODID+":textures/gui/fluid_battery.png");
-		renderSwitch(guiLeft+96,guiTop+36,0,18,partialTicks, data,0xff0000,0xffffff);
+		/*renderSwitch(guiLeft+96,guiTop+36,0,18,partialTicks, data,0xff0000,0xffffff);
 
 		renderSwitch(guiLeft+67,guiTop+59,1,18,partialTicks, switches[2],0x4c7bb1,0xffb515);
 		renderSwitch(guiLeft+96,guiTop+59,2,18,partialTicks, switches[3],0x4c7bb1,0xffb515);
@@ -76,7 +76,7 @@ public class GUIFluidBattery extends GuiIEContainerBase
 		tickSwitch(0,data);
 		for (int i = 0; i < switches.length; i++) {
 			tickSwitch(i+1,switches[i]);
-		}
+		}*/
 
 		int energy=tile.tanks[1].getFluidAmount()*FluidBattery.IFAmount;
 		int maxEnergy=tile.tanks[1].getCapacity()*FluidBattery.IFAmount;
@@ -142,7 +142,7 @@ public class GUIFluidBattery extends GuiIEContainerBase
 
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-		super.mouseClicked(mouseX, mouseY, mouseButton);
+		super.mouseClicked(mouseX, mouseY, mouseButton);/*
 		if(mouseButton==0)
 		{
 			if(IEnCommonUtils.isPointInRectangle(guiLeft+96,guiTop+36,guiLeft+96+18,guiTop+36+9,mouseX,mouseY))
@@ -171,18 +171,18 @@ public class GUIFluidBattery extends GuiIEContainerBase
 				sendUpdatePacket();
 			}
 
-		}
+		}*/
 	}
 
 	private void sendUpdatePacket()
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setBoolean("dataControlMode",data);
+		/*nbt.setBoolean("dataControlMode",data);
 
         nbt.setBoolean("b1",switches[0]);
         nbt.setBoolean("b2",switches[1]);
         nbt.setBoolean("b3",switches[2]);
-        nbt.setBoolean("b4",switches[3]);
+        nbt.setBoolean("b4",switches[3]);*/
 		ImmersiveEngineering.packetHandler.sendToServer(new MessageTileSync(this.tile, nbt));
 	}
 }
