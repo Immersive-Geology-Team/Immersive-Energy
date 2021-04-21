@@ -1,5 +1,7 @@
 package crimson_twilight.immersive_energy.common.blocks.multiblock;
 
+import blusunrize.immersiveengineering.api.MultiblockHandler;
+import blusunrize.immersiveengineering.api.MultiblockHandler.IMultiblock;
 import blusunrize.immersiveengineering.api.crafting.IngredientStack;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
