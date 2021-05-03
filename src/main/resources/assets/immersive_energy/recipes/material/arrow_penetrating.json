@@ -5,20 +5,13 @@
     "count": 4
   },
   "pattern": [
-    "  P",
-    " S ",
-    "F  "
+    " LP",
+    "LSL",
+    "FL "
   ],
   "key": {
-    "E": {
-      "item": "#nuggetElectrum"
-    },
     "P": {
       "item": "minecraft:flint"
-    },
-    "W": {
-      "item": "immersiveengineering:wirecoil",
-      "data": 7
     },
     "S": {
       "item": "immersiveengineering:material",

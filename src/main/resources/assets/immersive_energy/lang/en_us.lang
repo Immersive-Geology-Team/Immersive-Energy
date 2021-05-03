@@ -26,6 +26,7 @@ item.immersive_energy.toolupgrade.wrench_capacitor.name=Wrench Capacitor Addon
 item.immersive_energy.toolupgrade.wrench_hv_capacitor.name=Wrench UHV Capacitor Addon
 
 item.immersive_energy.arrow_shocking.name=Shocking Arrow
+item.immersive_energy.arrow_penetrating.name=Piercing Arrow
 
 #Armor
 item.immersive_energy.power_armor_suit_head.name=Environmental Suit Helmet [WIP]
