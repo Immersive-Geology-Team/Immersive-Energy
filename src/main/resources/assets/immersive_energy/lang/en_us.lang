@@ -23,6 +23,7 @@ item.immersive_energy.toolupgrade.wrench_electric.name=Electric Wrench Addon
 item.immersive_energy.toolupgrade.wrench_thermal.name=Thermal Wrench Addon
 item.immersive_energy.toolupgrade.wrench_magic.name=Magical Wrench Addon
 item.immersive_energy.toolupgrade.wrench_capacitor.name=Wrench Capacitor Addon
+item.immersive_energy.toolupgrade.wrench_hv_capacitor.name=Wrench UHV Capacitor Addon
 
 item.immersive_energy.arrow_shocking.name=Shocking Arrow
 
@@ -99,6 +100,7 @@ desc.immersiveengineering.flavour.toolupgrade.wrench_electric=Can be quite shock
 desc.immersiveengineering.flavour.toolupgrade.wrench_thermal=Bringing the heat!
 desc.immersiveengineering.flavour.toolupgrade.wrench_magic=Not quite a magic missile, but it works!
 desc.immersiveengineering.flavour.toolupgrade.wrench_capacitor=Fits in the non existent palm of your hand!
+desc.immersiveengineering.flavour.toolupgrade.wrench_hv_capacitor=Double the power, double the strength*! Let nothing stand in your way with the new and improve UHV Capacitor**! *Strength not actually doubled **Requires secondary attachment to function
 
 desc.immersiveengineering.info.multiblock.IEn:FluidBattery=Fluid Battery
 

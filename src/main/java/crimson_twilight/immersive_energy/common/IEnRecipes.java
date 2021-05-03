@@ -41,6 +41,7 @@ public class IEnRecipes
 		BlueprintCraftingRecipe.addRecipe("advanced_tool", new ItemStack(IEnContent.itemUpgrades, 1, 1), new ItemStack(IEContent.itemMaterial, 1, 26), new ItemStack(IEContent.itemMaterial, 1, 26), Items.BLAZE_POWDER, new ItemStack(IEContent.itemMaterial, 1, 9), new ItemStack(IEContent.itemWireCoil, 1, 7), new ItemStack(IEContent.itemWireCoil, 1, 7));
 		BlueprintCraftingRecipe.addRecipe("advanced_tool", new ItemStack(IEnContent.itemUpgrades, 1, 2), new ItemStack(IEContent.itemMaterial, 1, 26), new ItemStack(IEContent.itemMaterial, 1, 26), "gemLapis", new ItemStack(IEContent.itemMaterial, 1, 9), new ItemStack(IEContent.itemWireCoil, 1, 7), new ItemStack(IEContent.itemWireCoil, 1, 7));
 		BlueprintCraftingRecipe.addRecipe("advanced_tool", new ItemStack(IEnContent.itemUpgrades, 1, 3), new ItemStack(IEContent.itemMaterial, 1, 9), new ItemStack(IEContent.itemWireCoil, 1, 7), "dustLead", Items.REDSTONE, "plateCopper", "plateCopper");
+		BlueprintCraftingRecipe.addRecipe("advanced_tool", new ItemStack(IEnContent.itemUpgrades, 1, 4), new ItemStack(IEContent.itemMaterial, 1, 10), new ItemStack(IEContent.itemWireCoil, 1, 2), "dustLead", Items.REDSTONE, "plateGold", "plateGold");
 	}
 
 	public static void initFurnaceRecipes()

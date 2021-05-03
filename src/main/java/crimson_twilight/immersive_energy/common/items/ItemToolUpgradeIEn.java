@@ -30,7 +30,8 @@ public class ItemToolUpgradeIEn extends ItemIEnBase implements IUpgrade
 		WRENCH_ELECTRIC(ImmutableSet.of("HEFTYWRENCH_HEAD"), 1, (target, upgrade) -> !((IUpgradeableTool)target.getItem()).getUpgrades(target).hasKey("thermal")&&!((IUpgradeableTool)target.getItem()).getUpgrades(target).hasKey("magic"), (upgrade, modifications) -> modifications.setBoolean("electro", true)),
 		WRENCH_THERMAL(ImmutableSet.of("HEFTYWRENCH_HEAD"), 1, (target, upgrade) -> !((IUpgradeableTool)target.getItem()).getUpgrades(target).hasKey("electro")&&!((IUpgradeableTool)target.getItem()).getUpgrades(target).hasKey("magic"), (upgrade, modifications) -> modifications.setBoolean("thermal", true)),
 		WRENCH_MAGIC(ImmutableSet.of("HEFTYWRENCH_HEAD"), 1, (target, upgrade) -> !((IUpgradeableTool)target.getItem()).getUpgrades(target).hasKey("thermal")&&!((IUpgradeableTool)target.getItem()).getUpgrades(target).hasKey("electro"), (upgrade, modifications) -> modifications.setBoolean("magic", true)),
-		WRENCH_CAPACITOR(ImmutableSet.of("HEFTYWRENCH_HANDLE"), (upgrade, modifications) -> modifications.setBoolean("capacitor", true)),
+		WRENCH_CAPACITOR(ImmutableSet.of("HEFTYWRENCH_HANDLE"), 1, (target, upgrade) -> !((IUpgradeableTool)target.getItem()).getUpgrades(target).hasKey("hv_capacitor"), (upgrade, modifications) -> modifications.setBoolean("capacitor", true)),
+		WRENCH_HV_CAPACITOR(ImmutableSet.of("HEFTYWRENCH_HANDLE"), 1, (target, upgrade) -> !((IUpgradeableTool)target.getItem()).getUpgrades(target).hasKey("capacitor"), (upgrade, modifications) -> modifications.setBoolean("hv_capacitor", true)),
 
 		ARMOR_PROTECTION_PLATES(ImmutableSet.of("POWERSUIT_HELMET", "POWERSUIT_CHEST", "POWERSUIT_LEGGS", "POWERSUIT_BOOTS"), 3, (upgrade, modifications) -> {
 			int armor = modifications.getInteger("armor_increase");

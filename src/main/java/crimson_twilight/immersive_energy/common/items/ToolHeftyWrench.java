@@ -174,7 +174,7 @@ public class ToolHeftyWrench extends ItemUpgradeableTool implements ITool, IItem
 	public boolean shouldRenderGroup(ItemStack stack, String group)
 	{
 		if(group.contains("UpgradeCapacitor"))
-			return hasCapacitor(stack);
+			return hasCapacitor(stack) ||hasHVCapacitor(stack);
 		else if(group.equals("Z_TubeMagic"))
 			return hasMagic(stack);
 		else if(group.equals("Z_TubePowered"))
@@ -221,18 +221,25 @@ public class ToolHeftyWrench extends ItemUpgradeableTool implements ITool, IItem
 	{
 		return getUpgrades(stack).hasKey("capacitor");
 	}
+
+	private boolean hasHVCapacitor(ItemStack stack)
+	{
+		return getUpgrades(stack).hasKey("hv_capacitor");
+	}
 	
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
     {
-    	int drain = 1600 - 300 * EnchantmentHelper.getEfficiencyModifier(attacker);
+    	int drain_mult = hasHVCapacitor(stack) ? 2 : 1;
+    	double hv_bonus = hasHVCapacitor(stack) ? 1.5 : 1;
+    	int drain = (1600 - 300 * EnchantmentHelper.getEfficiencyModifier(attacker)) * drain_mult;
 		if(drain < 0) drain = 0;
-		if(drain > 1600) drain = 1600;
+		if(drain > 1600 * drain_mult) drain = 1600 * drain_mult;
     	Multimap<String, AttributeModifier> multimap = stack.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
 		if(hasElectro(stack) && this.extractEnergy(stack, drain, true) >= drain)
 		{
     		ItemNBTHelper.setInt(stack, "energy", this.getEnergyStored(stack)-drain);
 			target.hurtResistantTime = 0;
-			ElectricDamageSource dmgsrc = IEDamageSources.causeTeslaDamage(ToolHeftyWrench.ELECTRIC_DAMAGE, true);
+			ElectricDamageSource dmgsrc = IEDamageSources.causeTeslaDamage(ToolHeftyWrench.ELECTRIC_DAMAGE * (float)hv_bonus, true);
 			if(dmgsrc.apply(target))
 			{
 				target.addPotionEffect(new PotionEffect(IEPotions.stunned, 128));
@@ -242,7 +249,7 @@ public class ToolHeftyWrench extends ItemUpgradeableTool implements ITool, IItem
 		{
     		ItemNBTHelper.setInt(stack, "energy", this.getEnergyStored(stack)-drain);
 			int duration = 4 + 4 * EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, stack);
-			target.setFire(duration);
+			target.setFire((int)(duration * hv_bonus));
 			attack(stack, target, multimap, thermalDamage, DamageSource.IN_FIRE, attacker);
 		}
 		if(hasMagic(stack) && this.extractEnergy(stack, drain, true) >= drain)
@@ -380,23 +387,25 @@ public class ToolHeftyWrench extends ItemUpgradeableTool implements ITool, IItem
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack)
 	{
-		int drain = 1600 - 300 * EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, stack);
+		int drain_mult = hasHVCapacitor(stack) ? 2 : 1;
+		double hv_bonus = hasHVCapacitor(stack) ? 1.5 : 1;
+		int drain = (1600 - 300 * EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, stack)) * drain_mult;
 		if(drain < 0) drain = 0;
-		if(drain > 1600) drain = 1600;
+		if(drain > 1600 * drain_mult) drain = 1600 * drain_mult;
 		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot, stack);
 		if(slot==EntityEquipmentSlot.MAINHAND && this.getEnergyStored(stack) >= drain)
 		{
 			if(hasMagic(stack))
 			{
-				multimap.put(magicalDamage.getName(), new AttributeModifier(Item.ATTACK_DAMAGE_MODIFIER, "Weapon modifier", MAGICAL_DAMAGE, 0));
+				multimap.put(magicalDamage.getName(), new AttributeModifier(Item.ATTACK_DAMAGE_MODIFIER, "Weapon modifier", MAGICAL_DAMAGE * hv_bonus, 0));
 			}
 			if(hasElectro(stack))
 			{
-				multimap.put(electricDamage.getName(), new AttributeModifier(Item.ATTACK_DAMAGE_MODIFIER, "Weapon modifier", ELECTRIC_DAMAGE, 0));
+				multimap.put(electricDamage.getName(), new AttributeModifier(Item.ATTACK_DAMAGE_MODIFIER, "Weapon modifier", ELECTRIC_DAMAGE * hv_bonus, 0));
 			}
 			if(hasThermal(stack))
 			{
-				multimap.put(thermalDamage.getName(), new AttributeModifier(Item.ATTACK_DAMAGE_MODIFIER, "Weapon modifier", THERMAL_DAMAGE+EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, stack), 0));
+				multimap.put(thermalDamage.getName(), new AttributeModifier(Item.ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (THERMAL_DAMAGE+EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, stack)) * hv_bonus, 0));
 			}
 		}
 		return multimap;
@@ -747,10 +756,9 @@ public class ToolHeftyWrench extends ItemUpgradeableTool implements ITool, IItem
 	public int getMaxEnergyStored(ItemStack stack) 
 	{
 		int storage = 0;
-		if(hasElectro(stack)||hasThermal(stack)||hasMagic(stack))
-			storage += 1600;
-		if(hasCapacitor(stack))
-			storage += 28800;
+		if(hasElectro(stack)||hasThermal(stack)||hasMagic(stack)) storage += 1600;
+		if(hasHVCapacitor(stack)) storage += 1600;
+		if(hasCapacitor(stack)) storage += 28800;
 		return storage;
 	}
 	
