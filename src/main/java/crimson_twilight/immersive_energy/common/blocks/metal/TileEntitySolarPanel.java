@@ -218,8 +218,9 @@ public class TileEntitySolarPanel extends TileEntityImmersiveConnectable impleme
 
     @Override
     public Vec3d getConnectionOffset(Connection con) {
-
-        return new Vec3d(0.5f, 0.156f, 0.5f);
+        EnumFacing side = facing.getOpposite();
+        double conRadius = con.cableType.getRenderDiameter()/2;
+        return new Vec3d(.5+side.getFrontOffsetX()*(.0625-conRadius), 0.156f+side.getFrontOffsetY()*(.0625-conRadius), .5+side.getFrontOffsetZ()*(.0625-conRadius));
     }
 
     boolean inICNet = false;
