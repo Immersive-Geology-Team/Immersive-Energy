@@ -90,8 +90,10 @@ import net.minecraftforge.items.IItemHandler;
 import pl.pabilo8.immersiveintelligence.Config;
 import pl.pabilo8.immersiveintelligence.api.utils.IWrench;
 import pl.pabilo8.immersiveintelligence.api.utils.vehicles.IUpgradableMachine;
+import net.minecraftforge.fml.common.Optional;
 
-@SuppressWarnings("deprecation")
+
+@Optional.Interface(iface="IWrench",modid="immersiveintelligence")
 public class ToolHeftyWrench extends ItemUpgradeableTool implements ITool, IItemDamageableIE, IIEEnergyItem, IOBJModelCallback<ItemStack>, IWrench
 {
 	public static final int DURABILITY = 25600;
