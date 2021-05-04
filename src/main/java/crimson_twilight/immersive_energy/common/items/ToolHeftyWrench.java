@@ -87,9 +87,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import pl.pabilo8.immersiveintelligence.Config;
+import pl.pabilo8.immersiveintelligence.api.utils.IWrench;
+import pl.pabilo8.immersiveintelligence.api.utils.vehicles.IUpgradableMachine;
 
 @SuppressWarnings("deprecation")
-public class ToolHeftyWrench extends ItemUpgradeableTool implements ITool, IItemDamageableIE, IIEEnergyItem, IOBJModelCallback<ItemStack>
+public class ToolHeftyWrench extends ItemUpgradeableTool implements ITool, IItemDamageableIE, IIEEnergyItem, IOBJModelCallback<ItemStack>, IWrench
 {
 	public static final int DURABILITY = 25600;
 	public static final double ATTACK_DAMAGE = 6d;
@@ -491,6 +494,27 @@ public class ToolHeftyWrench extends ItemUpgradeableTool implements ITool, IItem
 	boolean performHammerFunctions(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand)
 	{
 		ItemStack stack = player.getHeldItem(hand);
+		try
+		{
+			if(world.getTileEntity(pos) instanceof IUpgradableMachine)
+			{
+				IUpgradableMachine te = ((IUpgradableMachine)world.getTileEntity(pos)).getUpgradeMaster();
+				if(te!=null&&te.getCurrentlyInstalled()!=null)
+				{
+					te.addUpgradeInstallProgress(player.isCreative()?999999: 500);
+					if(te.getInstallProgress() >= te.getCurrentlyInstalled().getProgressRequired())
+					{
+						if(te.addUpgrade(te.getCurrentlyInstalled(), false))
+							te.resetInstallProgress();
+					}
+					stack.damageItem(50, player);
+					return true;
+				}
+			}
+		}catch(Exception ignored)
+		{
+			System.out.println("failed wrench");
+		}
 		
 		String[] permittedMultiblocks = null;
 		String[] interdictedMultiblocks = null;
@@ -544,6 +568,7 @@ public class ToolHeftyWrench extends ItemUpgradeableTool implements ITool, IItem
 		IBlockState state = world.getBlockState(pos);
 		if(tile==null)
 			return false;
+
 
 
 		if(tile instanceof IConfigurableSides&&!world.isRemote)
@@ -715,7 +740,6 @@ public class ToolHeftyWrench extends ItemUpgradeableTool implements ITool, IItem
 		player.setActiveHand(hand);
 		if(performHammerFunctions(player,world,pos,side,hitX,hitY,hitZ,hand))
 		{
-			System.out.print("hammer");
 		    return EnumActionResult.SUCCESS;
 		}
 		return EnumActionResult.PASS;
@@ -797,7 +821,7 @@ public class ToolHeftyWrench extends ItemUpgradeableTool implements ITool, IItem
 	@Override
 	public Set<String> getToolClasses(ItemStack stack)
 	{
-		return ImmutableSet.of("II_ADVANCED_HAMMER");
+		return ImmutableSet.of("II_ADVANCED_HAMMER", "II_WRENCH");
 	}
 
 	@Override
@@ -885,5 +909,15 @@ public class ToolHeftyWrench extends ItemUpgradeableTool implements ITool, IItem
 	        }
 	    }
 	    return null;
+	}
+
+	@Override
+	public boolean canBeUsed(ItemStack itemStack) {
+		return true;
+	}
+
+	@Override
+	public void damageWrench(ItemStack itemStack, EntityPlayer entityPlayer) {
+
 	}
 }
