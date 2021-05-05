@@ -603,7 +603,7 @@ public class ToolHeftyWrench extends ItemUpgradeableTool implements ITool, IItem
 		{
 			boolean b = ((IHammerInteraction)tile).hammerUseSide(side, player, hitX, hitY, hitZ);
 			if(b)
-				return b;
+				return true;
 		}
 
 		return false;
