@@ -1,16 +1,16 @@
 [
 {
-  "modid": "immersive_energy",
-  "name": "Immersive Energy",
-  "description": "An expansion of early and late game energy generation for Immersive Engineering",
+  "modid": "examplemod",
+  "name": "Example Mod",
+  "description": "Example placeholder mod.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["Crimson Twilight"],
-  "credits": "McJTY, Pabilo8 , Muddykat, Bootstrap22",
-  "logoFile": "assets/immersive_energy/logo.png",
+  "authorList": ["ExampleDude"],
+  "credits": "The Forge and FML guys, for making this example",
+  "logoFile": "",
   "screenshots": [],
-  "dependencies": ["immersiveengineering"]
+  "dependencies": []
 }
 ]
