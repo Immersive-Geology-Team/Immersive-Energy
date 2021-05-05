@@ -23,12 +23,12 @@ compileJava {
 }
 
 minecraft {
-     version = "1.12.2-14.23.5.2847"
+    version = "1.12.2-14.23.5.2847"
     runDir = "run"
 
     replace "@VERSION@", project.version
-    
-    
+
+
 
     // the mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   snapshot are built nightly.
@@ -70,24 +70,28 @@ repositories {
             name = "CurseForge"
             url = "https://minecraft.curseforge.com/api/maven/"
         }
-        
+
         flatDir {
-        dirs "libs"
+            dirs "libs"
         }
     }
 
 }
 
 dependencies {
-    compileOnly "team.chisel.ctm:CTM:MC1.12.2-0.3.2.18"
+    deobfCompile "team.chisel.ctm:CTM:MC1.12.2-1.0.2.31"
     deobfCompile "blusunrize:ImmersiveEngineering:0.12-92-+"
-    deobfCompile "mezz.jei:jei_1.12.2:4.15.+"
+    // compile against the JEI API but do not include it at runtime
+    compileOnly "mezz.jei:jei_1.12.2:4.16.1.301:api"
+    // at runtime, use the full JEI jar
+    runtimeOnly "mezz.jei:jei_1.12.2:4.16.1.301"
     deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.8.468"
     compileOnly "albedo:albedo:0.1.3"
     deobfCompile "serene-seasons:SereneSeasons-1.12.2:1.2.18:universal"
     //Maybe someday...
     //deobfCompile "albedo:albedo:1.12.2:1.1.0"
     deobfCompile 'baubles:Baubles:1.12:1.5.2'
+    //compileOnly "curse.maven:immersive-petroleum-268250:2544919"
     compile "pl.pabilo8.immersiveintelligence:immersiveintelligence-0.2.0"
 }
 
@@ -97,7 +101,7 @@ jar {
 
 task deobfJar(type: Jar) {
     from sourceSets.main.output
-        archiveName = "${baseName}-1.12.2-${version}-deobf.jar"
+    archiveName = "${baseName}-1.12.2-${version}-deobf.jar"
     classifier = 'deobf'
 }
 
