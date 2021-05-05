@@ -103,18 +103,30 @@ public class IEnContent {
 
     public static Fluid fluidCharged;
     public static Fluid fluidCharging;
+    public static Fluid fluidSteam;
+    public static Fluid fluidExhaustedSteam;
+    public static Fluid fluidSuperheatedSteam;
 
     public static BlockIEnFluid block_fluid_charged;
     public static BlockIEnFluid block_fluid_charging;
+    public static BlockIEnFluid block_fluid_steam;
+    public static BlockIEnFluid block_fluid_exhausted_steam;
+    public static BlockIEnFluid block_fluid_superheated_steam;
 
     static {
         // TODO: 02.12.2020 Kuruma, tinker with those values
     	fluidCharged = makeFluid("charged_fluid",500,1000);
     	fluidCharging = makeFluid("charging_fluid",500,1000);
+        fluidSteam = makeFluid("steam", 1, 1000).setGaseous(true);
+        fluidExhaustedSteam = makeFluid("exhausted_steam", -1, 1000).setGaseous(true);
+        fluidSuperheatedSteam = makeFluid("superheated_steam", 10, 1000).setGaseous(true);
 
         // TODO: 02.12.2020 With those too, rename them if you want
         block_fluid_charged = new BlockIEnFluid("charged_fluid", fluidCharged, Material.WATER);
         block_fluid_charging = new BlockIEnFluid("charging_fluid", fluidCharging, Material.WATER);
+        block_fluid_steam = new BlockIEnFluid("steam_fluid", fluidSteam, Material.WATER);
+        block_fluid_exhausted_steam = new BlockIEnFluid("exhausted_steam_fluid", fluidExhaustedSteam, Material.WATER);
+        block_fluid_superheated_steam = new BlockIEnFluid("superheated_steam_fluid", fluidSuperheatedSteam, Material.WATER);
     }
 
     public static void preInit() {
@@ -383,7 +395,8 @@ public class IEnContent {
                 new ResourceLocation(ImmersiveEnergy.MODID+":blocks/fluid/"+prefix+name+"_still"),
                 new ResourceLocation(ImmersiveEnergy.MODID+":blocks/fluid/"+prefix+name+"_flow")
         ).setDensity(density).setViscosity(viscosity);
-        FluidRegistry.addBucketForFluid(fl);
+        if(!fl.isGaseous())
+            FluidRegistry.addBucketForFluid(fl);
         if(!FluidRegistry.registerFluid(fl))
             fl = FluidRegistry.getFluid(fl.getName());
 
