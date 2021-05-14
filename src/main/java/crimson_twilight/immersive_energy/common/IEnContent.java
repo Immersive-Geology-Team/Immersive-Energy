@@ -85,6 +85,7 @@ public class IEnContent {
 
     public static ItemIEnBase itemMetal;
     public static ItemIEnBase itemMaterial;
+    public static ItemIEnBase itemMold;
     public static ItemIEnBase itemThoriumRod;
     public static ItemIEnBase itemUraniumRod;
 
@@ -143,6 +144,7 @@ public class IEnContent {
                 "nugget_thorium", "nugget_tungsten",
                 "plate_thorium", "plate_tungsten");
         itemMaterial = new ItemIEnMaterial();
+        itemMold = new ItemIEnBase("mold", 1, "nail");
         itemThoriumRod = new ItemThoriumRod();
         itemUraniumRod = new ItemUraniumRod();
 

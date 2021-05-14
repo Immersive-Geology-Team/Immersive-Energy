@@ -1,0 +1,19 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "immersive_energy:iron_nail"
+  },
+  "pattern": [
+    " H",
+    "nn"
+  ],
+  "key": {
+    "n": {
+      "item": "#nuggetIron"
+    },
+    "H": {
+      "item": "immersiveengineering:tool",
+      "data": 0
+    }
+  }
+}

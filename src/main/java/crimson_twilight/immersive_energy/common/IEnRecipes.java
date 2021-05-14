@@ -2,6 +2,7 @@ package crimson_twilight.immersive_energy.common;
 
 import blusunrize.immersiveengineering.api.crafting.BlueprintCraftingRecipe;
 import blusunrize.immersiveengineering.api.crafting.IngredientStack;
+import blusunrize.immersiveengineering.api.crafting.MetalPressRecipe;
 import blusunrize.immersiveengineering.api.crafting.MixerRecipe;
 import blusunrize.immersiveengineering.api.tool.ExcavatorHandler;
 import blusunrize.immersiveengineering.common.IEContent;
@@ -42,6 +43,8 @@ public class IEnRecipes
 		BlueprintCraftingRecipe.addRecipe("advanced_tool", new ItemStack(IEnContent.itemUpgrades, 1, 2), new ItemStack(IEContent.itemMaterial, 1, 26), new ItemStack(IEContent.itemMaterial, 1, 26), "gemLapis", new ItemStack(IEContent.itemMaterial, 1, 9), new ItemStack(IEContent.itemWireCoil, 1, 7), new ItemStack(IEContent.itemWireCoil, 1, 7));
 		BlueprintCraftingRecipe.addRecipe("advanced_tool", new ItemStack(IEnContent.itemUpgrades, 1, 3), new ItemStack(IEContent.itemMaterial, 1, 9), new ItemStack(IEContent.itemWireCoil, 1, 7), "dustLead", Items.REDSTONE, "plateCopper", "plateCopper");
 		BlueprintCraftingRecipe.addRecipe("advanced_tool", new ItemStack(IEnContent.itemUpgrades, 1, 4), new ItemStack(IEContent.itemMaterial, 1, 10), new ItemStack(IEContent.itemWireCoil, 1, 2), "dustLead", Items.REDSTONE, "plateGold", "plateGold");
+
+		BlueprintCraftingRecipe.addRecipe("molds", new ItemStack(IEnContent.itemMold, 1, 0), "plateSteel", "plateSteel", "plateSteel", "plateSteel", "plateSteel", new ItemStack(IEnContent.itemNail, 1));
 	}
 
 	public static void initFurnaceRecipes()
@@ -73,7 +76,8 @@ public class IEnRecipes
 
 	public static void initMetalPressRecipes()
 	{
-		
+		MetalPressRecipe.addRecipe(new ItemStack(IEnContent.itemNail, 1, 0), "nuggetIron", new ItemStack(IEnContent.itemMold, 1, 0), 100);
+		MetalPressRecipe.addRecipe(new ItemStack(IEnContent.itemNail, 1, 1), "nuggetSteel", new ItemStack(IEnContent.itemMold, 1, 0), 100);
 	}
 
 	public static void initCrusherRecipes()

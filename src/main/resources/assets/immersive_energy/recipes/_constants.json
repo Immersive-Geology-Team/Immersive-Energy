@@ -401,6 +401,20 @@
   {
     "ingredient": {
       "type": "forge:ore_dict",
+      "ore": "nuggetIron"
+    },
+    "name": "nuggetIron"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetSteel"
+    },
+    "name": "nuggetSteel"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
       "ore": "paneGlass"
     },
     "name": "paneGlass"
