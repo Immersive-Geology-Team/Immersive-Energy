@@ -23,9 +23,9 @@ public class ArrowLogicPenetrating implements IArrowLogic
 		if(arrow.getIgnoreInvulnerability())
 			target.hurtResistantTime = 0;
 		if(arrow.shootingEntity == null)
-			target.attackEntityFrom(IEnDamageSources.causePenetratingProjectileDamage(arrow, arrow), penetrating_damage);
+			target.attackEntityFrom(IEnDamageSources.causePenetratingArrowDamage(arrow, arrow), penetrating_damage);
 		else
-			target.attackEntityFrom(IEnDamageSources.causePenetratingProjectileDamage(arrow, arrow.shootingEntity), penetrating_damage);
+			target.attackEntityFrom(IEnDamageSources.causePenetratingArrowDamage(arrow, arrow.shootingEntity), penetrating_damage);
 		for(ItemStack armor : target.getArmorInventoryList())
 		{
 			armor.damageItem((int) this.penetrating_damage * 4, target);

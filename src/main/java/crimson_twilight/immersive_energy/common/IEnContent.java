@@ -29,17 +29,8 @@ import crimson_twilight.immersive_energy.common.blocks.multiblock.BlockMetalMult
 import crimson_twilight.immersive_energy.common.blocks.multiblock.MultiblockFluidBattery;
 import crimson_twilight.immersive_energy.common.blocks.multiblock.TileEntityFluidBattery;
 import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
-import crimson_twilight.immersive_energy.common.items.IEnArrowBase;
-import crimson_twilight.immersive_energy.common.items.ItemIEnBase;
-import crimson_twilight.immersive_energy.common.items.ItemIEnMaterial;
-import crimson_twilight.immersive_energy.common.items.ItemPowerArmorBoots;
-import crimson_twilight.immersive_energy.common.items.ItemPowerArmorChestplate;
-import crimson_twilight.immersive_energy.common.items.ItemPowerArmorHelmet;
-import crimson_twilight.immersive_energy.common.items.ItemPowerArmorLegs;
-import crimson_twilight.immersive_energy.common.items.ItemThoriumRod;
-import crimson_twilight.immersive_energy.common.items.ItemToolUpgradeIEn;
-import crimson_twilight.immersive_energy.common.items.ItemUraniumRod;
-import crimson_twilight.immersive_energy.common.items.ToolHeftyWrench;
+import crimson_twilight.immersive_energy.common.entities.EntityIEnNail;
+import crimson_twilight.immersive_energy.common.items.*;
 import crimson_twilight.immersive_energy.common.util.ArrowLogicPenetrating;
 import crimson_twilight.immersive_energy.common.util.ArrowLogicShock;
 import crimson_twilight.immersive_energy.common.world.IEnWorldGen;
@@ -62,6 +53,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -97,8 +89,10 @@ public class IEnContent {
     public static ItemIEnBase itemUraniumRod;
 
     public static IEnArrowBase itemArrow;
+    public static ItemIEnNail itemNail;
     public static ItemIEnBase itemUpgrades;
     public static ToolHeftyWrench toolHeftyWrench;
+    public static ItemIEnNailGun itemIEnNailGun;
     //public static ItemIEBase toolUpgradeableCrossbow;
 
     public static Fluid fluidCharged;
@@ -162,8 +156,11 @@ public class IEnContent {
         //Tools and Weapons
         itemArrow = new IEnArrowBase("arrow_shocking", "electricdamage", String.valueOf(Tools.shock_arrow_electric_damage)).setDamage(Tools.shock_arrow_regular_damage).setKnockback(Tools.shock_arrow_knockback).setIgnoreInvulnerability(Tools.shock_arrow_ignore).setLogic(new ArrowLogicShock(Tools.shock_arrow_electric_damage));
         itemArrow = new IEnArrowBase("arrow_penetrating", "penetratingdamage", String.valueOf(Tools.penetrating_arrow_regular_damage)).setDamage(Tools.penetrating_arrow_regular_damage).setKnockback(Tools.penetrating_arrow_knockback).setIgnoreInvulnerability(Tools.penetrating_arrow_ignore).setLogic(new ArrowLogicPenetrating(Tools.penetrating_arrow_penetrating_damage));
+        itemNail = new ItemIEnNail("iron_nail", 6, 4);
+        itemNail = new ItemIEnNail("steel_nail", 64, 6);
         itemUpgrades = new ItemToolUpgradeIEn();
         toolHeftyWrench = new ToolHeftyWrench();
+        itemIEnNailGun = new ItemIEnNailGun();
         //toolUpgradeableCrossbow = new ToolUpgradeableCrossbow();
     }
 
@@ -195,6 +192,10 @@ public class IEnContent {
         registerTile(TileEntityEmergencyLight.class);
         registerTile(TileEntityGasBurner.class);
         registerTile(TileEntityFluidBattery.class);
+
+        //ENTITIES
+        int i = 0;
+        EntityRegistry.registerModEntity(new ResourceLocation(ImmersiveEnergy.MODID, "nail"), EntityIEnNail.class, "nail", i++, ImmersiveEnergy.instance, 64, 1, true);
 
         //Multiblocks
         MultiblockHandler.registerMultiblock(MultiblockFluidBattery.instance);

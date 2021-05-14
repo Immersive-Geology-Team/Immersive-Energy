@@ -1,9 +1,6 @@
 package crimson_twilight.immersive_energy.common.compat;
 
-import blusunrize.immersiveengineering.common.util.IELogger;
-import crimson_twilight.immersive_energy.common.Config;
 import crimson_twilight.immersive_energy.common.Config.IEnConfig;
-import crimson_twilight.immersive_energy.common.util.IEnLogger;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -46,7 +43,7 @@ public abstract class IEnCompatModule
 					m.preInit();
 				} catch(Exception exception)
 				{
-					IEnLogger.error("Compat module for "+e.getKey()+" could not be preInitialized. Report this and include the error message below!", exception);
+					//IEnLogger.error("Compat module for "+e.getKey()+" could not be preInitialized. Report this and include the error message below!", exception);
 				}
 	}
 
@@ -58,7 +55,7 @@ public abstract class IEnCompatModule
 				compat.registerRecipes();
 			} catch(Exception exception)
 			{
-				IEnLogger.error("Compat module for "+compat+" could not register recipes. Report this and include the error message below!", exception);
+				//IEnLogger.error("Compat module for "+compat+" could not register recipes. Report this and include the error message below!", exception);
 			}
 	}
 
@@ -70,7 +67,7 @@ public abstract class IEnCompatModule
 				compat.init();
 			} catch(Exception exception)
 			{
-				IEnLogger.error("Compat module for "+compat+" could not be initialized. Report this and include the error message below!", exception);
+				//IEnLogger.error("Compat module for "+compat+" could not be initialized. Report this and include the error message below!", exception);
 			}
 	}
 
@@ -82,7 +79,7 @@ public abstract class IEnCompatModule
 				compat.postInit();
 			} catch(Exception exception)
 			{
-				IEnLogger.error("Compat module for "+compat+" could not be postInitialized. Report this and include the error message below!", exception);
+				//IEnLogger.error("Compat module for "+compat+" could not be postInitialized. Report this and include the error message below!", exception);
 			}
 	}
 
@@ -101,7 +98,7 @@ public abstract class IEnCompatModule
 
 				} catch(Exception exception)
 				{
-					IEnLogger.error("Compat module for "+compat+" could not be initialized. Report this and include the error message below!", exception);
+					//IEnLogger.error("Compat module for "+compat+" could not be initialized. Report this and include the error message below!", exception);
 				}
 		}
 	}

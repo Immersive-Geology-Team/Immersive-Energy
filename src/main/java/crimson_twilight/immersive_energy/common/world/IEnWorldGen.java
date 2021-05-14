@@ -10,7 +10,6 @@ import com.google.common.collect.ArrayListMultimap;
 import blusunrize.immersiveengineering.common.util.IELogger;
 import crimson_twilight.immersive_energy.common.Config.IEnConfig;
 import crimson_twilight.immersive_energy.common.Config.IEnConfig.Ores;
-import crimson_twilight.immersive_energy.common.util.IEnLogger;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
@@ -117,7 +116,7 @@ public class IEnWorldGen implements IWorldGenerator
 		if((!event.getData().getCompoundTag("ImmersiveEnergy").hasKey(IEnConfig.Ores.retrogen_key))&&(Ores.retrogen_thorium||Ores.retrogen_tungsten))
 		{
 			if(IEnConfig.Ores.retrogen_log_flagChunk)
-				IEnLogger.info("Chunk "+event.getChunk().getPos()+" has been flagged for Ore RetroGeneration by IEn.");
+
 			retrogenChunks.put(dimension, event.getChunk().getPos());
 		}
 	}
@@ -148,7 +147,7 @@ public class IEnWorldGen implements IWorldGenerator
 				this.generateOres(fmlRandom, loc.x, loc.z, event.world, false);
 				chunks.remove(0);
 			}
-		if(counter > 0 && IEnConfig.Ores.retrogen_log_remaining)
-			IELogger.info("Retrogen was performed on "+counter+" Chunks, "+Math.max(0, chunks.size())+" chunks remaining");
+		//if(counter > 0 && IEnConfig.Ores.retrogen_log_remaining)
+
 	}
 }

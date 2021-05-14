@@ -8,12 +8,11 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
-import com.mojang.realmsclient.util.Pair;
-
 import blusunrize.immersiveengineering.common.util.EnergyHelper;
 import blusunrize.immersiveengineering.common.util.Utils;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
 import crimson_twilight.immersive_energy.common.util.IEnDamageSources;
+import javafx.util.Pair;
 import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

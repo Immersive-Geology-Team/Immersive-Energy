@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import blusunrize.immersiveengineering.common.util.IELogger;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
-import crimson_twilight.immersive_energy.common.util.IEnLogger;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent.MissingMappings;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -40,7 +39,7 @@ public class NameRemapper
 			}
 			else
 			{
-				IEnLogger.error("Couldn't remap "+miss.key);
+				//IEnLogger.error("Couldn't remap "+miss.key);
 			}
 		}
 	}

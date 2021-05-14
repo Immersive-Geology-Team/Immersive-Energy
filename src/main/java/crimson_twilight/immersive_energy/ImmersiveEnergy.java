@@ -6,7 +6,6 @@ import net.minecraft.dispenser.BehaviorProjectileDispense;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.projectile.EntityArrow;
-import org.apache.logging.log4j.Logger;
 
 import blusunrize.immersiveengineering.common.IEContent;
 import crimson_twilight.immersive_energy.client.RenderGuiHandler;
@@ -29,6 +28,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import java.util.logging.Logger;
+
 @Mod(modid = ImmersiveEnergy.MODID, name = ImmersiveEnergy.MODNAME, version = ImmersiveEnergy.MODVERSION, dependencies = "required-after:immersiveengineering;after:sereneseasons", useMetadata = true)
 public class ImmersiveEnergy 
 {
@@ -43,14 +44,12 @@ public class ImmersiveEnergy
     @SidedProxy(clientSide = "crimson_twilight.immersive_energy.client.ClientProxy", serverSide = "crimson_twilight.immersive_energy.common.CommonProxy")
     public static CommonProxy proxy;
 
-    public static Logger logger;
 
 	//public static final SimpleNetworkWrapper packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent e) 
     {
-        logger = e.getModLog();
         IEnContent.preInit();
         proxy.preInit();
         

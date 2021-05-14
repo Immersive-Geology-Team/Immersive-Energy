@@ -113,7 +113,7 @@ public class PowerArmorModel extends ModelBiped {
             GlStateManager.scale(1.06, 1.06, 1.06);
 
             List<BakedQuad> quads = model.getQuads(null, null, 1);
-            ImmersiveEnergy.logger.info(quads);
+            //ImmersiveEnergy.logger.info(quads);
             if (!quads.isEmpty()) {
 
             }
