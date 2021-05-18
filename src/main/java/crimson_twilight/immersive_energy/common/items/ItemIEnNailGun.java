@@ -8,17 +8,17 @@ import blusunrize.immersiveengineering.common.util.Utils;
 import crimson_twilight.immersive_energy.INail;
 import crimson_twilight.immersive_energy.common.entities.EntityIEnNail;
 import crimson_twilight.immersive_energy.common.helper.IEnSlot;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -102,6 +102,12 @@ public class ItemIEnNailGun extends ItemUpgradeableTool implements ITool
     }
 
     @Override
+    public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
+        if(performInWorldRecipe(player.getHeldItem(hand), world.getBlockState(pos).getBlock(), player.isSneaking())) return EnumActionResult.SUCCESS;
+        return EnumActionResult.PASS;
+    }
+
+    @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
         ItemStack nail_gun = player.getHeldItem(hand);
         if (!world.isRemote)
@@ -130,4 +136,13 @@ public class ItemIEnNailGun extends ItemUpgradeableTool implements ITool
         entNail.motionZ = vecDir.z*2;
         return entNail;
     }
+
+    private boolean performInWorldRecipe(ItemStack stack, Block block, boolean isSneaking)
+    {
+        if(!isSneaking) return false;
+
+        return false;
+    }
+
+
 }
