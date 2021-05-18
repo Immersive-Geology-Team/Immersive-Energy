@@ -2,6 +2,7 @@ package crimson_twilight.immersive_energy.common.entities;
 
 import blusunrize.immersiveengineering.common.util.Utils;
 import crimson_twilight.immersive_energy.INail;
+import crimson_twilight.immersive_energy.common.Config;
 import crimson_twilight.immersive_energy.common.util.IEnDamageSources;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -38,7 +39,7 @@ public class EntityIEnNail extends Entity
     private int tickLimit = 40;
     private ItemStack nailStack;
     protected int damage = 0;
-    boolean resetHurt = false;
+    boolean resetHurt = Config.IEnConfig.Tools.nail_gun_no_invulnerability;
     boolean setFire = false;
 
     private static final DataParameter<String> dataMarker_shooter = EntityDataManager.createKey(EntityIEnNail.class, DataSerializers.STRING);
@@ -245,14 +246,14 @@ public class EntityIEnNail extends Entity
 
     protected void onImpact(RayTraceResult mop) {
         boolean headshot = false;
-        if(mop.entityHit instanceof EntityLivingBase)
+        if(mop.entityHit instanceof EntityLivingBase) {
             headshot = Utils.isVecInEntityHead((EntityLivingBase) mop.entityHit, new Vec3d(posX, posY, posZ));
-
+        }
         if(this.nailStack != ItemStack.EMPTY) {
-            INail nail = (INail) this.nailStack.getItem();
             if(!world.isRemote&&mop.entityHit!=null&&this.shootingEntity!=null)
             {
-                int damage = headshot ? this.damage * 2 : this.damage;
+                int damage = headshot ? (int)((double)this.damage * 1.5) : this.damage;
+                damage = (int)Math.ceil((double)damage * this.getVelocity() / 2);
                 if (mop.entityHit.attackEntityFrom(IEnDamageSources.causePenetratingNailDamage(this, this.shootingEntity), damage))
                 {
                     if(resetHurt) mop.entityHit.hurtResistantTime = 0;
@@ -263,15 +264,22 @@ public class EntityIEnNail extends Entity
         if(mop.typeOfHit== RayTraceResult.Type.BLOCK)
         {
             IBlockState state = this.world.getBlockState(mop.getBlockPos());
-            if(state.getBlock().getMaterial(state)!=Material.AIR)
+            if(state.getBlock().getMaterial(state)!=Material.AIR) {
                 state.getBlock().onEntityCollidedWithBlock(this.world, mop.getBlockPos(), state, this);
+            }
         }
+        this.onExpire();
         this.setDead();
     }
 
     public void onExpire()
     {
 
+    }
+
+    public double getVelocity()
+    {
+        return MathHelper.sqrt(this.motionX*this.motionX+this.motionY*this.motionY+this.motionZ*this.motionZ);
     }
 
     protected float getMotionFactor()

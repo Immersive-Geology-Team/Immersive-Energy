@@ -137,7 +137,7 @@ public class Config
 			public static int shock_arrow_electric_damage = 3;
 			@Comment({"Base knockback of Shocking Arrow.", "Default: 0"})
 			public static int shock_arrow_knockback = 0;
-			@Comment({"Does the Shocking Arrow ignore invunrability frames.", "Default: false"})
+			@Comment({"Does the Shocking Arrow ignore invulnerability frames.", "Default: false"})
 			public static boolean shock_arrow_ignore = false;
 			@Comment({"Base damage of Piercing Arrow.", "Default: 2"})
 			public static int penetrating_arrow_regular_damage = 2;
@@ -145,7 +145,7 @@ public class Config
 			public static int penetrating_arrow_penetrating_damage = 3;
 			@Comment({"Base knockback of Piercing Arrow.", "Default: 1"})
 			public static int penetrating_arrow_knockback = 1;
-			@Comment({"Does the Piercing Arrow ignore invunrability frames.", "Default: true"})
+			@Comment({"Does the Piercing Arrow ignore invulnerability frames.", "Default: true"})
 			public static boolean penetrating_arrow_ignore = true;
 
 			@Comment({"Resistance to damage added by Additional Armor Plates upgrade", "Default: 3"})
@@ -154,6 +154,9 @@ public class Config
 			public static int heat_base_resist = 100;
 			@Comment({"Resistance to heat added by each Heat Resistant Plates upgrade", "Default: 5000"})
 			public static int heat_upgrade_resist = 5000;
+
+			@Comment({"Does the Piercing Arrow ignore invulnerability frames.", "Default: true"})
+			public static boolean nail_gun_no_invulnerability = true;
 		}
 
 		public static void preInit(FMLPreInitializationEvent event)

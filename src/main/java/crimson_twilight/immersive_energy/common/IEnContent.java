@@ -158,7 +158,7 @@ public class IEnContent {
         //Tools and Weapons
         itemArrow = new IEnArrowBase("arrow_shocking", "electricdamage", String.valueOf(Tools.shock_arrow_electric_damage)).setDamage(Tools.shock_arrow_regular_damage).setKnockback(Tools.shock_arrow_knockback).setIgnoreInvulnerability(Tools.shock_arrow_ignore).setLogic(new ArrowLogicShock(Tools.shock_arrow_electric_damage));
         itemArrow = new IEnArrowBase("arrow_penetrating", "penetratingdamage", String.valueOf(Tools.penetrating_arrow_regular_damage)).setDamage(Tools.penetrating_arrow_regular_damage).setKnockback(Tools.penetrating_arrow_knockback).setIgnoreInvulnerability(Tools.penetrating_arrow_ignore).setLogic(new ArrowLogicPenetrating(Tools.penetrating_arrow_penetrating_damage));
-        itemNail = new ItemIEnNail("iron_nail", 6, 4);
+        itemNail = new ItemIEnNail("iron_nail", 64, 4);
         itemNail = new ItemIEnNail("steel_nail", 64, 6);
         itemUpgrades = new ItemToolUpgradeIEn();
         toolHeftyWrench = new ToolHeftyWrench();

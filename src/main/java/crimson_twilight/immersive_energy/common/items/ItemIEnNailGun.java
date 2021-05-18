@@ -96,7 +96,7 @@ public class ItemIEnNailGun extends ItemUpgradeableTool implements ITool
     {
         IItemHandler inv = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
         if(inv!=null)
-            if(!inv.getStackInSlot(0).isEmpty()&&inv.getStackInSlot(0).getItem() instanceof INail&&(allowCasing|| ItemNBTHelper.hasKey(inv.getStackInSlot(0), "nails")))
+            if(!inv.getStackInSlot(0).isEmpty()&&inv.getStackInSlot(0).getItem() instanceof INail&&ItemNBTHelper.hasKey(inv.getStackInSlot(0), "nails"))
                 return false;
         return true;
     }
@@ -106,15 +106,11 @@ public class ItemIEnNailGun extends ItemUpgradeableTool implements ITool
         ItemStack nail_gun = player.getHeldItem(hand);
         if (!world.isRemote)
         {
-            System.out.println("Not Remote!");
             IItemHandlerModifiable inv = (IItemHandlerModifiable)nail_gun.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
             assert inv!=null;
             NonNullList<ItemStack> nails = ListUtils.fromItems(this.getContainedItems(nail_gun));
-            System.out.println(!nails.get(0).isEmpty());
-            System.out.println(nails.get(0).getItem() instanceof INail);
             if(!nails.get(0).isEmpty()&&nails.get(0).getItem() instanceof INail)
             {
-                System.out.println("Fire!");
                 Vec3d vec = player.getLookVec();
                 Entity entNail = getNail(world, player, vec, nails.get(0));
                 player.world.spawnEntity(entNail);
