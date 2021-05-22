@@ -1,6 +1,6 @@
 package crimson_twilight.immersive_energy.common.items;
 
-import crimson_twilight.immersive_energy.INail;
+import crimson_twilight.immersive_energy.api.tool.INail;
 
 public class ItemIEnNail extends ItemIEnBase implements INail
 {

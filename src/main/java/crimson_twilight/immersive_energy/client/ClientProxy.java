@@ -13,12 +13,14 @@ import blusunrize.immersiveengineering.client.render.ItemRendererIEOBJ;
 import blusunrize.immersiveengineering.common.blocks.BlockIEFluid;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces.IGuiTile;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces.IIEMetaBlock;
+import blusunrize.immersiveengineering.common.items.IEItemInterfaces;
 import blusunrize.immersiveengineering.common.util.IELogger;
 import blusunrize.immersiveengineering.common.util.chickenbones.Matrix4;
 import blusunrize.lib.manual.ManualPages;
 import crimson_twilight.immersive_energy.ImmersiveEnergy;
 import crimson_twilight.immersive_energy.client.gui.GUIFluidBattery;
 import crimson_twilight.immersive_energy.client.gui.GUIGasBurner;
+import crimson_twilight.immersive_energy.client.gui.GUINailbox;
 import crimson_twilight.immersive_energy.client.model.EvenMoreImmersiveModelRegistry;
 import crimson_twilight.immersive_energy.client.render.EmergencyLightRenderer;
 import crimson_twilight.immersive_energy.client.render.FluidBatteryRenderer;
@@ -34,6 +36,7 @@ import crimson_twilight.immersive_energy.common.blocks.multiblock.MultiblockFlui
 import crimson_twilight.immersive_energy.common.blocks.multiblock.TileEntityFluidBattery;
 import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
 import crimson_twilight.immersive_energy.common.items.ItemIEnBase;
+import crimson_twilight.immersive_energy.common.items.ItemNailbox;
 import crimson_twilight.immersive_energy.common.util.IEnKeybinds;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -47,6 +50,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -318,8 +322,13 @@ public class ClientProxy extends CommonProxy {
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
-        ItemStack main = player.getHeldItemMainhand();
-        ItemStack off = player.getHeldItemOffhand();
+        EntityEquipmentSlot slot = EntityEquipmentSlot.values()[ID/100];
+        ID %= 100;//Slot determined, get actual ID
+        ItemStack item = player.getItemStackFromSlot(slot);
+        if(!item.isEmpty()&&item.getItem() instanceof IEItemInterfaces.IGuiItem &&((IEItemInterfaces.IGuiItem)item.getItem()).getGuiID(item)==ID)
+        {
+            if(ID == IEnGUIList.GUI_NAILBOX&&item.getItem() instanceof ItemNailbox) return new GUINailbox(player.inventory, world, slot, item);
+        }
         if (tile instanceof IGuiTile) {
             Object gui = null;
             if (ID == IEnGUIList.GUI_GAS_BURNER && tile instanceof TileEntityGasBurner)

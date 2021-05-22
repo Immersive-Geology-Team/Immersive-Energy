@@ -1,8 +1,7 @@
 package crimson_twilight.immersive_energy.common.helper;
 
 import blusunrize.immersiveengineering.common.gui.IESlot;
-import blusunrize.immersiveengineering.common.items.ItemBullet;
-import crimson_twilight.immersive_energy.INail;
+import crimson_twilight.immersive_energy.api.tool.INail;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;

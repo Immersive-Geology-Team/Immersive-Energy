@@ -284,7 +284,12 @@ public class ToolHeftyWrench extends ItemUpgradeableTool implements ITool, IItem
 		if (amount > 0) 
 		{
 			target.hurtResistantTime = 0;
-			target.attackEntityFrom(DamageSource.GENERIC, amount);
+			if(attacker instanceof EntityPlayer)
+			{
+				target.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) attacker), amount);
+				return;
+			}
+			target.attackEntityFrom(DamageSource.causeMobDamage(attacker), amount);
 		}
 	}
 

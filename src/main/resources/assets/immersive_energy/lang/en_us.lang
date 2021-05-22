@@ -88,6 +88,8 @@ ie.manual.entry.hefty_wrench_enchanting=The §lHeafty Wrench§r can be enchanted
 #Misc
 desc.immersiveengineering.info.rodFuel=Fuel
 desc.immersiveengineering.info.integrity=Integrity
+desc.immersiveengineering.info.nailsStored=Nails:
+desc.immersiveengineering.info.nailbox.nail=Nails
 
 desc.immersiveengineering.info.blueprint.powerarmor=Environmental Suit
 desc.immersiveengineering.info.blueprint.solar=Solar Panel

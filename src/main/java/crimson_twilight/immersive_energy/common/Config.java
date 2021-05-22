@@ -157,6 +157,9 @@ public class Config
 
 			@Comment({"Does the Piercing Arrow ignore invulnerability frames.", "Default: true"})
 			public static boolean nail_gun_no_invulnerability = true;
+
+			@Comment({"A whitelist of foods allowed in the nailbox, formatting: [mod id]:[item name]"})
+			public static String[] nailbox_nails = new String[]{};
 		}
 
 		public static void preInit(FMLPreInitializationEvent event)

@@ -1,4 +1,4 @@
-package crimson_twilight.immersive_energy;
+package crimson_twilight.immersive_energy.api.tool;
 
 public interface INail
 {

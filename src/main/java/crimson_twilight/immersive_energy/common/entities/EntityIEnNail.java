@@ -1,7 +1,6 @@
 package crimson_twilight.immersive_energy.common.entities;
 
 import blusunrize.immersiveengineering.common.util.Utils;
-import crimson_twilight.immersive_energy.INail;
 import crimson_twilight.immersive_energy.common.Config;
 import crimson_twilight.immersive_energy.common.util.IEnDamageSources;
 import net.minecraft.block.Block;

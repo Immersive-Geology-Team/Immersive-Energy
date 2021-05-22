@@ -14,6 +14,8 @@ import crimson_twilight.immersive_energy.common.blocks.multiblock.TileEntityFlui
 import crimson_twilight.immersive_energy.common.compat.IEnCompatModule;
 import crimson_twilight.immersive_energy.common.gui.ContainerFluidBattery;
 import crimson_twilight.immersive_energy.common.gui.ContainerGasBurner;
+import crimson_twilight.immersive_energy.common.gui.ContainerNailbox;
+import crimson_twilight.immersive_energy.common.items.ItemNailbox;
 import crimson_twilight.immersive_energy.common.util.IEnKeybinds;
 import crimson_twilight.immersive_energy.common.util.network.IEnPacketHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -98,7 +100,13 @@ public class CommonProxy implements IGuiHandler
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
 		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
-		ItemStack stack = player.getActiveItemStack();
+		EntityEquipmentSlot slot = EntityEquipmentSlot.values()[ID/100];
+		ID %= 100;//Slot determined, get actual ID
+		ItemStack item = player.getItemStackFromSlot(slot);
+		if(!item.isEmpty()&&item.getItem() instanceof IGuiItem&&((IGuiItem)item.getItem()).getGuiID(item)==ID) {
+			if (ID == IEnGUIList.GUI_NAILBOX && item.getItem() instanceof ItemNailbox)
+				return new ContainerNailbox(player.inventory, world, slot, item);
+		}
 		if(tile instanceof IGuiTile)
 		{
 			Object gui = null;

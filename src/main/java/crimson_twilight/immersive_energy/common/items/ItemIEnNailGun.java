@@ -1,17 +1,30 @@
 package crimson_twilight.immersive_energy.common.items;
 
+import blusunrize.immersiveengineering.api.Lib;
 import blusunrize.immersiveengineering.api.tool.ITool;
+import blusunrize.immersiveengineering.common.IEContent;
+import blusunrize.immersiveengineering.common.items.IEItemInterfaces;
 import blusunrize.immersiveengineering.common.items.ItemUpgradeableTool;
+import blusunrize.immersiveengineering.common.util.EnergyHelper;
 import blusunrize.immersiveengineering.common.util.ItemNBTHelper;
 import blusunrize.immersiveengineering.common.util.ListUtils;
 import blusunrize.immersiveengineering.common.util.Utils;
-import crimson_twilight.immersive_energy.INail;
+import blusunrize.immersiveengineering.common.util.inventory.IEItemStackHandler;
+import crimson_twilight.immersive_energy.api.tool.IMicroRocket;
+import crimson_twilight.immersive_energy.api.tool.INail;
+import crimson_twilight.immersive_energy.ImmersiveEnergy;
+import crimson_twilight.immersive_energy.common.CommonProxy;
+import crimson_twilight.immersive_energy.common.IEnContent;
+import crimson_twilight.immersive_energy.common.IEnGUIList;
 import crimson_twilight.immersive_energy.common.entities.EntityIEnNail;
 import crimson_twilight.immersive_energy.common.helper.IEnSlot;
 import net.minecraft.block.Block;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -21,18 +34,24 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
-public class ItemIEnNailGun extends ItemUpgradeableTool implements ITool
+public class ItemIEnNailGun extends ItemUpgradeableTool implements ITool, EnergyHelper.IIEEnergyItem, IEItemInterfaces.IGuiItem
 {
     public ItemIEnNailGun() {
         super("nail_gun", 1, "NAILGUN");
         this.hasSubtypes = false;
+        fixupItem();
     }
 
     @Override
@@ -45,7 +64,42 @@ public class ItemIEnNailGun extends ItemUpgradeableTool implements ITool
         return true;
     }
 
+    public void fixupItem()
+    {
+        //First, get the item out of IE's registries.
+        Item rItem = IEContent.registeredIEItems.remove(IEContent.registeredIEItems.size()-1);
+        if(rItem!=this) throw new IllegalStateException("fixupItem was not called at the appropriate time");
 
+        //Now, reconfigure the block to match our mod.
+        this.setUnlocalizedName(ImmersiveEnergy.MODID+"."+this.itemName);
+        this.setCreativeTab(ImmersiveEnergy.creativeTab);
+
+        //And add it to our registries.
+        IEnContent.registeredIEnItems.add(this);
+    }
+
+    @Override
+    public int getGuiID(ItemStack itemStack) {
+        return IEnGUIList.GUI_NAILGUN;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World world, List<String> list, ITooltipFlag flag)
+    {
+        String stored = this.getEnergyStored(stack)+"/"+this.getMaxEnergyStored(stack);
+        IItemHandler inv = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+        list.add(I18n.format(Lib.DESC+"info.energyStored", stored));
+        int ammo = 0;
+        for(int i = 0; i < getAmmoSlots(stack); i++) { ammo += inv.getStackInSlot(i).getCount(); }
+        list.add(String.format("%s %s", I18n.format(Lib.DESC+"info.nailsStored"), ammo));
+        if(this.getUpgrades(stack).hasKey("NAILGUN_MICRO_ROCKETS"))
+        {
+            int rockets = 0;
+            for(int i = 0; i < this.getUpgrades(stack).getInteger("NAILGUN_MICRO_ROCKETS"); i++) { rockets += inv.getStackInSlot(3+i).getCount(); }
+            list.add(String.format("%s %s", I18n.format(Lib.DESC+"info.rocketsStored"), rockets));
+        }
+    }
 
     @Override
     public Slot[] getWorkbenchSlots(Container container, ItemStack stack)
@@ -53,13 +107,14 @@ public class ItemIEnNailGun extends ItemUpgradeableTool implements ITool
         IItemHandler inv = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
         return new Slot[]
                 {
-                        new IEnSlot.Nail(inv, 0, 100, 24, 64)
+                        new IEnSlot.Upgrades(container, inv, 5, 100, 24, "NAILGUN_SIDES", stack, true),
+                        new IEnSlot.Upgrades(container, inv, 6, 100, 46, "NAILGUN_AMMO", stack, true)
                 };
     }
 
     @Override
     public int getSlotCount(ItemStack itemStack) {
-        return 1;
+        return 3+2+2;
     }
 
     @Override
@@ -79,31 +134,60 @@ public class ItemIEnNailGun extends ItemUpgradeableTool implements ITool
         IItemHandler handler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
         if(handler!=null)
         {
-            NonNullList<ItemStack> nails = NonNullList.withSize(1, ItemStack.EMPTY);
-            nails.set(0, handler.getStackInSlot(0));
+            NonNullList<ItemStack> nails = NonNullList.withSize(getAmmoSlots(stack), ItemStack.EMPTY);
+            for(int i = 0; i < getAmmoSlots(stack); i++)
+                nails.set(i, handler.getStackInSlot(i));
             ret.setTag("nails", Utils.writeInventory(nails));
+            NonNullList<ItemStack> rockets  = NonNullList.withSize(this.getUpgrades(stack).getInteger("NAILGUN_MICRO_ROCKETS"), ItemStack.EMPTY);
+            for(int i = 0; i < this.getUpgrades(stack).getInteger("NAILGUN_MICRO_ROCKETS"); i++)
+                rockets.set(i, handler.getStackInSlot(3+i));
+            ret.setTag("rockets", Utils.writeInventory(rockets));
         }
         return ret;
     }
 
     @Override
-    public EnumAction getItemUseAction(ItemStack p_77661_1_)
+    public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt)
     {
-        return EnumAction.BOW;
-    }
+        if (!stack.isEmpty())
+            return new IEItemStackHandler(stack)
+            {
+                @Override
+                public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing)
+                {
+                    return super.hasCapability(capability, facing);
+                }
 
-    public boolean isEmpty(ItemStack stack, boolean allowCasing)
-    {
-        IItemHandler inv = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-        if(inv!=null)
-            if(!inv.getStackInSlot(0).isEmpty()&&inv.getStackInSlot(0).getItem() instanceof INail&&ItemNBTHelper.hasKey(inv.getStackInSlot(0), "nails"))
-                return false;
-        return true;
+                @Override
+                public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing)
+                {
+                    return super.getCapability(capability, facing);
+                }
+            };
+        return null;
     }
 
     @Override
+    public EnumAction getItemUseAction(ItemStack p_77661_1_) { return EnumAction.BOW; }
+
+    public boolean isEmpty(ItemStack stack)
+    {
+        IItemHandler inv = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+        if(inv!=null)
+            for(int i = 0; i < inv.getSlots(); i++)
+            {
+                ItemStack b = inv.getStackInSlot(i);
+                if((!b.isEmpty()&&b.getItem() instanceof INail&&ItemNBTHelper.hasKey(b, "nails")) || (!b.isEmpty()&&b.getItem() instanceof IMicroRocket&&ItemNBTHelper.hasKey(b, "rockets")))
+                    return false;
+            }
+        return true;
+    }
+
+    private int getAmmoSlots(ItemStack stack) { return 2+this.getUpgrades(stack).getInteger("NAILGUN_AMMO"); }
+
+    @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-        if(performInWorldRecipe(player.getHeldItem(hand), world.getBlockState(pos).getBlock(), player.isSneaking())) return EnumActionResult.SUCCESS;
+        if(!player.isSneaking()&&performInWorldRecipe(player.getHeldItem(hand), world.getBlockState(pos).getBlock())) return EnumActionResult.SUCCESS;
         return EnumActionResult.PASS;
     }
 
@@ -112,17 +196,39 @@ public class ItemIEnNailGun extends ItemUpgradeableTool implements ITool
         ItemStack nail_gun = player.getHeldItem(hand);
         if (!world.isRemote)
         {
+            if(player.isSneaking())
+            {
+                System.out.println("open GUI");
+                CommonProxy.openGuiForItem(player, hand==EnumHand.MAIN_HAND? EntityEquipmentSlot.MAINHAND: EntityEquipmentSlot.OFFHAND);
+                return new ActionResult(EnumActionResult.SUCCESS, nail_gun);
+            }
+            System.out.println("attempt to fire");
             IItemHandlerModifiable inv = (IItemHandlerModifiable)nail_gun.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
             assert inv!=null;
-            NonNullList<ItemStack> nails = ListUtils.fromItems(this.getContainedItems(nail_gun));
-            if(!nails.get(0).isEmpty()&&nails.get(0).getItem() instanceof INail)
+            NonNullList<ItemStack> ammo = ListUtils.fromItems(this.getContainedItems(nail_gun));
+            boolean nail = false;
+            if(!this.isEmpty(nail_gun))
             {
-                Vec3d vec = player.getLookVec();
-                Entity entNail = getNail(world, player, vec, nails.get(0));
-                player.world.spawnEntity(entNail);
-                nails.get(0).shrink(1);
+                System.out.println("not empty");
+                for (int i = 0; i < inv.getSlots(); i++) {
+                    if(ammo.get(i).getItem() instanceof INail&&nail==false&&this.getEnergyStored(nail_gun) >= 100) {
+                        this.extractEnergy(nail_gun, 100, false);
+                        Vec3d vec = player.getLookVec();
+                        Entity entNail = getNail(world, player, vec, ammo.get(i));
+                        player.world.spawnEntity(entNail);
+                        ammo.get(i).shrink(1);
+                        nail=true;
+                    }
+                    if(ammo.get(i).getItem() instanceof IMicroRocket) {
+                        Vec3d vec = player.getLookVec();
+                        //Entity entRocket = getNail(world, player, vec, ammo.get(i));
+                        //player.world.spawnEntity(entRocket);
+                        ammo.get(i).shrink(1);
+
+                    }
+                }
             }
-            return new ActionResult(EnumActionResult.SUCCESS, nail_gun);
+            if(nail) return new ActionResult(EnumActionResult.SUCCESS, nail_gun);
         }
         return new ActionResult(EnumActionResult.PASS, nail_gun);
     }
@@ -137,12 +243,9 @@ public class ItemIEnNailGun extends ItemUpgradeableTool implements ITool
         return entNail;
     }
 
-    private boolean performInWorldRecipe(ItemStack stack, Block block, boolean isSneaking)
-    {
-        if(!isSneaking) return false;
-
-        return false;
-    }
+    private boolean performInWorldRecipe(ItemStack stack, Block block) { return false; }
 
 
+    @Override
+    public int getMaxEnergyStored(ItemStack itemStack) { return 6400; }
 }

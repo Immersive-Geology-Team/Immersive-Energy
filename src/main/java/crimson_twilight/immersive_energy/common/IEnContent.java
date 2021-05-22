@@ -94,6 +94,7 @@ public class IEnContent {
     public static ItemIEnBase itemUpgrades;
     public static ToolHeftyWrench toolHeftyWrench;
     public static ItemIEnNailGun itemIEnNailGun;
+    public static ItemNailbox itemNailbox;
     //public static ItemIEBase toolUpgradeableCrossbow;
 
     public static Fluid fluidCharged;
@@ -163,6 +164,7 @@ public class IEnContent {
         itemUpgrades = new ItemToolUpgradeIEn();
         toolHeftyWrench = new ToolHeftyWrench();
         itemIEnNailGun = new ItemIEnNailGun();
+        itemNailbox = new ItemNailbox();
         //toolUpgradeableCrossbow = new ToolUpgradeableCrossbow();
     }
 
