@@ -77,11 +77,13 @@ public class IEnContent {
     public static BlockMetalMultiblock0 blockMetalMultiblock;
 
     public static ArmorMaterial powerArmor = EnumHelper.addArmorMaterial("power_armor_suit", "immersive_energy:power_armor_suit", 5260, new int[]{2, 7, 8, 3}, 1, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 3);
+    public static ArmorMaterial engineerArmor = EnumHelper.addArmorMaterial("engineer_suit", "immersive_energy:engineer_suit", 1260, new int[]{3, 3, 4, 3}, 1, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0);
 
     public static ItemPowerArmorChestplate itemPowerArmorChestplate;
     public static ItemPowerArmorHelmet itemPowerArmorHelmet;
     public static ItemPowerArmorLegs itemPowerArmorLegs;
     public static ItemPowerArmorBoots itemPowerArmorBoots;
+    public static ItemEngineersHardHat itemEngineersHardHat;
 
     public static ItemIEnBase itemMetal;
     public static ItemIEnBase itemMaterial;
@@ -155,12 +157,13 @@ public class IEnContent {
         itemPowerArmorHelmet = new ItemPowerArmorHelmet();
         itemPowerArmorLegs = new ItemPowerArmorLegs();
         itemPowerArmorBoots = new ItemPowerArmorBoots();
+        itemEngineersHardHat = new ItemEngineersHardHat();
 
         //Tools and Weapons
         itemArrow = new IEnArrowBase("arrow_shocking", "electricdamage", String.valueOf(Tools.shock_arrow_electric_damage)).setDamage(Tools.shock_arrow_regular_damage).setKnockback(Tools.shock_arrow_knockback).setIgnoreInvulnerability(Tools.shock_arrow_ignore).setLogic(new ArrowLogicShock(Tools.shock_arrow_electric_damage));
         itemArrow = new IEnArrowBase("arrow_penetrating", "penetratingdamage", String.valueOf(Tools.penetrating_arrow_regular_damage)).setDamage(Tools.penetrating_arrow_regular_damage).setKnockback(Tools.penetrating_arrow_knockback).setIgnoreInvulnerability(Tools.penetrating_arrow_ignore).setLogic(new ArrowLogicPenetrating(Tools.penetrating_arrow_penetrating_damage));
-        itemNail = new ItemIEnNail("iron_nail", 64, 4);
-        itemNail = new ItemIEnNail("steel_nail", 64, 6);
+        itemNail = new ItemIEnNail("iron_nail", 64, 2);
+        itemNail = new ItemIEnNail("steel_nail", 64, 3);
         itemUpgrades = new ItemToolUpgradeIEn();
         toolHeftyWrench = new ToolHeftyWrench();
         itemIEnNailGun = new ItemIEnNailGun();

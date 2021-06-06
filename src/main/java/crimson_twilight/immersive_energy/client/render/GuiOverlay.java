@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,7 +30,8 @@ public class GuiOverlay extends Gui
 	public void renderGameOverlay(float partialTicks) 
     {
     	ScaledResolution res = new ScaledResolution(mc);
-    	if(mc.player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem().equals(IEnContent.itemPowerArmorHelmet) && mc.gameSettings.thirdPersonView == 0)
+    	Item helmet = mc.player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem();
+    	if( (helmet.equals(IEnContent.itemPowerArmorHelmet) || helmet.equals(IEnContent.itemEngineersHardHat)) && mc.gameSettings.thirdPersonView == 0)
     	{
     		if(ItemNBTHelper.getBoolean(mc.player.getItemStackFromSlot(EntityEquipmentSlot.HEAD), "night_vision_active")) 
     		{

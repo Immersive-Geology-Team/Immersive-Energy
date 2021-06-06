@@ -38,7 +38,9 @@ public class ItemToolUpgradeIEn extends ItemIEnBase implements IUpgrade
 			modifications.setInteger("armor_increase", armor+upgrade.getCount()*Tools.armor_plates_upgrade_resist);
 		}),
 		ARMOR_HEAT_PROTECTION(ImmutableSet.of("POWERSUIT_HELMET", "POWERSUIT_CHEST", "POWERSUIT_LEGGS", "POWERSUIT_BOOTS"), 3, (upgrade, modifications) -> modifications.setInteger("heat_protection", upgrade.getCount()*Tools.heat_upgrade_resist)),
-		ARMOR_HELMET_VOLTMETER(ImmutableSet.of("POWERSUIT_HELMET"), 1, (upgrade, modifications) -> modifications.setBoolean("voltmeter", true)),
+		ARMOR_HELMET_VOLTMETER(ImmutableSet.of("POWERSUIT_HELMET", "ENGINEER_HAT"), 1, (upgrade, modifications) -> modifications.setBoolean("voltmeter", true)),
+		ARMOR_HELMET_NIGHTVISION(ImmutableSet.of("POWERSUIT_HELMET", "ENGINEER_HAT"), 1, (upgrade, modifications) -> modifications.setBoolean("nightvision", true)),
+		HARDHAT_MUFFS(ImmutableSet.of("ENGINEER_HAT"), 1, (upgrade, modifications) -> modifications.setBoolean("muffs", true)),
 
 		NAILGUN_EXTENDED_AMMO(ImmutableSet.of("NAILGUN_AMMO"), 1, (upgrade, modifications) -> modifications.setInteger("ammo", 1)),
 		NAILGUN_MICRO_ROCKETS(ImmutableSet.of("NAILGUN_SIDES"), 1, (upgrade, modifications) -> modifications.setInteger("rockets", 2));

@@ -9,11 +9,15 @@ import blusunrize.immersiveengineering.common.Config.IEConfig;
 import blusunrize.immersiveengineering.common.util.Utils;
 import blusunrize.immersiveengineering.common.util.network.MessageRequestBlockUpdate;
 import crimson_twilight.immersive_energy.client.render.GuiOverlay;
+import crimson_twilight.immersive_energy.common.items.ItemEngineersHardHat;
 import crimson_twilight.immersive_energy.common.items.ItemPowerArmorHelmet;
+import crimson_twilight.immersive_energy.common.items.ItemUpgradeableArmor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
@@ -50,44 +54,41 @@ public class RenderGuiHandler
 				}
 			 */
 
-			//Armor (or -our, depends on how much United(tm) is your Kingdom)
-			if(player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem()instanceof ItemPowerArmorHelmet)
-			{
-				RayTraceResult mop = ClientUtils.mc().objectMouseOver;
-				if(mop!=null&&mop.getBlockPos()!=null)
+			//Helmet
+			ItemStack helmet = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
+			if(helmet.getItem() instanceof ItemUpgradeableArmor) {
+				ItemUpgradeableArmor upgradeableArmor = (ItemUpgradeableArmor)helmet.getItem();
+				if(upgradeableArmor.getUpgrades(helmet).getBoolean("voltmeter"))
 				{
-					TileEntity tileEntity = player.world.getTileEntity(mop.getBlockPos());
+					RayTraceResult mop = ClientUtils.mc().objectMouseOver;
+					if (mop != null && mop.getBlockPos() != null) {
+						TileEntity tileEntity = player.world.getTileEntity(mop.getBlockPos());
 
-					int col = IEConfig.nixietubeFont?Lib.colour_nixieTubeText: 0xffffff;
-					String[] text = null;
-					if(tileEntity instanceof IFluxReceiver)
-					{
-						int maxStorage = ((IFluxReceiver)tileEntity).getMaxEnergyStored(mop.sideHit);
-						int storage = ((IFluxReceiver)tileEntity).getEnergyStored(mop.sideHit);
-						if(maxStorage > 0)
-							text = I18n.format(Lib.DESC_INFO+"energyStored", "<br>"+Utils.toScientificNotation(storage, "0##", 100000)+" / "+Utils.toScientificNotation(maxStorage, "0##", 100000)).split("<br>");
-					}
-					else if(mop.entityHit instanceof IFluxReceiver)
-					{
-						int maxStorage = ((IFluxReceiver)mop.entityHit).getMaxEnergyStored(null);
-						int storage = ((IFluxReceiver)mop.entityHit).getEnergyStored(null);
-						if(maxStorage > 0)
-							text = I18n.format(Lib.DESC_INFO+"energyStored", "<br>"+Utils.toScientificNotation(storage, "0##", 100000)+" / "+Utils.toScientificNotation(maxStorage, "0##", 100000)).split("<br>");
-					}
-					if(text!=null)
-					{
-						if(player.world.isRemote && player.world.getTotalWorldTime()%20==0)
-						{
-							//must use this, the packet belongs and can be received only by IE's handler
-							ImmersiveEngineering.packetHandler.sendToServer(new MessageRequestBlockUpdate(mop.getBlockPos()));
+						int col = IEConfig.nixietubeFont ? Lib.colour_nixieTubeText : 0xffffff;
+						String[] text = null;
+						if (tileEntity instanceof IFluxReceiver) {
+							int maxStorage = ((IFluxReceiver) tileEntity).getMaxEnergyStored(mop.sideHit);
+							int storage = ((IFluxReceiver) tileEntity).getEnergyStored(mop.sideHit);
+							if (maxStorage > 0)
+								text = I18n.format(Lib.DESC_INFO + "energyStored", "<br>" + Utils.toScientificNotation(storage, "0##", 100000) + " / " + Utils.toScientificNotation(maxStorage, "0##", 100000)).split("<br>");
+						} else if (mop.entityHit instanceof IFluxReceiver) {
+							int maxStorage = ((IFluxReceiver) mop.entityHit).getMaxEnergyStored(null);
+							int storage = ((IFluxReceiver) mop.entityHit).getEnergyStored(null);
+							if (maxStorage > 0)
+								text = I18n.format(Lib.DESC_INFO + "energyStored", "<br>" + Utils.toScientificNotation(storage, "0##", 100000) + " / " + Utils.toScientificNotation(maxStorage, "0##", 100000)).split("<br>");
 						}
-						int i = 0;
-						for(String s : text)
-							if(s!=null)
-							{
-								int w = blusunrize.immersiveengineering.client.ClientProxy.nixieFontOptional.getStringWidth(s);
-								blusunrize.immersiveengineering.client.ClientProxy.nixieFontOptional.drawString(s, event.getResolution().getScaledWidth()/2-w/2, event.getResolution().getScaledHeight()/2-4-text.length*(blusunrize.immersiveengineering.client.ClientProxy.nixieFontOptional.FONT_HEIGHT+2)+(i++)*(blusunrize.immersiveengineering.client.ClientProxy.nixieFontOptional.FONT_HEIGHT+2), col, true);
+						if (text != null) {
+							if (player.world.isRemote && player.world.getTotalWorldTime() % 20 == 0) {
+								//must use this, the packet belongs and can be received only by IE's handler
+								ImmersiveEngineering.packetHandler.sendToServer(new MessageRequestBlockUpdate(mop.getBlockPos()));
 							}
+							int i = 0;
+							for (String s : text)
+								if (s != null) {
+									int w = blusunrize.immersiveengineering.client.ClientProxy.nixieFontOptional.getStringWidth(s);
+									blusunrize.immersiveengineering.client.ClientProxy.nixieFontOptional.drawString(s, event.getResolution().getScaledWidth() / 2 - w / 2, event.getResolution().getScaledHeight() / 2 - 4 - text.length * (blusunrize.immersiveengineering.client.ClientProxy.nixieFontOptional.FONT_HEIGHT + 2) + (i++) * (blusunrize.immersiveengineering.client.ClientProxy.nixieFontOptional.FONT_HEIGHT + 2), col, true);
+								}
+						}
 					}
 				}
 			}

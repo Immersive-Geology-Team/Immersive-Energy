@@ -127,10 +127,13 @@ public class ItemIEnNailGun extends ItemUpgradeableTool implements ITool, Energy
     public NBTTagCompound getNBTShareTag(ItemStack stack)
     {
         NBTTagCompound ret = super.getNBTShareTag(stack);
-        if(ret==null)
+        if(ret==null) {
             ret = new NBTTagCompound();
+        }
         else
+        {
             ret = ret.copy();
+        }
         IItemHandler handler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
         if(handler!=null)
         {
@@ -168,6 +171,23 @@ public class ItemIEnNailGun extends ItemUpgradeableTool implements ITool, Energy
     }
 
     @Override
+    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+        if(ItemNBTHelper.hasKey(stack, "cooldown"))
+        {
+            int cooldown = ItemNBTHelper.getInt(stack, "cooldown")-1;
+            if(cooldown <= 0)
+                ItemNBTHelper.remove(stack, "cooldown");
+            else
+                ItemNBTHelper.setInt(stack, "cooldown", cooldown);
+        }
+    }
+
+    public int getShootCooldown(ItemStack stack)
+    {
+        return ItemNBTHelper.getInt(stack, "cooldown");
+    }
+
+    @Override
     public EnumAction getItemUseAction(ItemStack p_77661_1_) { return EnumAction.BOW; }
 
     public boolean isEmpty(ItemStack stack)
@@ -177,7 +197,7 @@ public class ItemIEnNailGun extends ItemUpgradeableTool implements ITool, Energy
             for(int i = 0; i < inv.getSlots(); i++)
             {
                 ItemStack b = inv.getStackInSlot(i);
-                if((!b.isEmpty()&&b.getItem() instanceof INail&&ItemNBTHelper.hasKey(b, "nails")) || (!b.isEmpty()&&b.getItem() instanceof IMicroRocket&&ItemNBTHelper.hasKey(b, "rockets")))
+                if((!b.isEmpty()&&b.getItem() instanceof INail) || (!b.isEmpty()&&b.getItem() instanceof IMicroRocket))
                     return false;
             }
         return true;
@@ -187,7 +207,7 @@ public class ItemIEnNailGun extends ItemUpgradeableTool implements ITool, Energy
 
     @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-        if(!player.isSneaking()&&performInWorldRecipe(player.getHeldItem(hand), world.getBlockState(pos).getBlock())) return EnumActionResult.SUCCESS;
+        if(!player.isSneaking()&&player.getCooledAttackStrength(1)>=1&&performInWorldRecipe(player.getHeldItem(hand), world.getBlockState(pos).getBlock())) return EnumActionResult.SUCCESS;
         return EnumActionResult.PASS;
     }
 
@@ -198,37 +218,39 @@ public class ItemIEnNailGun extends ItemUpgradeableTool implements ITool, Energy
         {
             if(player.isSneaking())
             {
-                System.out.println("open GUI");
                 CommonProxy.openGuiForItem(player, hand==EnumHand.MAIN_HAND? EntityEquipmentSlot.MAINHAND: EntityEquipmentSlot.OFFHAND);
                 return new ActionResult(EnumActionResult.SUCCESS, nail_gun);
             }
-            System.out.println("attempt to fire");
+            if(player.getCooledAttackStrength(1) < 1 || getShootCooldown(nail_gun) > 0)
+                return new ActionResult(EnumActionResult.PASS, nail_gun);
             IItemHandlerModifiable inv = (IItemHandlerModifiable)nail_gun.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
             assert inv!=null;
             NonNullList<ItemStack> ammo = ListUtils.fromItems(this.getContainedItems(nail_gun));
-            boolean nail = false;
+            boolean fired = false;
             if(!this.isEmpty(nail_gun))
             {
-                System.out.println("not empty");
                 for (int i = 0; i < inv.getSlots(); i++) {
-                    if(ammo.get(i).getItem() instanceof INail&&nail==false&&this.getEnergyStored(nail_gun) >= 100) {
-                        this.extractEnergy(nail_gun, 100, false);
+                    if(ammo.get(i).getItem() instanceof INail&&fired==false&&this.getEnergyStored(nail_gun) >= 50) {
+                        this.extractEnergy(nail_gun, 50, false);
                         Vec3d vec = player.getLookVec();
                         Entity entNail = getNail(world, player, vec, ammo.get(i));
                         player.world.spawnEntity(entNail);
                         ammo.get(i).shrink(1);
-                        nail=true;
+                        fired=true;
                     }
                     if(ammo.get(i).getItem() instanceof IMicroRocket) {
                         Vec3d vec = player.getLookVec();
-                        //Entity entRocket = getNail(world, player, vec, ammo.get(i));
+                        //Entity entRocket = getRocket(world, player, vec, ammo.get(i));
                         //player.world.spawnEntity(entRocket);
                         ammo.get(i).shrink(1);
-
+                        fired=true;
                     }
                 }
             }
-            if(nail) return new ActionResult(EnumActionResult.SUCCESS, nail_gun);
+            if(fired){
+                ItemNBTHelper.setInt(nail_gun, "cooldown", 10);
+                return new ActionResult(EnumActionResult.SUCCESS, nail_gun);
+            }
         }
         return new ActionResult(EnumActionResult.PASS, nail_gun);
     }

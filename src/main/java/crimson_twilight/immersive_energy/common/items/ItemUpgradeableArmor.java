@@ -71,19 +71,21 @@ public abstract class ItemUpgradeableArmor extends ItemArmor implements IUpgrade
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (getHeat(stack) >= getMaxHeat(stack)) {
-            tooltip.add("Suit Temp: " + TextFormatting.RED + IEnMaths.round(getHeat(stack)) + TextFormatting.getTextWithoutFormattingCodes(" C / " + IEnMaths.round(getMaxHeat(stack)) + " C"));
-        } else if (getHeat(stack) >= (double) getMaxHeat(stack) * 0.75d) {
-            tooltip.add("Suit Temp: " + TextFormatting.GOLD + IEnMaths.round(getHeat(stack)) + TextFormatting.getTextWithoutFormattingCodes(" C / " + IEnMaths.round(getMaxHeat(stack)) + " C"));
-        } else if (getHeat(stack) >= (double) getMaxHeat(stack) * 0.5d) {
-            tooltip.add("Suit Temp: " + TextFormatting.YELLOW + IEnMaths.round(getHeat(stack)) + TextFormatting.getTextWithoutFormattingCodes(" C / " + IEnMaths.round(getMaxHeat(stack)) + " C"));
-        } else if (getHeat(stack) <= (double) getMaxHeat(stack) * 0.15d) {
-            tooltip.add("Suit Temp: " + TextFormatting.AQUA + IEnMaths.round(getHeat(stack)) + TextFormatting.getTextWithoutFormattingCodes(" C / " + IEnMaths.round(getMaxHeat(stack)) + " C"));
-        } else if (getHeat(stack) <= 0) {
-            tooltip.add("Suit Temp: " + TextFormatting.WHITE + IEnMaths.round(getHeat(stack)) + TextFormatting.getTextWithoutFormattingCodes(" C / " + IEnMaths.round(getMaxHeat(stack)) + " C"));
-        } else
-            tooltip.add("Suit Temp: " + IEnMaths.round(getHeat(stack)) + " C / " + IEnMaths.round(getMaxHeat(stack)) + " C");
-        
+        if(getMaxHeat(stack) > 0)
+        {
+            if (getHeat(stack) >= getMaxHeat(stack)) {
+                tooltip.add("Suit Temp: " + TextFormatting.RED + IEnMaths.round(getHeat(stack)) + TextFormatting.getTextWithoutFormattingCodes(" C / " + IEnMaths.round(getMaxHeat(stack)) + " C"));
+            } else if (getHeat(stack) >= (double) getMaxHeat(stack) * 0.75d) {
+                tooltip.add("Suit Temp: " + TextFormatting.GOLD + IEnMaths.round(getHeat(stack)) + TextFormatting.getTextWithoutFormattingCodes(" C / " + IEnMaths.round(getMaxHeat(stack)) + " C"));
+            } else if (getHeat(stack) >= (double) getMaxHeat(stack) * 0.5d) {
+                tooltip.add("Suit Temp: " + TextFormatting.YELLOW + IEnMaths.round(getHeat(stack)) + TextFormatting.getTextWithoutFormattingCodes(" C / " + IEnMaths.round(getMaxHeat(stack)) + " C"));
+            } else if (getHeat(stack) <= (double) getMaxHeat(stack) * 0.15d) {
+                tooltip.add("Suit Temp: " + TextFormatting.AQUA + IEnMaths.round(getHeat(stack)) + TextFormatting.getTextWithoutFormattingCodes(" C / " + IEnMaths.round(getMaxHeat(stack)) + " C"));
+            } else if (getHeat(stack) <= 0) {
+                tooltip.add("Suit Temp: " + TextFormatting.WHITE + IEnMaths.round(getHeat(stack)) + TextFormatting.getTextWithoutFormattingCodes(" C / " + IEnMaths.round(getMaxHeat(stack)) + " C"));
+            } else
+                tooltip.add("Suit Temp: " + IEnMaths.round(getHeat(stack)) + " C / " + IEnMaths.round(getMaxHeat(stack)) + " C");
+        }
         //tooltip.add("Exterior Temp: " + IEnMaths.round(ItemNBTHelper.getFloat(stack, "ExtHeat")) + " C"); For testing purposes
     }
 

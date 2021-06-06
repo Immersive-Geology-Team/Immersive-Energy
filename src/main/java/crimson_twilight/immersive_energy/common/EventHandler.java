@@ -233,6 +233,12 @@ public class EventHandler
 				event.setAmount((damage-fallreduction)*.8f);
 			}
 		}
+		if((event.getSource()==DamageSource.FALLING_BLOCK || event.getSource()==DamageSource.FLY_INTO_WALL)&&entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem().equals(IEnContent.itemEngineersHardHat))
+		{
+			entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD).damageItem((int)event.getAmount(), entity);
+			event.setAmount(event.getAmount()-2);
+			event.setCanceled(event.getAmount() <= 0 ? true : false);
+		}
 	}
 
 	@SubscribeEvent
@@ -335,13 +341,9 @@ public class EventHandler
 					{
 						case 0:
 							armor = entity.getItemStackFromSlot(EntityEquipmentSlot.FEET);
-
 							break;
 						case 1:
 							armor = entity.getItemStackFromSlot(EntityEquipmentSlot.LEGS);
-							break;
-						case 2:
-							armor = entity.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
 							break;
 						case 3:
 							armor = entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
