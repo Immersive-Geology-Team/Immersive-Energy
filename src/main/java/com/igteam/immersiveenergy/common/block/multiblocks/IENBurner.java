@@ -14,12 +14,14 @@ public class IENBurner extends IENTemplateMultiblock {
     public static final IENBurner INSTANCE = new IENBurner();
 
     public IENBurner() {
-        super(new ResourceLocation(IENLib.MODID, "multiblocks/burner"), new BlockPos(0,0,0), new BlockPos(1,1,1), new BlockPos(3,3,2), IENMultiblockProvider.BURNER);
+        super(new ResourceLocation(IENLib.MODID, "multiblocks/burner"),
+                new BlockPos(0,0,0), new BlockPos(1,1,1), new BlockPos(3,3,2),
+                IENMultiblockProvider.BURNER);
     }
 
     @Override
     public float getManualScale() {
-        return 12;
+        return 16;
     }
 
     @Override
