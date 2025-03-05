@@ -12,6 +12,7 @@ import blusunrize.immersiveengineering.api.multiblocks.blocks.logic.IMultiblockS
 import com.igteam.immersiveenergy.common.block.multiblocks.IENTemplateMultiblock;
 import com.igteam.immersiveenergy.core.lib.IENLib;
 import com.igteam.immersiveenergy.core.lib.ResourceUtils;
+import com.igteam.immersivegeology.core.registration.IGRegistrationHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;

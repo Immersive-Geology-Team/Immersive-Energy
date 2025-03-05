@@ -1,6 +1,0 @@
-{
-	"parent":"immersive_energy:item/ien_item_base",
-	"textures": {
-		"layer0":"immersive_energy:items/wrench_magic"
-	}
-}

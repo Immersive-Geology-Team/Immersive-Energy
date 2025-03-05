@@ -1,0 +1,44 @@
+{
+	"forge_marker": 1,
+	"defaults":
+	{
+		"model": "cube_all"
+	},
+	"variants": {
+		"inventory,type=gas_burner": [{
+			"model":  "immersive_energy:gas_burner"
+		}],
+		"type": 
+		{
+			"gas_burner": {
+				"model": "immersive_energy:gas_burner"
+			}
+		},
+		"facing":
+		{
+			"down": { "transform": {
+				"rotation": {"x": -90 }
+			}},
+			"up": { "transform": {
+				"rotation": {"x": 90 }
+			}},
+			"north": { "transform": {
+				"rotation": {"y": 0 }
+			}},
+			"south": { "transform": {
+				"rotation": {"y": 180 }
+			}},
+			"west": { "transform": {
+				"rotation": {"y": 90 }
+			}},
+			"east": { "transform": {
+				"rotation": {"y": -90 }
+			}}
+		},
+		"_0multiblockslave":
+		{
+			"false":{},
+			"true":{}
+		}
+	}
+}
