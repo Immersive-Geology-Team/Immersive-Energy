@@ -1,0 +1,53 @@
+# @file mods.toml
+# @spec TOML v0.5.0 (https://github.com/toml-lang/toml)
+#
+modLoader="javafml"
+loaderVersion="[25,)"
+license="LGPL-3.0"
+
+[[mods]]
+modId = "immersiveenergy"
+version = "${version}"
+displayName = "Immersive Energy"
+description = "An in development version of Immersive Energy."
+authors = "Muddykat-Tech, UnSchtalch and Crimson Twilight"
+displayURL = "https://minecraft.curseforge.com/projects/immersive-geology/"
+logoFile = "logo.png"
+credits = '''
+TODO UPDATE ME
+'''
+
+[[dependencies.immersiveenergy]]
+modId="forge"
+mandatory=true
+versionRange="[47.1.54,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.immersiveenergy]]
+modId="minecraft"
+mandatory=true
+versionRange="[${mc_version}]"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.immersiveenergy]]
+modId="immersiveengineering"
+mandatory=true
+versionRange="[${version_ie},]"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.immersiveenergy]]
+modId="immersivegeology"
+mandatory=true
+versionRange="[${version_ig},]"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.immersiveenergy]]
+modId="jei"
+mandatory=false
+versionRange="[${jei_version},)"
+ordering="NONE"
+side="BOTH"

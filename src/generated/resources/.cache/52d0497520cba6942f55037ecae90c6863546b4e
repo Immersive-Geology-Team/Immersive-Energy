@@ -1,0 +1,4 @@
+// 1.20.1	2025-03-05T20:22:27.100477425	Block States: immersiveenergy
+0038abdc2c75de23e19a23c1776ebf17f982dbb6 assets/immersiveenergy/blockstates/burner.json
+0cea8cc3415605f57f46d12b5832a23e0e22504e assets/immersiveenergy/models/block/multiblock/obj/burner/burner_mirrored_split.json
+e6c8c1fa60bed7a52b2dbbacc6ba40785c6165fe assets/immersiveenergy/models/block/multiblock/obj/burner/burner_split.json

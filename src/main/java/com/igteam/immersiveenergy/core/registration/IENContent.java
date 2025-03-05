@@ -31,6 +31,7 @@ public class IENContent
         instance.addEntry(parent_category, builder.create());
 
         InnerNode<ResourceLocation, ManualEntry> multiblock_category = parent_category.getOrCreateSubnode(new ResourceLocation(IENLib.MODID, "ien_multiblocks"), 0);
+        multiblockEntry(instance, multiblock_category, "burner");
     }
 
     private static void multiblockEntry(ManualInstance instance, InnerNode<ResourceLocation, ManualEntry> category, String id)

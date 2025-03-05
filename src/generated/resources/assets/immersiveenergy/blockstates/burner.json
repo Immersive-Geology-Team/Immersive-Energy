@@ -1,0 +1,42 @@
+{
+  "variants": {
+    "facing=east,mirrored=false": {
+      "model": "immersiveenergy:block/multiblock/obj/burner/burner_split",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=east,mirrored=true": {
+      "model": "immersiveenergy:block/multiblock/obj/burner/burner_mirrored_split",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=north,mirrored=false": {
+      "model": "immersiveenergy:block/multiblock/obj/burner/burner_split",
+      "uvlock": true
+    },
+    "facing=north,mirrored=true": {
+      "model": "immersiveenergy:block/multiblock/obj/burner/burner_mirrored_split",
+      "uvlock": true
+    },
+    "facing=south,mirrored=false": {
+      "model": "immersiveenergy:block/multiblock/obj/burner/burner_split",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=south,mirrored=true": {
+      "model": "immersiveenergy:block/multiblock/obj/burner/burner_mirrored_split",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=west,mirrored=false": {
+      "model": "immersiveenergy:block/multiblock/obj/burner/burner_split",
+      "uvlock": true,
+      "y": 270
+    },
+    "facing=west,mirrored=true": {
+      "model": "immersiveenergy:block/multiblock/obj/burner/burner_mirrored_split",
+      "uvlock": true,
+      "y": 270
+    }
+  }
+}

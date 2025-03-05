@@ -56,7 +56,8 @@ def version_replaces = [
         'mod_name'  : mod_name,
         'mod_authors' : mod_authors,
         'mod_description': mod_description,
-        'version_ie': version_ie
+        'version_ie': version_ie,
+        'version_ig': version_ig
 ]
 
 def jsonPatterns = ["**/*.json", "**/*.mcmeta"]

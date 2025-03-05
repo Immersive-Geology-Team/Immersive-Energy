@@ -2,6 +2,7 @@ package com.igteam.immersiveenergy.common.data.generators;
 
 import com.igteam.immersiveenergy.common.data.TRSRModelBuilder;
 import com.igteam.immersiveenergy.core.lib.IENLib;
+import com.igteam.immersiveenergy.core.registration.IENMultiblockProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -34,7 +35,7 @@ public class IENComplexItemModelProvider extends ModelProvider<TRSRModelBuilder>
     @Override
     protected void registerModels()
     {
-
+        generateMultiblockModel("burner", IENMultiblockProvider.BURNER.block());
     }
 
     private void doTransform(ModelBuilder<?>.TransformsBuilder transform, ItemDisplayContext type, @Nullable Vector3f translation, @Nullable Vector3f rotationAngle, float scale){

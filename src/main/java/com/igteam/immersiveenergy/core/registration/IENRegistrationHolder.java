@@ -9,6 +9,7 @@ import blusunrize.immersiveengineering.api.multiblocks.blocks.component.IMultibl
 import blusunrize.immersiveengineering.api.multiblocks.blocks.component.RedstoneControl;
 import blusunrize.immersiveengineering.api.multiblocks.blocks.logic.IMultiblockLogic;
 import blusunrize.immersiveengineering.api.multiblocks.blocks.logic.IMultiblockState;
+import com.igteam.immersiveenergy.common.block.multiblocks.IENBurner;
 import com.igteam.immersiveenergy.common.block.multiblocks.IENTemplateMultiblock;
 import com.igteam.immersiveenergy.core.lib.IENLib;
 import com.igteam.immersiveenergy.core.lib.ResourceUtils;
@@ -75,7 +76,7 @@ public class IENRegistrationHolder
 
     public static void initialize()
     {
-
+        initializeMultiblocks();
     }
 
     public static MultiblockRegistration<?> getMB(String key){
@@ -84,7 +85,7 @@ public class IENRegistrationHolder
 
     private static void initializeMultiblocks()
     {
-
+        registerMB("burner", IENBurner.INSTANCE, IENMultiblockProvider.BURNER);
     }
 
     private static void registerMB(String registry_name, IENTemplateMultiblock block, MultiblockRegistration<?> registration){

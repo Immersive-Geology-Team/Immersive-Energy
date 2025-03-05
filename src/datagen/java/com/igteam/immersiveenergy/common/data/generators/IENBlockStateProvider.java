@@ -67,6 +67,7 @@ public class IENBlockStateProvider extends BlockStateProvider
     @Override
     protected void registerStatesAndModels() {
         IENLib.IEN_LOGGER.info("Generating Multiblock Splits");
+        genericmultiblock("burner");
     }
 
     private void generateGenericBlock(Block block, String block_name, String block_parent)

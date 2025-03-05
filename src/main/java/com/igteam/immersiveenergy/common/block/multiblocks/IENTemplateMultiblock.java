@@ -39,7 +39,7 @@ public abstract class IENTemplateMultiblock extends TemplateMultiblock
     public boolean createStructure(Level world, BlockPos pos, Direction side, Player player)
     {
         if(player.getMainHandItem().getItem() instanceof IENMBFormationItem) return super.createStructure(world, pos, side, player);
-        return false;
+        return super.createStructure(world, pos, side, player);
     }
 
     @Override
