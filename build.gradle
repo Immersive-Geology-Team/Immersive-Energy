@@ -38,6 +38,12 @@ sourceSets {
         compileClasspath += main.output
         runtimeClasspath += main.output
     }
+    gametest {
+        compileClasspath += main.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+        compileClasspath += main.output
+        runtimeClasspath += main.output
+    }
 }
 
 def version_replaces = [
@@ -159,6 +165,7 @@ minecraft {
             mods {
                 immersiveenergy {
                     source sourceSets.main
+                    source sourceSets.gametest
                 }
             }
         }
