@@ -1,6 +1,7 @@
 package com.igteam.immersiveenergy.core.registration;
 
 import blusunrize.immersiveengineering.api.crafting.IERecipeTypes.TypeWithClass;
+import com.igteam.immersiveenergy.common.block.multiblocks.recipe.BurnerFuel;
 import com.igteam.immersiveenergy.core.lib.IENLib;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.Recipe;
@@ -12,6 +13,7 @@ import net.minecraftforge.registries.RegistryObject;
 public class IENRecipeTypes
 {
     private static final DeferredRegister<RecipeType<?>> REGISTER = DeferredRegister.create(Registries.RECIPE_TYPE, IENLib.MODID);
+    public static final TypeWithClass<BurnerFuel> BURNER = register("burner", BurnerFuel.class);
 
     private static <T extends Recipe<?>>
     TypeWithClass<T> register(String name, Class<T> type)
