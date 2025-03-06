@@ -17,9 +17,13 @@ import com.igteam.immersiveenergy.common.block.multiblocks.recipe.BurnerFuel;
 import com.igteam.immersiveenergy.common.block.multiblocks.shapes.FullblockShape;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -39,6 +43,7 @@ import java.util.stream.Collectors;
 public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, IServerTickableComponent<IENBurnerLogic.State>, IClientTickableComponent<IENBurnerLogic.State>
 {
     public static final BlockPos MASTER_OFFSET = new BlockPos(0,0,0);
+    public static final BlockPos FURNACE_POS = new BlockPos(1,1,1);
     private static final List<BlockPos> ENERGY_OUTPUTS = List.of(new BlockPos(0,1,0), new BlockPos(0,1,2));
     public static final int INPUT_SLOT = 0;
     public static final int NUM_SLOTS = 1;
@@ -54,15 +59,16 @@ public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, I
     {
         final State state = ctx.getState();
         boolean active = ctx.getState().active;
-        List<IEnergyStorage> presentOutputs = state.energyOutputs.stream()
-                .map(CapabilityReference::getNullable)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+
 
         int output = state.output;
         if (state.burnTime > 0)
         {
-            EnergyHelper.distributeFlux(presentOutputs, output, false);
+            List<IEnergyStorage> presentOutputs = state.energyOutputs.stream()
+                .map(CapabilityReference::getNullable)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+            if (EnergyHelper.distributeFlux(presentOutputs, output, true) > 0) EnergyHelper.distributeFlux(presentOutputs, output, false);
             state.burnTime--;
         }
         if (state.burnTime <= 0)
@@ -104,12 +110,46 @@ public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, I
             return ctx.getState().invCap.cast(ctx);
         if (cap==ForgeCapabilities.ENERGY)
         {
-            if (position.side()==null||(position.side()== RelativeBlockFace.UP&&ENERGY_OUTPUTS.contains(position.posInMultiblock())))
+            if (position.side()==null||(position.side()==RelativeBlockFace.UP&&ENERGY_OUTPUTS.contains(position.posInMultiblock())))
             {
                 return ctx.getState().energyView.cast(ctx);
             }
         }
         return LazyOptional.empty();
+    }
+
+    @Override
+    public InteractionResult click(IMultiblockContext<State> ctx, BlockPos pos, Player player, InteractionHand hand, BlockHitResult absoluteHit, boolean isClient)
+    {
+        if (pos.equals(FURNACE_POS) && !isClient)
+        {
+            Level level = ctx.getLevel().getRawLevel();
+            ItemStack stack = player.getItemInHand(hand);
+            if (BurnerFuel.getRecipeFor(level, stack)!=null)
+            {
+                final State state = ctx.getState();
+                ItemStack fuel = state.inventory.getStackInSlot(INPUT_SLOT);
+                if (fuel.isEmpty())
+                {
+                    state.inventory.setStackInSlot(INPUT_SLOT, stack);
+                    stack.setCount(0);
+                    return InteractionResult.SUCCESS;
+                }
+                if (stack.is(fuel.getItem()))
+                {
+                    if (stack.getCount() + fuel.getCount() > stack.getMaxStackSize())
+                    {
+                        stack.shrink(stack.getMaxStackSize() - fuel.getCount());
+                        fuel.setCount(stack.getMaxStackSize());
+                        return InteractionResult.SUCCESS;
+                    }
+                    fuel.grow(stack.getCount());
+                    stack.setCount(0);
+                    return InteractionResult.SUCCESS;
+                }
+            }
+        }
+        return IMultiblockLogic.super.click(ctx, pos, player, hand, absoluteHit, isClient);
     }
 
     @Override
@@ -123,7 +163,6 @@ public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, I
         private boolean active = false;
         private int burnTime = 0;
         private int output = 0;
-
         private final SlotwiseItemHandler inventory;
         private final StoredCapability<IItemHandler> invCap;
         private final List<CapabilityReference<IEnergyStorage>> energyOutputs;

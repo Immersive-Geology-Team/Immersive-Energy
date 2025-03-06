@@ -21,10 +21,10 @@ public class BurnerFuel extends IESerializableRecipe
 {
     public static RegistryObject<IERecipeSerializer<BurnerFuel>> SERIALIZER;
     public static final CachedRecipeList<BurnerFuel> RECIPES = new CachedRecipeList<>(IENRecipeTypes.BURNER);
-    public final IngredientWithSize fuel;
+    public final Ingredient fuel;
     public final int burnTime;
     public final int output;
-    public BurnerFuel(ResourceLocation id, IngredientWithSize fuel, int burnTime, int output)
+    public BurnerFuel(ResourceLocation id, Ingredient fuel, int burnTime, int output)
     {
         super(LAZY_EMPTY, IENRecipeTypes.BURNER, id);
         this.fuel=fuel;
@@ -49,7 +49,7 @@ public class BurnerFuel extends IESerializableRecipe
     @Override
     protected IERecipeSerializer<?> getIESerializer()
     {
-        return SERIALIZER.get();
+        return (IERecipeSerializer)SERIALIZER.get();
     }
 
     @Nonnull

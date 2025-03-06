@@ -1,1 +1,4 @@
-// 1.20.1	2025-03-05T20:22:27.100025149	Recipes
+// 1.20.1	2025-03-06T10:37:43.2554952	Recipes
+66c3748ee0ca19ef45610698394ec10216f7ce31 data/immersiveenergy/recipes/burner/burner_fuel_charcoal.json
+2a9f695201be0078346b2805bda1b3ac104e9cf2 data/immersiveenergy/recipes/burner/burner_fuel_coal.json
+3806a96a6497e165dabc0a5b2664009fc022cee9 data/immersiveenergy/recipes/burner/burner_fuel_coal_coke.json
