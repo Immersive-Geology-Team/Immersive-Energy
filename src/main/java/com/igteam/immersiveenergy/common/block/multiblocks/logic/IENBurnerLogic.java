@@ -44,12 +44,13 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, IServerTickableComponent<IENBurnerLogic.State>, IClientTickableComponent<IENBurnerLogic.State>, MBOverlayText<IENBurnerLogic.State>
 {
     public static final BlockPos MASTER_OFFSET = new BlockPos(0,0,0);
     public static final BlockPos FURNACE_POS = new BlockPos(1,1,1);
-    private static final List<BlockPos> ENERGY_OUTPUTS = List.of(new BlockPos(0,2,0), new BlockPos(0,2,2));
+    private static final List<BlockPos> ENERGY_OUTPUTS = List.of(new BlockPos(0,2,0), new BlockPos(2,2,0));
     public static final int INPUT_SLOT = 0;
     public static final int NUM_SLOTS = 1;
 
@@ -60,40 +61,42 @@ public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, I
     }
 
     @Override
-    public void tickServer(IMultiblockContext<State> ctx)
-    {
+    public void tickServer(IMultiblockContext<State> ctx) {
         final State state = ctx.getState();
         boolean active = state.active;
         //IENLib.IEN_LOGGER.info(state.inventory.getStackInSlot(0).getDisplayName().getString());
         boolean hasFuel = state.hasFuel;
         int output = state.output;
-        if (state.burnTime > 0)
-        {
+        if (state.burnTime > 0) {
             List<IEnergyStorage> presentOutputs = state.energyOutputs.stream()
-                .map(CapabilityReference::getNullable)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-            if (!presentOutputs.isEmpty() && EnergyHelper.distributeFlux(presentOutputs, output, true) < output)
-            {
+                    .map(CapabilityReference::getNullable)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+            if (!presentOutputs.isEmpty() && EnergyHelper.distributeFlux(presentOutputs, output, true) < output) {
                 EnergyHelper.distributeFlux(presentOutputs, output, false);
             }
             state.burnTime--;
         }
-        if (hasFuel && state.burnTime <= 0)
-        {
-            BurnerFuel recipe = BurnerFuel.getRecipeFor(ctx.getLevel().getRawLevel(),state.inventory.getStackInSlot(INPUT_SLOT));
-            if (recipe!=null)
-            {
+        ItemStack oldFuel;
+        if (hasFuel && state.burnTime <= 0) {
+            BurnerFuel recipe = BurnerFuel.getRecipeFor(ctx.getLevel().getRawLevel(), state.inventory.getStackInSlot(INPUT_SLOT));
+            if (recipe != null) {
                 state.burnTime = recipe.burnTime;
                 state.output = recipe.output;
-                /*ItemStack oldFuel = state.invCap.getValue().getStackInSlot(INPUT_SLOT);
-                oldFuel.shrink(1);*/
-                state.invCap.getValue().extractItem(INPUT_SLOT, 1, false);
-                if (!active) active=true;
-            }
-            else if (active) active=false;
+                oldFuel = state.invCap.getValue().getStackInSlot(INPUT_SLOT);
+                oldFuel.shrink(1);
+                state.inventory.setStackInSlot(INPUT_SLOT, oldFuel.copy());
+                if (!active) active = true;
+            } else if (active) active = false;
         }
-        state.active=active;
+
+        oldFuel = state.invCap.getValue().getStackInSlot(INPUT_SLOT);
+        if (oldFuel.isEmpty() && state.burnTime == 0) {
+            state.output = 0;
+            state.hasFuel = false;
+            state.active = false;
+        }
+        state.active = active;
         ctx.markMasterDirty();
         ctx.requestMasterBESync();
     }
@@ -117,7 +120,6 @@ public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, I
             return ctx.getState().invCap.cast(ctx);
         if (cap==ForgeCapabilities.ENERGY)
         {
-            IENLib.IEN_LOGGER.info(position.toString());
             if (position.side()==null||(position.side()==RelativeBlockFace.UP&&ENERGY_OUTPUTS.contains(position.posInMultiblock())))
             {
 
