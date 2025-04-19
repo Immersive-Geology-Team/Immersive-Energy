@@ -1,0 +1,8 @@
+{
+  "type": "immersiveenergy:burner",
+  "energy": 512,
+  "input": {
+    "item": "minecraft:charcoal"
+  },
+  "time": 800
+}

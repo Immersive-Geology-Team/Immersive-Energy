@@ -1,0 +1,8 @@
+{
+  "type": "immersiveenergy:burner",
+  "energy": 1024,
+  "input": {
+    "item": "minecraft:coal"
+  },
+  "time": 800
+}

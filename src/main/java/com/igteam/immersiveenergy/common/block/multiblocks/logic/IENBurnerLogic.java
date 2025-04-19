@@ -9,14 +9,18 @@ import blusunrize.immersiveengineering.api.multiblocks.blocks.logic.IMultiblockL
 import blusunrize.immersiveengineering.api.multiblocks.blocks.logic.IMultiblockState;
 import blusunrize.immersiveengineering.api.multiblocks.blocks.util.*;
 import blusunrize.immersiveengineering.api.utils.CapabilityReference;
+import blusunrize.immersiveengineering.common.blocks.multiblocks.logic.interfaces.MBOverlayText;
 import blusunrize.immersiveengineering.common.util.CachedRecipe;
 import blusunrize.immersiveengineering.common.util.EnergyHelper;
 import blusunrize.immersiveengineering.common.util.inventory.SlotwiseItemHandler;
 import com.google.common.collect.ImmutableList;
+import com.igteam.immersiveenergy.ImmersiveEnergy;
 import com.igteam.immersiveenergy.common.block.multiblocks.recipe.BurnerFuel;
 import com.igteam.immersiveenergy.common.block.multiblocks.shapes.FullblockShape;
+import com.igteam.immersiveenergy.core.lib.IENLib;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -38,13 +42,14 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, IServerTickableComponent<IENBurnerLogic.State>, IClientTickableComponent<IENBurnerLogic.State>
+public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, IServerTickableComponent<IENBurnerLogic.State>, IClientTickableComponent<IENBurnerLogic.State>, MBOverlayText<IENBurnerLogic.State>
 {
     public static final BlockPos MASTER_OFFSET = new BlockPos(0,0,0);
     public static final BlockPos FURNACE_POS = new BlockPos(1,1,1);
-    private static final List<BlockPos> ENERGY_OUTPUTS = List.of(new BlockPos(0,1,0), new BlockPos(0,1,2));
+    private static final List<BlockPos> ENERGY_OUTPUTS = List.of(new BlockPos(0,2,0), new BlockPos(0,2,2));
     public static final int INPUT_SLOT = 0;
     public static final int NUM_SLOTS = 1;
 
@@ -58,9 +63,9 @@ public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, I
     public void tickServer(IMultiblockContext<State> ctx)
     {
         final State state = ctx.getState();
-        boolean active = ctx.getState().active;
-
-
+        boolean active = state.active;
+        //IENLib.IEN_LOGGER.info(state.inventory.getStackInSlot(0).getDisplayName().getString());
+        boolean hasFuel = state.hasFuel;
         int output = state.output;
         if (state.burnTime > 0)
         {
@@ -68,27 +73,29 @@ public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, I
                 .map(CapabilityReference::getNullable)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-            if (EnergyHelper.distributeFlux(presentOutputs, output, true) > 0) EnergyHelper.distributeFlux(presentOutputs, output, false);
+            if (!presentOutputs.isEmpty() && EnergyHelper.distributeFlux(presentOutputs, output, true) < output)
+            {
+                EnergyHelper.distributeFlux(presentOutputs, output, false);
+            }
             state.burnTime--;
         }
-        if (state.burnTime <= 0)
+        if (hasFuel && state.burnTime <= 0)
         {
             BurnerFuel recipe = BurnerFuel.getRecipeFor(ctx.getLevel().getRawLevel(),state.inventory.getStackInSlot(INPUT_SLOT));
             if (recipe!=null)
             {
                 state.burnTime = recipe.burnTime;
                 state.output = recipe.output;
-                state.inventory.getStackInSlot(INPUT_SLOT).grow(-1);
+                /*ItemStack oldFuel = state.invCap.getValue().getStackInSlot(INPUT_SLOT);
+                oldFuel.shrink(1);*/
+                state.invCap.getValue().extractItem(INPUT_SLOT, 1, false);
                 if (!active) active=true;
             }
             else if (active) active=false;
         }
-        if (active!=state.active)
-        {
-            state.active=active;
-            ctx.markMasterDirty();
-            ctx.requestMasterBESync();
-        }
+        state.active=active;
+        ctx.markMasterDirty();
+        ctx.requestMasterBESync();
     }
 
     @Override
@@ -110,13 +117,16 @@ public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, I
             return ctx.getState().invCap.cast(ctx);
         if (cap==ForgeCapabilities.ENERGY)
         {
+            IENLib.IEN_LOGGER.info(position.toString());
             if (position.side()==null||(position.side()==RelativeBlockFace.UP&&ENERGY_OUTPUTS.contains(position.posInMultiblock())))
             {
+
                 return ctx.getState().energyView.cast(ctx);
             }
         }
         return LazyOptional.empty();
     }
+
 
     @Override
     public InteractionResult click(IMultiblockContext<State> ctx, BlockPos pos, Player player, InteractionHand hand, BlockHitResult absoluteHit, boolean isClient)
@@ -128,11 +138,13 @@ public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, I
             if (BurnerFuel.getRecipeFor(level, stack)!=null)
             {
                 final State state = ctx.getState();
+                state.hasFuel = true;
                 ItemStack fuel = state.inventory.getStackInSlot(INPUT_SLOT);
                 if (fuel.isEmpty())
                 {
-                    state.inventory.setStackInSlot(INPUT_SLOT, stack);
+                    state.invCap.getValue().insertItem(INPUT_SLOT, stack.copy(), false);
                     stack.setCount(0);
+                    ctx.markDirtyAndSync();
                     return InteractionResult.SUCCESS;
                 }
                 if (stack.is(fuel.getItem()))
@@ -141,15 +153,27 @@ public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, I
                     {
                         stack.shrink(stack.getMaxStackSize() - fuel.getCount());
                         fuel.setCount(stack.getMaxStackSize());
+                        ctx.markDirtyAndSync();
                         return InteractionResult.SUCCESS;
                     }
                     fuel.grow(stack.getCount());
                     stack.setCount(0);
+                    ctx.markDirtyAndSync();
                     return InteractionResult.SUCCESS;
                 }
             }
         }
-        return IMultiblockLogic.super.click(ctx, pos, player, hand, absoluteHit, isClient);
+        return InteractionResult.FAIL;
+    }
+
+    @Nullable
+    @Override
+    public List<Component> getOverlayText(State state, Player player, boolean b)
+    {
+        ItemStack stack = state.inventory.getStackInSlot(0);
+        return List.of(Component.literal("hasFuel: "  + state.hasFuel), stack.getDisplayName(),
+                Component.literal("Count: "+stack.getCount()), Component.literal("Burn Time: "+state.burnTime),
+                Component.literal("Output: "+state.output+ " RF"));
     }
 
     @Override
@@ -158,9 +182,12 @@ public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, I
         MBInventoryUtils.dropItems(state.inventory, drop);
     }
 
+
+
     public static class State implements IMultiblockState
     {
         private boolean active = false;
+        private boolean hasFuel = false;
         private int burnTime = 0;
         private int output = 0;
         private final SlotwiseItemHandler inventory;
@@ -190,6 +217,7 @@ public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, I
         public void writeSaveNBT(CompoundTag nbt)
         {
             nbt.putBoolean("active", active);
+            nbt.putBoolean("fuel", hasFuel);
             nbt.putInt("burnTime", burnTime);
             nbt.putInt("output", output);
             nbt.put("inventory", inventory.serializeNBT());
@@ -199,6 +227,7 @@ public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, I
         public void readSaveNBT(CompoundTag nbt)
         {
             active = nbt.getBoolean("active");
+            hasFuel = nbt.getBoolean("fuel");
             burnTime = nbt.getInt("burnTime");
             output = nbt.getInt("output");
             inventory.deserializeNBT(nbt.getCompound("inventory"));
@@ -207,12 +236,14 @@ public class IENBurnerLogic implements IMultiblockLogic<IENBurnerLogic.State>, I
         @Override
         public void writeSyncNBT(CompoundTag nbt)
         {
+            writeSaveNBT(nbt);
             nbt.putBoolean("active", active);
         }
 
         @Override
         public void readSyncNBT(CompoundTag nbt)
         {
+            readSaveNBT(nbt);
             final boolean oldActive = active;
             active = nbt.getBoolean("active");
             if(active&&!oldActive)

@@ -1,0 +1,8 @@
+{
+  "type": "immersiveenergy:burner",
+  "energy": 2048,
+  "input": {
+    "item": "immersiveengineering:coal_coke"
+  },
+  "time": 800
+}
